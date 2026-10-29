@@ -447,14 +447,30 @@ function renderSecSel(){const list=sectionList();$("secSel").innerHTML=list.leng
 $("addSec").onclick=async()=>{const n=$("newSec").value.trim();if(!n||!sb)return;if(!sectionsCfg.includes(n)){
   try{await fig.addSection(n)}catch(e){adminMsg("Não consegui criar a seção. Tente de novo.",true);return}sectionsCfg=[...sectionsCfg,n]}
   $("newSec").value="";renderSecSel();$("secSel").value=n;renderSections()};
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
+async function shrinkDataImage(uri){try{const img=await loadImg(uri);const k=Math.min(1,1100/Math.max(img.width,img.height));const c=document.createElement("canvas");
+  c.width=Math.max(1,Math.round(img.width*k));c.height=Math.max(1,Math.round(img.height*k));c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+  const w=c.toDataURL("image/webp",.8);return w.startsWith("data:image/webp")&&w.length<uri.length?w:uri}catch(e){return uri}}
+async function optimizeSvg(c){let svg=c.svg;const imgs=[...new Set(svg.match(/data:image\/(?:png|jpe?g);base64,[A-Za-z0-9+\/=]+/g)||[])];
+  for(const u of imgs){const n=await shrinkDataImage(u);if(n!==u)svg=svg.split(u).join(n)}
+  svg=svg.replace(/(\d+\.\d{3})\d+/g,"$1");
+  /* corta o espaço vazio em volta do desenho */
+  try{const doc=new DOMParser().parseFromString(svg,"image/svg+xml"),el=doc.documentElement;const vb=(el.getAttribute("viewBox")||"").split(/[\s,]+/).map(Number);
+    if(vb.length===4&&vb.every(isFinite)){const S=Math.min(2,900/Math.max(vb[2],vb[3]));const img=await loadImg(dataUri(svg));const cv=document.createElement("canvas");
+      cv.width=Math.round(vb[2]*S);cv.height=Math.round(vb[3]*S);const x=cv.getContext("2d");x.drawImage(img,0,0,cv.width,cv.height);const d=x.getImageData(0,0,cv.width,cv.height).data;
+      let x0=cv.width,y0=cv.height,x1=-1,y1=-1;for(let y=0;y<cv.height;y++)for(let X=0;X<cv.width;X++){if(d[(y*cv.width+X)*4+3]>6){if(X<x0)x0=X;if(X>x1)x1=X;if(y<y0)y0=y;if(y>y1)y1=y}}
+      if(x1>=0){const pad=8;const nx=vb[0]+Math.max(0,x0/S-pad),ny=vb[1]+Math.max(0,y0/S-pad),nw=Math.min(vb[0]+vb[2],vb[0]+x1/S+pad)-nx,nh=Math.min(vb[1]+vb[3],vb[1]+y1/S+pad)-ny;
+        el.setAttribute("viewBox",[nx,ny,nw,nh].map(v=>+v.toFixed(2)).join(" "));el.setAttribute("width",+nw.toFixed(2));el.setAttribute("height",+nh.toFixed(2));
+        return{svg:new XMLSerializer().serializeToString(el),w:nw,h:nh}}}}catch(e){}
+  return{svg,w:c.w,h:c.h}}
 function rasterToWebp(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{const k=Math.min(1,800/Math.max(img.width,img.height));
   const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);const x=c.getContext("2d");x.drawImage(img,0,0,c.width,c.height);
   const d=x.getImageData(0,0,c.width,c.height).data;let L=0,n=0;for(let i=0;i<d.length;i+=16){if(d[i+3]>60){L+=(d[i]+d[i+1]+d[i+2])/765;n++}}
   let src=c.toDataURL("image/webp",.82);if(!src.startsWith("data:image/webp"))src=c.toDataURL("image/png");URL.revokeObjectURL(url);res({src,w:c.width,h:c.height,light:n?L/n<.3:false})};img.onerror=()=>rej(new Error("não consegui abrir a imagem"));img.src=url})}
 $("svgIn").onchange=async e=>{const files=[...e.target.files];e.target.value="";for(const f of files){
-  try{if(!/svg/i.test(f.type)&&!/\.svg$/i.test(f.name)){const r=await rasterToWebp(f);if(r.src.length>240*1024)throw new Error("ficou grande demais mesmo reduzida");
+  try{if(!/svg/i.test(f.type)&&!/\.svg$/i.test(f.name)){const r=await rasterToWebp(f);if(r.src.length>380*1024)throw new Error("ficou grande demais mesmo reduzida");
       pending.push({key:Math.random().toString(36).slice(2),type:"image",name:f.name.replace(/\.\w+$/,"").replace(/[-_]+/g," "),...r,colors:[],map:{}});continue}
-    if(f.size>200*1024)throw new Error("passa de 200 KB");const c=cleanSvg(await f.text());const colors=colorsIn(c.svg);
+    if(f.size>8*1024*1024)throw new Error("passa de 8 MB");adminMsg("Preparando "+f.name+"…");const c=await optimizeSvg(cleanSvg(await f.text()));if(c.svg.length>380*1024)throw new Error("ficou grande demais mesmo depois de reduzir. Tente exportar com menos imagens dentro do SVG");$("adminStatus").textContent="";const colors=colorsIn(c.svg);
     pending.push({key:Math.random().toString(36).slice(2),name:f.name.replace(/\.svg$/i,"").replace(/[-_]+/g," "),...c,colors,map:guessMap(colors)})}
   catch(err){adminMsg(`${f.name}: ${err.message||"não foi possível ler"}.`,true)}}renderPending()};
 function renderPending(){const el=$("pendingList");$("saveAll").hidden=!pending.length;
@@ -486,8 +502,8 @@ const DUNE_SAVED=[{id:"pdune1",name:"Dune · Bronze",c1:"#9C6B3C",c2:"#E3C49A",c
 let accessCode=null,library=null,booted=false;
 async function pushPrefs(){}
 async function rpc(fn,args){const {data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
-async function loadLibrary(){if(library)return library;try{const r=await fetch("library.json",{cache:"no-cache"});const list=await r.json();
-    library=await Promise.all(list.map(async it=>it.kind==="svg"?{id:it.id,kind:"custom",name:it.name,section:it.section,svg:await (await fetch(it.file)).text(),w:it.w,h:it.h,map:it.map||{}}:{id:it.id,kind:"image",name:it.name,section:it.section,src:it.file,w:it.w,h:it.h,light:!!it.light}))}
+async function loadLibrary(){if(library)return library;try{const BASE="/app/";const r=await fetch(BASE+"library.json",{cache:"no-cache"});const list=await r.json();
+    library=await Promise.all(list.map(async it=>it.kind==="svg"?{id:it.id,kind:"custom",name:it.name,section:it.section,svg:await (await fetch(BASE+it.file)).text(),w:it.w,h:it.h,map:it.map||{}}:{id:it.id,kind:"image",name:it.name,section:it.section,src:BASE+it.file,w:it.w,h:it.h,light:!!it.light}))}
   catch(e){library=[]}return library}
 function applyData(d,lib){sectionsCfg=d.sections||[];const hidden=new Set(d.hidden||[]);
   const extra=(d.stickers||[]).map(v=>v.kind==="image"?{id:v.id,kind:"image",name:v.name,section:v.section,src:v.src,w:+v.w,h:+v.h,light:!!v.light}:{id:v.id,kind:"custom",name:v.name,section:v.section,svg:v.svg||"",w:+v.w,h:+v.h,map:v.map||{}});
