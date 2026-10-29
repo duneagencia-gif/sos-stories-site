@@ -40,8 +40,9 @@ header p{margin:0;color:var(--muted);max-width:46ch;font-weight:300}
 .tabs button[aria-selected="true"]{background:var(--gold-grad);color:var(--on-gold)}
 .swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .sw{display:flex;flex-direction:column;gap:6px;min-width:0}
-.sw-box{position:relative;height:58px;border-radius:14px;border:1px solid var(--line-2);overflow:hidden}
-.sw-box input[type=color]{position:absolute;inset:-10px;width:calc(100% + 20px);height:calc(100% + 20px);border:0;padding:0;cursor:pointer;background:none}
+.sw-box{position:relative;height:58px;border-radius:14px;border:1px solid var(--line-2);overflow:hidden;background:var(--sw,#ccc);isolation:isolate}
+.sw-box input[type=color]{position:absolute;inset:0;width:100%;height:100%;margin:0;border:0;padding:0;opacity:0;cursor:pointer;-webkit-appearance:none;appearance:none;background:transparent}
+.sw-box:focus-within{outline:2px solid var(--gold);outline-offset:2px}
 .hex{width:100%;min-width:0;font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;text-transform:uppercase;
   background:var(--bg-deep);border:1px solid var(--line);border-radius:10px;padding:7px 9px}
 .sw small{font-size:12px;color:var(--muted)}
@@ -237,6 +238,43 @@ select.nin option{background:var(--bg-deep)}
 .backlink{align-self:flex-start;border:0;background:none;color:var(--gold);font-size:14px;font-weight:600;cursor:pointer;padding:6px 0}
 @media (prefers-reduced-motion:reduce){.meter i,.ncard,.chev{transition:none}}
 </style>
+<style>
+/* ---------- cartão de figurinha: ferramentas em cima, toque copia ---------- */
+.card{cursor:default;gap:6px;padding:8px 8px 10px;position:relative}
+.card-tools{display:flex;justify-content:space-between;align-items:center}
+.tool{width:36px;height:36px;display:grid;place-items:center;border:0;background:transparent;color:var(--muted);border-radius:10px;cursor:pointer;padding:0}
+.tool svg{width:19px;height:19px}
+.tool:hover{color:var(--gold);background:rgba(221,181,124,.08)}
+.tool.fav[aria-pressed="true"]{color:var(--gold)}
+.tool.fav[aria-pressed="true"] svg path{fill:currentColor}
+.card-main{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;cursor:copy;min-width:0;border-radius:12px;transition:transform .12s}
+.card-main:active{transform:scale(.97)}
+.card-main:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card-main span{font-size:13px;font-weight:500;padding-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-main small{font-size:11px;color:var(--faint);padding-left:2px;margin-top:-6px}
+.stage .vis{display:grid;place-items:center;width:100%;height:100%}
+.stage .vis svg{max-width:100%;max-height:96px;width:auto;height:96px}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:30;background:var(--gold-grad);color:var(--on-gold);font-weight:700;font-size:14px;padding:11px 18px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:calc(100% - 32px);text-align:center}
+.op-head{display:flex;justify-content:space-between;align-items:baseline}
+.op-head span{font-variant-numeric:tabular-nums;font-weight:700;color:var(--gold)}
+input[type=range]{width:100%;accent-color:#DDB57C;height:28px}
+.sheet-actions{display:flex;gap:10px}
+.sheet-actions .btn{flex:1}
+@media (prefers-reduced-motion:reduce){.card-main{transition:none}}
+</style>
+<style>
+.nname{text-transform:uppercase;letter-spacing:.02em;font-size:15.5px!important}
+.nin.big{min-height:220px}
+.nradios{display:flex;flex-direction:column;gap:8px}
+.nradio{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line-2);border-radius:12px;padding:12px;cursor:pointer;font-size:14px}
+.nradio input{margin-top:2px;accent-color:#DDB57C;width:18px;height:18px;flex:none}
+.nradio:has(input:checked){border-color:var(--gold);background:rgba(221,181,124,.08)}
+.nsug{border:1px solid var(--line-2);background:none;color:var(--muted);border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nsug:hover{color:var(--gold);border-color:var(--gold)}
+.ndqs{display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(255,240,225,.03)}
+.ndqs[hidden],#ndAssuntoWrap[hidden],#mm-expr-wrap[hidden]{display:none!important}
+#ndBlockSug .btn{background:#5E430B;color:#FFF6D9;border:0;flex:0 1 auto;min-width:0}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 </head>
 <body>
@@ -360,6 +398,7 @@ select.nin option{background:var(--bg-deep)}
           <button type="button" class="btn ghost" id="brandCancel">Cancelar</button>
         </div>
         <p class="status" id="brandMsg" role="status"></p>
+        <p class="nnote" id="brandDraftMsg" role="status"></p>
         <p class="nnote">As informações ficam salvas só neste navegador. Se os dados do navegador forem apagados ou você trocar de aparelho, será preciso preencher de novo.</p>
       </form>
     </section>
@@ -378,6 +417,7 @@ select.nin option{background:var(--bg-deep)}
         <span class="label" id="ndCat"></span>
         <h2 id="ndTitle"></h2>
         <p class="muted" id="ndObj" style="font-size:15px"></p>
+        <p class="nnote" id="ndGoal"></p>
         <p class="nnote" id="ndQtyNote"></p>
       </div>
       <div class="ndwarn" id="ndBrandWarn" hidden>
@@ -385,7 +425,15 @@ select.nin option{background:var(--bg-deep)}
         <button type="button" class="btn small" id="ndGoBrand">Preencher minha marca</button>
       </div>
       <form id="ndForm" novalidate>
-        <div class="nf">
+        <div id="ndQsWrap" class="ndqs">
+          <span class="label">Para personalizar esta narrativa</span>
+          <div id="ndQs" class="nfields"></div>
+        </div>
+        <div class="ndwarn" id="ndBlock" hidden role="alert">
+          <span id="ndBlockText"></span>
+          <div class="nactions" id="ndBlockSug"></div>
+        </div>
+        <div class="nf" id="ndAssuntoWrap">
           <label for="ndAssunto">Assunto ou produto que quero abordar <span class="opt">(opcional)</span></label>
           <textarea id="ndAssunto" class="nin" rows="2" placeholder="Se deixar em branco, a IA escolhe um tema com base na sua marca."></textarea>
           <span class="ncount" id="ndAssuntoCount"></span>
@@ -418,13 +466,14 @@ select.nin option{background:var(--bg-deep)}
 </div>
 
 <div class="scrim" id="scrim" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
   <div class="sheet-in">
     <div class="grab"></div>
-    <div class="sheet-head"><h2 id="sheetTitle">Figurinha</h2><button class="x" id="close" aria-label="Fechar">✕</button></div>
+    <div class="sheet-head"><h2 id="sheetTitle">Personalizar</h2><button class="x" id="close" aria-label="Fechar">✕</button></div>
     <div class="preview"><img id="pv" alt="Prévia da figurinha"></div>
     <div class="field" id="colorField" hidden>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="label">Cores desta figurinha</span><button class="link" id="ovReset" type="button">Voltar ao padrão</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="label">Cor desta figurinha</span></div>
       <div id="roleRows" style="display:flex;flex-direction:column;gap:8px"></div>
     </div>
     <div class="field" id="textField" hidden>
@@ -432,9 +481,14 @@ select.nin option{background:var(--bg-deep)}
       <textarea id="txt" rows="2"></textarea>
       <p class="muted">Use Enter para quebrar a linha.</p>
     </div>
-    <button class="btn full" id="copy">Copiar figurinha</button>
+    <div class="field" id="opField">
+      <div class="op-head"><label class="label" for="opRange">Opacidade</label><span id="opVal">100%</span></div>
+      <input type="range" id="opRange" min="10" max="100" step="5" value="100" aria-describedby="opVal">
+    </div>
+    <button class="link" id="ovReset" type="button" style="align-self:flex-start">Voltar ao padrão</button>
+    <div class="sheet-actions"><button class="btn" id="copy">Copiar figurinha</button><button class="btn ghost" id="saveImg" type="button">Salvar imagem</button></div>
     <p class="status" id="status" role="status"></p>
-    <p class="tip">No Instagram, abra o Stories, toque no campo de texto e cole. Se o botão não copiar no seu celular, toque e segure a figurinha acima e escolha <b>Copiar</b>.</p>
+    <p class="tip">No Instagram, abra o Stories, toque no campo de texto e cole. Se o seu celular não deixar copiar, toque e segure a prévia acima e escolha <b>Copiar</b> ou <b>Salvar imagem</b>.</p>
   </div>
 </div>
 
@@ -448,6 +502,9 @@ const ESS="Essenciais";
 const local={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let pal=local.get("fig_pal",{c1:"#C9A27E",c2:"#3B2F2A",c3:"#FFF8F0"});
 let ov=local.get("fig_ov",{});
+let op=local.get("fig_op",{});
+let fav=new Set(local.get("fig_fav",[]));
+const FAV="♡ Favoritas";
 let saved=local.get("fig_saved",[]);
 let texts=local.get("fig_txt",{});
 let customs=[], sectionsCfg=[], filter="Todas", db=null, uid=null, canAdmin=false, prefsRef=null;
@@ -523,42 +580,62 @@ function guessMap(colors){const m={};const order=["c1","c2","c3"];
 const dataUri=svg=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
 function stickerSvg(s){if(s.kind==="image")return{svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${s.w} ${s.h}" width="${s.w}" height="${s.h}"><image href="${s.src}" width="${s.w}" height="${s.h}"/></svg>`,w:s.w,h:s.h,src:s.src};if(s.kind==="custom")return{svg:recolor(s.svg,s.map||{},effPal(s)),w:s.w,h:s.h};
   const t=s.text!=null?(texts[s.id]??s.text):"";const o=s.r(effPal(s),t);return{svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${o.w} ${o.h}" width="${o.w}" height="${o.h}">${o.b}</svg>`,w:o.w,h:o.h}}
-function effPal(s){const o=ov[s.id];if(!o)return pal;return{c1:pal[o.c1||"c1"],c2:pal[o.c2||"c2"],c3:pal[o.c3||"c3"]}}
+function effPal(s){const o=ov[s.id];if(!o)return pal;const g=v=>v&&v[0]==="#"?v:pal[v];return{c1:g(o.c1||"c1"),c2:g(o.c2||"c2"),c3:g(o.c3||"c3")}}
+const opOf=s=>Math.min(100,Math.max(10,+op[s.id]||100));
 function rolesUsed(s){if(s.kind==="image")return[];if(s.kind==="custom"){const v=new Set(Object.values(s.map||{}));return["c1","c2","c3"].filter(r=>v.has(r))}
   const t=s.text!=null?(texts[s.id]??s.text):"";const b=s.r({c1:"#010101",c2:"#020202",c3:"#030303"},t).b;return["c1","c2","c3"].filter((r,i)=>b.includes("#0"+(i+1)+"0"+(i+1)+"0"+(i+1)))}
-function renderRoles(){const roles=cur?rolesUsed(cur):[];$("colorField").hidden=!roles.length;if(!roles.length)return;const o=ov[cur.id]||{};
-  $("roleRows").innerHTML=roles.map((r,i)=>{const sel=o[r]||r;return `<div class="seg" role="group" aria-label="Parte ${i+1}"><span class="muted" style="align-self:center;min-width:56px">Parte ${i+1}</span>${ROLES.map(([k,n])=>`<button type="button" data-r="${r}" data-k="${k}" aria-pressed="${sel===k}"><i style="background:${pal[k]}"></i>${n}</button>`).join("")}</div>`}).join("");
-  $("ovReset").hidden=!ov[cur.id];
+function renderRoles(){const roles=cur?rolesUsed(cur):[];$("colorField").hidden=!roles.length;$("ovReset").hidden=!cur||!(ov[cur.id]||op[cur.id]);if(!roles.length)return;const o=ov[cur.id]||{};
+  $("roleRows").innerHTML=roles.map((r,i)=>{const sel=o[r]||r;return `<div class="seg" role="group" aria-label="Parte ${i+1}"><span class="muted" style="align-self:center;min-width:56px">Parte ${i+1}</span>${[...ROLES,["#FFFFFF","Branco"],["#000000","Preto"]].map(([k,n])=>`<button type="button" data-r="${r}" data-k="${k}" aria-pressed="${sel===k}"><i style="background:${k[0]==="#"?k:pal[k]}"></i>${n}</button>`).join("")}</div>`}).join("");
   $("roleRows").querySelectorAll("button").forEach(b=>b.onclick=()=>{const o2={...(ov[cur.id]||{})};o2[b.dataset.r]=b.dataset.k;
-    if(Object.entries(o2).every(([r,k])=>r===k))delete ov[cur.id];else ov[cur.id]=o2;local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid();document.querySelector(".preview").classList.toggle("light",needsLight(cur))})}
+    if(Object.entries(o2).every(([r,k])=>r===k))delete ov[cur.id];else ov[cur.id]=o2;local.set("fig_ov",ov);renderRoles();refreshPreview();updateCard(cur);document.querySelector(".preview").classList.toggle("light",needsLight(cur))})}
 function needsLight(s){if(s.kind==="image")return !!s.light;const r=rolesUsed(s);if(!r.length)return false;const p=effPal(s);return Math.max(...r.map(k=>lum(p[k])))<0.2}
 function pngBlob(s){const o=stickerSvg(s);return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const k=Math.max(1,1000/Math.max(o.w,o.h));
-  const c=document.createElement("canvas");c.width=Math.round(o.w*k);c.height=Math.round(o.h*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+  const c=document.createElement("canvas");c.width=Math.round(o.w*k);c.height=Math.round(o.h*k);const x2=c.getContext("2d");x2.globalAlpha=opOf(s)/100;x2.drawImage(img,0,0,c.width,c.height);
   c.toBlob(b=>b?res(b):rej(new Error("png")),"image/png")};img.onerror=rej;img.src=o.src||dataUri(o.svg)})}
 const thumbSrc=s=>s.kind==="image"?s.src:dataUri(stickerSvg(s).svg);
 const allStickers=()=>[...customs,...BUILTIN.map(s=>({...s,kind:"builtin",section:ESS}))];
 function sectionList(){const set=[...sectionsCfg];customs.forEach(c=>{if(c.section&&!set.includes(c.section))set.push(c.section)});return set}
 
-function renderSections(){const list=["Todas",ESS,...sectionList()];if(!list.includes(filter))filter="Todas";
+function renderSections(){const list=["Todas",FAV,ESS,...sectionList()];if(!list.includes(filter))filter="Todas";
   $("sections").innerHTML=list.map(s=>`<button class="sec" aria-pressed="${s===filter}" data-s="${esc(s)}">${esc(s)}</button>`).join("");
   $("sections").querySelectorAll(".sec").forEach(b=>b.onclick=()=>{filter=b.dataset.s;renderSections();renderGrid()})}
-function renderGrid(){const items=allStickers().filter(s=>filter==="Todas"||s.section===filter);
-  let html=items.map(s=>{const o=stickerSvg(s);const vis=s.kind!=="builtin"?`<img src="${thumbSrc(s)}" alt="" loading="lazy">`:o.svg;
-    return `<button class="card" data-id="${esc(s.id)}"><div class="stage${needsLight(s)?" light":""}">${vis}</div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}</button>`}).join("");
-  if(!items.length)html=`<div class="empty"><b>Nenhuma figurinha em ${esc(filter)} ainda</b>${canAdmin?"Abra “Gerenciar figurinhas” abaixo e suba os SVGs desta seção.":"As figurinhas desta seção chegam em breve."}</div>`;
-  $("grid").innerHTML=html;$("grid").querySelectorAll(".card").forEach(b=>b.onclick=()=>openSheet(b.dataset.id))}
+const ICON_PAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10" cy="7" r="1.2" fill="currentColor"/><circle cx="15" cy="7" r="1.2" fill="currentColor"/></svg>';
+const ICON_ADJ='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>';
+const ICON_HEART='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
+const canColor=s=>s.kind!=="image"&&(rolesUsed(s).length>0||s.text!=null);
+function cardInner(s){const o=s.kind==="builtin"?stickerSvg(s):null;const vis=s.kind!=="builtin"?`<img src="${thumbSrc(s)}" alt="" loading="lazy">`:o.svg;
+  return `<div class="stage${needsLight(s)?" light":""}"><div class="vis" style="opacity:${opOf(s)/100}">${vis}</div></div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}`}
+function renderGrid(){const items=allStickers().filter(s=>filter==="Todas"||(filter===FAV?fav.has(s.id):s.section===filter));
+  let html=items.map(s=>{const col=canColor(s);const nm=esc(s.name);
+    return `<div class="card" data-id="${esc(s.id)}"><div class="card-tools"><button type="button" class="tool" data-act="edit" aria-label="${col?"Mudar cor e transparência":"Ajustar transparência"}: ${nm}" title="${col?"Cor e transparência":"Transparência"}">${col?ICON_PAL:ICON_ADJ}</button><button type="button" class="tool fav" data-act="fav" aria-pressed="${fav.has(s.id)}" aria-label="Favoritar: ${nm}" title="Favoritar">${ICON_HEART}</button></div><button type="button" class="card-main" data-act="copy" aria-label="Copiar figurinha: ${nm}">${cardInner(s)}</button></div>`}).join("");
+  if(!items.length)html=filter===FAV?`<div class="empty"><b>Nenhuma favorita ainda</b>Toque no coração de uma figurinha para guardar aqui.</div>`:`<div class="empty"><b>Nenhuma figurinha em ${esc(filter)} ainda</b>${canAdmin?"Abra “Gerenciar figurinhas” abaixo e suba os SVGs desta seção.":"As figurinhas desta seção chegam em breve."}</div>`;
+  $("grid").innerHTML=html}
+function updateCard(s){const c=[...$("grid").querySelectorAll(".card")].find(x=>x.dataset.id===s.id);if(c)c.querySelector(".card-main").innerHTML=cardInner(s)}
+$("grid").addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b)return;const card=b.closest(".card");const s=allStickers().find(x=>x.id===card.dataset.id);if(!s)return;
+  if(b.dataset.act==="copy")copySticker(s);
+  else if(b.dataset.act==="edit")openSheet(s.id);
+  else if(b.dataset.act==="fav"){if(fav.has(s.id))fav.delete(s.id);else fav.add(s.id);local.set("fig_fav",[...fav]);b.setAttribute("aria-pressed",String(fav.has(s.id)));
+    toast(fav.has(s.id)?"Adicionada às favoritas":"Removida das favoritas");if(filter===FAV)renderGrid()}});
+let toastT;function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{el.hidden=true},1800)}
+const canClipImg=()=>!!(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write);
+async function copySticker(s){if(!canClipImg()){openSheet(s.id,"fail");return}
+  try{await navigator.clipboard.write([new ClipboardItem({"image/png":pngBlob(s)})]);toast("Figurinha copiada!")}
+  catch(e){openSheet(s.id,"fail")}}
+function slug(t){return String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"figurinha"}
+async function saveSticker(s){try{const b=await pngBlob(s);const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=slug(s.name)+".png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return true}catch(e){return false}}
 
 /* ---------- paleta ---------- */
-function buildSwatches(){$("swatches").innerHTML=ROLES.map(([k,n])=>`<div class="sw"><div class="sw-box"><input type="color" id="col-${k}" aria-label="Cor ${n}" value="${pal[k].toLowerCase()}"></div><input type="text" class="hex" id="hex-${k}" value="${pal[k]}" maxlength="7" aria-label="Código da cor ${n}" spellcheck="false" autocomplete="off"><small>${n}</small></div>`).join("");
+function buildSwatches(){$("swatches").innerHTML=ROLES.map(([k,n])=>`<div class="sw"><div class="sw-box" id="box-${k}" style="--sw:${pal[k]}"><input type="color" id="col-${k}" aria-label="Cor ${n}" value="${pal[k].toLowerCase()}"></div><input type="text" class="hex" id="hex-${k}" value="${pal[k]}" maxlength="7" aria-label="Código da cor ${n}" spellcheck="false" autocomplete="off"><small>${n}</small></div>`).join("");
   ROLES.forEach(([k])=>{const c=$("col-"+k),h=$("hex-"+k);
     c.oninput=()=>{setColor(k,c.value);h.value=pal[k]};
     h.oninput=()=>{const v=normHex(h.value);if(v){setColor(k,v);c.value=v.toLowerCase()}};
     h.onblur=()=>{h.value=pal[k]}})}
-function syncSwatches(){ROLES.forEach(([k])=>{$("col-"+k).value=pal[k].toLowerCase();$("hex-"+k).value=pal[k]})}
+function syncSwatches(){ROLES.forEach(([k])=>{$("col-"+k).value=pal[k].toLowerCase();$("hex-"+k).value=pal[k];paintSw(k)})}
+function paintSw(k){const b=$("box-"+k);if(b)b.style.setProperty("--sw",pal[k])}
 function buildPresets(){$("presets").innerHTML=PRESETS.map((p,i)=>`<button class="pill" data-i="${i}" aria-pressed="false"><span class="dots">${p.c.map(c=>`<i style="background:${c}"></i>`).join("")}</span>${p.name}</button>`).join("");
   $("presets").querySelectorAll(".pill").forEach(b=>b.onclick=()=>{const c=PRESETS[b.dataset.i].c;applyPal({c1:c[0],c2:c[1],c3:c[2]})})}
 function markPreset(){if($("mine"))renderMine();$("presets").querySelectorAll(".pill").forEach(b=>{const c=PRESETS[b.dataset.i].c;b.setAttribute("aria-pressed",String(c[0]===pal.c1&&c[1]===pal.c2&&c[2]===pal.c3))})}
-function setColor(k,v){pal[k]=normHex(v)||pal[k];changed()}
+function setColor(k,v){pal[k]=normHex(v)||pal[k];paintSw(k);changed()}
 function applyPal(p){pal={c1:p.c1,c2:p.c2,c3:p.c3};syncSwatches();changed()}
 let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{renderGrid();if(cur){refreshPreview();renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur))}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
 
@@ -606,18 +683,21 @@ $("autoPal").onclick=()=>{if(!extracted.length)return;const tot=extracted.reduce
 
 /* ---------- gaveta de cópia ---------- */
 let cur=null,pvUrl=null,tmr;
-function openSheet(id){cur=allStickers().find(s=>s.id===id);if(!cur)return;$("sheetTitle").textContent=cur.name;
+function openSheet(id,mode){cur=allStickers().find(s=>s.id===id);if(!cur)return;$("sheetTitle").textContent=cur.name;$("opRange").value=opOf(cur);$("opVal").textContent=opOf(cur)+"%";
   $("textField").hidden=cur.text==null;if(cur.text!=null){$("txt").value=texts[cur.id]??cur.text;$("txt").rows=Math.min(5,Math.max(2,$("txt").value.split("\n").length))}
-  renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur));$("status").textContent="";$("status").className="status";$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();$("copy").focus()}
-$("ovReset").onclick=()=>{if(!cur)return;delete ov[cur.id];local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid()};
+  renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur));$("status").textContent=mode==="fail"?"Seu navegador não deixou copiar a imagem direto. Toque e segure a prévia e escolha Copiar, ou toque em Salvar imagem.":"";$("status").className="status"+(mode==="fail"?" err":"");$("copy").hidden=mode==="fail"&&!canClipImg();$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();(mode==="fail"?$("saveImg"):$("close")).focus()}
+$("ovReset").onclick=()=>{if(!cur)return;delete ov[cur.id];delete op[cur.id];local.set("fig_ov",ov);local.set("fig_op",op);$("opRange").value=100;$("opVal").textContent="100%";renderRoles();refreshPreview();updateCard(cur);document.querySelector(".preview").classList.toggle("light",needsLight(cur))};
+let opT;$("opRange").addEventListener("input",()=>{if(!cur)return;const v=+$("opRange").value;$("opVal").textContent=v+"%";if(v>=100)delete op[cur.id];else op[cur.id]=v;local.set("fig_op",op);$("pv").style.opacity="";
+  clearTimeout(opT);opT=setTimeout(()=>{refreshPreview();updateCard(cur);$("ovReset").hidden=!(ov[cur.id]||op[cur.id])},60)});
+$("saveImg").onclick=async()=>{if(!cur)return;const ok=await saveSticker(cur);const st=$("status");if(ok){st.className="status ok";st.textContent="Imagem salva. Procure nos downloads ou na galeria."}else{st.className="status err";st.textContent="Não consegui salvar. Toque e segure a prévia e escolha Salvar imagem."}};
 function closeSheet(){$("sheet").hidden=true;$("scrim").hidden=true;cur=null}
 $("close").onclick=closeSheet;$("scrim").onclick=closeSheet;document.addEventListener("keydown",e=>{if(e.key==="Escape"&&cur)closeSheet()});
-$("txt").oninput=()=>{texts[cur.id]=$("txt").value;local.set("fig_txt",texts);clearTimeout(tmr);tmr=setTimeout(()=>{refreshPreview();renderGrid();clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)},180)};
+$("txt").oninput=()=>{texts[cur.id]=$("txt").value;local.set("fig_txt",texts);clearTimeout(tmr);tmr=setTimeout(()=>{refreshPreview();updateCard(cur);clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)},180)};
 function refreshPreview(){const s=cur;pngBlob(s).then(b=>{if(cur!==s)return;if(pvUrl)URL.revokeObjectURL(pvUrl);pvUrl=URL.createObjectURL(b);$("pv").src=pvUrl}).catch(()=>{$("pv").src=dataUri(stickerSvg(s).svg)})}
 $("copy").onclick=async()=>{if(!cur)return;const st=$("status");st.className="status";st.textContent="Preparando…";
   try{if(!window.ClipboardItem||!navigator.clipboard?.write)throw 0;await navigator.clipboard.write([new ClipboardItem({"image/png":pngBlob(cur)})]);
-    st.className="status ok";st.textContent="Copiada! Agora cole no Stories."}
-  catch(e){st.textContent="Seu navegador não deixou copiar direto. Toque e segure a figurinha acima e escolha Copiar."}};
+    st.className="status ok";st.textContent="";toast("Figurinha copiada!")}
+  catch(e){st.className="status err";st.textContent="Seu navegador não deixou copiar a imagem direto. Toque e segure a prévia e escolha Copiar, ou toque em Salvar imagem."}};
 
 /* ---------- gestão (só quem edita) ---------- */
 let pending=[];

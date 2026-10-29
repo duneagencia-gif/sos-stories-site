@@ -242,3 +242,78 @@ window.NARR_STRATEGIES=[
 "cmd": "PROMPT ESPECÍFICO: Atue como estrategista de conteúdo especializado em Instagram Stories. Com base nas informações reais da minha marca e no contexto opcional desta narrativa, crie uma sequência de EXATAMENTE 5 Stories para fazer pesquisa curta de audiência. Cada Story deve desenvolver uma parte distinta da ideia, avançando a narrativa de forma natural, específica e aplicável ao meu público. Não gere apenas tópicos: escreva os textos completos para publicação, com orientação de formato e visual.\n\nESTRUTURA OBRIGATÓRIA:\n\nSTORY 01 | Convite: por que a opinião importa.\n\nSTORY 02 | Necessidade: enquete sobre dificuldade.\n\nSTORY 03 | Preferência: formato ou solução de interesse.\n\nSTORY 04 | Prioridade: tema mais importante.\n\nSTORY 05 | Resposta aberta: caixa para outras necessidades.\n\nDIRETRIZES ESPECÍFICAS: Evite perguntas redundantes e coleta de dados pessoais.\n\nFORMATO DE ENTREGA: Para cada tela, apresente texto sugerido, formato recomendado, orientação visual e intenção estratégica. Respeite integralmente as diretrizes universais anexadas ao comando."
 }
 ];
+
+/* Nomes autorais, descrições curtas e perguntas complementares (no máximo duas por estratégia).
+   type: "topic" substitui o campo genérico de assunto; "product" sugere produtos de Minha Marca.
+   required + blockMsg + suggest: a estratégia depende de informação real e não gera sem ela. */
+window.NARR_META={
+"01":{name:"Efeito Espelho",desc:"Uma narrativa para fazer seu público se reconhecer na história que você conta.",q:[
+ {id:"historia",label:"Você tem alguma história ou experiência que gostaria de compartilhar?",hint:"Pode ser uma situação que viveu, um aprendizado, um desafio ou algo que aconteceu no seu negócio.",ph:"Conte sua história aqui…",long:true,type:"topic",empty:"Desenvolva a narrativa a partir de situações comuns do público cadastrado, sem inventar acontecimentos pessoais. Se usar um exemplo, identifique-o claramente como hipotético."}]},
+"02":{name:"Além dos Bastidores",desc:"Mostra a rotina real por trás do seu trabalho para aproximar e gerar valor.",q:[
+ {id:"bastidor",label:"Qual bastidor ou etapa da sua rotina você quer mostrar?",hint:"Descreva o que acontece de verdade: preparação, cuidado, ferramenta ou momento do dia.",ph:"Ex.: a separação dos pedidos de segunda-feira",long:true,type:"topic",empty:"Não há bastidor confirmado. Proponha ideias de bastidores para a marca validar, sem afirmar que já aconteceram."}]},
+"03":{name:"Ponto de Identificação",desc:"Três telas para o público pensar: isso acontece comigo.",q:[
+ {id:"situacao",label:"Qual situação do dia a dia do seu público você quer retratar?",hint:"Uma dificuldade, um hábito ou um momento comum para quem te acompanha.",ph:"Ex.: esquecer de postar Stories na correria",type:"topic",empty:"Escolha uma situação cotidiana plausível para o público cadastrado, sem apresentá-la como relato real de alguém."}]},
+"04":{name:"Valor Invisível",desc:"Revela o cuidado que o cliente não vê, mas sente no resultado.",q:[
+ {id:"cuidado",label:"Que cuidado ou etapa pouco conhecida do seu trabalho você quer valorizar?",hint:"Algo real que você faz e que normalmente passa despercebido.",ph:"Ex.: testo cada arte no celular antes de entregar",long:true,type:"topic",empty:"Não há etapa informada. Use apenas processos compatíveis com o briefing e, se faltar informação essencial, peça antes de afirmar como fato."}]},
+"05":{name:"Assinatura da Marca",desc:"Comunica o jeito único de trabalhar que diferencia a sua marca.",q:[
+ {id:"exemplo",label:"Tem algum exemplo real de como seu jeito de fazer aparece no trabalho?",hint:"Um caso, um processo ou uma escolha que mostre sua abordagem na prática.",ph:"Opcional",long:true,empty:"Sem exemplo confirmado. Use somente os diferenciais informados no briefing e peça um exemplo real antes de apresentá-lo como fato."}]},
+"06":{name:"Conversa Aberta",desc:"Abre um diálogo genuíno e convida o público a participar.",q:[
+ {id:"tema",label:"Sobre qual tema você quer abrir conversa com seu público?",hint:"Um assunto que faça sentido para quem te acompanha.",ph:"Ex.: equilíbrio entre trabalho e rotina",type:"topic",empty:"Escolha um tema relevante a partir dos problemas, desejos e dúvidas do público cadastrado."}]},
+"07":{name:"Ponto de Atenção",desc:"Alerta para um erro comum e mostra o caminho certo.",q:[
+ {id:"erro",label:"Qual erro comum você quer alertar?",hint:"Um erro que você observa com frequência no seu segmento.",ph:"Ex.: usar muitas fontes diferentes nos Stories",type:"topic",empty:"Escolha um erro verificável e frequente no segmento, sem inventar riscos ou consequências."}]},
+"08":{name:"Escolha Consciente",desc:"Ensina critérios para o público decidir com segurança antes de contratar.",q:[
+ {id:"decisao",label:"Que tipo de compra ou contratação você quer ajudar o público a avaliar?",hint:"O serviço ou produto que costuma gerar dúvida antes da decisão.",ph:"Ex.: contratar uma identidade visual",type:"topic",empty:"Use o principal produto ou serviço do briefing como referência para os critérios de decisão."}]},
+"09":{name:"Quebra de Crenças",desc:"Esclarece mitos do seu segmento com informação confiável.",q:[
+ {id:"mitos",label:"Tem algum mito ou crença do seu segmento que você quer esclarecer?",hint:"Pode listar até três. Se souber, diga também o que é verdade.",ph:"Ex.: “logo bom precisa ser caro”",long:true,type:"topic",empty:"Escolha crenças comuns no segmento e afirme apenas o que for tecnicamente correto; quando depender de contexto, explique."}]},
+"10":{name:"Detalhe Decisivo",desc:"Mostra domínio do assunto a partir de um detalhe que muda o resultado.",q:[
+ {id:"detalhe",label:"Qual detalhe você quer explicar?",hint:"Um aspecto técnico ou prático que faz diferença no seu trabalho.",ph:"Ex.: a área de respiro ao redor do logo",type:"topic",empty:"Escolha um detalhe técnico relevante para o segmento e para os produtos do briefing, explicando com precisão."}]},
+"11":{name:"Resposta Clara",desc:"Responde de forma direta uma dúvida que o seu público sempre tem.",q:[
+ {id:"duvida",label:"Qual dúvida frequente você quer responder?",ph:"Ex.: quanto tempo leva para ficar pronto?",type:"topic",empty:"Escolha uma dúvida plausível com base no briefing, sem atribuí-la a um cliente real."},
+ {id:"resposta",label:"Qual é a resposta que você costuma dar?",hint:"Ajuda a IA a não inventar a explicação.",ph:"Opcional",long:true,empty:"Não informada. Responda apenas com base no briefing e, se faltar informação essencial para responder corretamente, peça esse dado antes de continuar."}]},
+"12":{name:"Por Dentro do Processo",desc:"Explica, passo a passo, como é contratar você na prática.",q:[
+ {id:"etapas",label:"Como funciona seu processo, do primeiro contato à entrega?",hint:"Liste as etapas reais, prazos e o que a pessoa recebe. Se já estiver em Minha Marca, pode deixar em branco.",ph:"1. Contato pelo WhatsApp  2. Briefing  3. …",long:true,empty:"Use as etapas informadas no briefing. Se faltarem etapas, prazos ou entregas essenciais, solicite esses dados antes de escrever."}]},
+"13":{name:"Solução em Foco",desc:"Apresenta um produto ou serviço a partir da utilidade para o público.",q:[
+ {id:"produto",label:"Qual produto ou serviço você quer apresentar?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing; se não houver, escolha o mais relevante entre os cadastrados."}]},
+"14":{name:"Perfil Ideal",desc:"Ajuda o público a perceber se aquela solução é para ele.",q:[
+ {id:"produto",label:"Qual produto ou serviço você quer apresentar?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."},
+ {id:"restricoes",label:"Para quem ele não é indicado?",hint:"Contraindicações ou restrições, se houver.",ph:"Opcional",empty:"Não informado. Não afirme que a solução serve para todos."}]},
+"15":{name:"Valor por Dentro",desc:"Detalha o que está incluso e como cada parte gera valor.",q:[
+ {id:"produto",label:"Qual pacote, produto ou serviço você quer detalhar?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."},
+ {id:"inclusos",label:"O que está incluso nele?",hint:"Liste as entregas reais. Se já estiverem em Minha Marca, pode deixar em branco.",ph:"Opcional",long:true,empty:"Use somente as entregas descritas no briefing. Se não houver itens suficientes, detalhe as etapas sem inventar inclusões ou peça os itens antes de continuar."}]},
+"16":{name:"Caminho da Solução",desc:"Conduz o público do problema que ele vive até a sua solução.",q:[
+ {id:"problema",label:"Qual problema do seu público você quer abordar?",ph:"Ex.: perfil bonito que não vende",type:"topic",empty:"Escolha um problema concreto a partir das dores informadas no briefing."},
+ {id:"produto",label:"Qual produto ou serviço resolve esse problema?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."}]},
+"17":{name:"Jornada do Cliente",desc:"Mostra como é a experiência de ser seu cliente, do início ao fim.",q:[
+ {id:"atendimento",label:"Como é o atendimento, do primeiro contato ao pós-venda?",hint:"Se já estiver em Minha Marca, pode deixar em branco.",ph:"Opcional",long:true,empty:"Use apenas as etapas de atendimento do briefing. Não invente satisfação, depoimentos ou etapas; se faltar informação essencial, peça antes de continuar."}]},
+"18":{name:"Novas Possibilidades",desc:"Amplia a percepção do público sobre os usos de um produto.",q:[
+ {id:"produto",label:"Qual produto você quer explorar?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."},
+ {id:"usos",label:"Quais usos ou aplicações reais ele tem?",ph:"Opcional",long:true,empty:"Não informados. Use apenas aplicações compatíveis com o briefing e aprofunde as existentes sem inventar usos."}]},
+"19":{name:"Venda em Capítulos",desc:"Uma história em capítulos que leva da identificação à compra.",q:[
+ {id:"caso",label:"Existe alguma situação, experiência ou caso real que você gostaria de utilizar nessa narrativa?",hint:"Pode ser uma dificuldade enfrentada por um cliente, uma experiência profissional ou uma situação que demonstre a importância do seu produto ou serviço.",ph:"Opcional",long:true,empty:"Sem caso real informado. Desenvolva a história a partir de situações comuns do público, identificando claramente qualquer exemplo como hipotético."},
+ {id:"produto",label:"Qual produto ou serviço deseja destacar?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."}]},
+"20":{name:"Virada de Percepção",desc:"Trabalha uma objeção de compra com respeito e informação.",q:[
+ {id:"objecao",label:"Qual dúvida ou preocupação você gostaria de trabalhar?",hint:"Ex.: preço, prazo, qualidade, confiança ou necessidade do serviço.",ph:"Opcional",type:"topic",empty:"Sugira uma objeção plausível para o segmento, sem afirmar que foi apresentada por um cliente real."}]},
+"21":{name:"Além do Preço",desc:"Mostra o valor de investir na sua solução, além do valor cobrado.",q:[
+ {id:"produto",label:"Qual produto ou serviço você quer valorizar?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."}]},
+"22":{name:"Momento da Oferta",desc:"Apresenta uma condição comercial real com contexto e clareza.",q:[
+ {id:"oferta",label:"Qual oferta ou condição especial você deseja divulgar?",hint:"Informe o produto, preço, desconto, prazo, bônus ou outras condições, quando existirem.",ph:"Ex.: Identidade Visual Essencial com 10% no Pix até domingo",long:true,required:true,
+  blockMsg:"Esta estratégia precisa de uma oferta real. Se você não tem uma condição especial agora, escolha uma narrativa de apresentação de produto ou de venda direta.",suggest:["13","24"]}]},
+"23":{name:"Evidência Real",desc:"Usa um depoimento ou resultado verdadeiro para gerar confiança.",q:[
+ {id:"prova",label:"Você tem algum depoimento, avaliação ou resultado real para utilizar?",hint:"Cole o depoimento ou descreva o resultado que deseja apresentar. Use apenas provas que você tem autorização para divulgar.",ph:"Cole aqui o depoimento ou descreva o resultado real",long:true,required:true,
+  blockMsg:"Esta estratégia depende de uma experiência ou evidência verdadeira, e o app não inventa depoimentos nem resultados. Sem uma prova real agora, experimente uma destas narrativas:",suggest:["17","12","01"]}]},
+"24":{name:"Convite à Ação",desc:"Um convite direto e sem pressão para quem já está interessado.",q:[
+ {id:"produto",label:"Qual produto ou serviço você quer oferecer?",ph:"Escolha ou digite",type:"product",empty:"Use o produto ou serviço prioritário do briefing."},
+ {id:"canal",label:"Qual é o canal e a ação para comprar?",hint:"Ex.: link na bio, WhatsApp, direct. Se já estiver em Minha Marca, pode deixar em branco.",ph:"Opcional",empty:"Use o canal de compra informado no briefing; se não houver, peça essa informação antes de escrever a chamada final."}]},
+"25":{name:"Termômetro do Público",desc:"Uma enquete para medir preferências que orientam suas decisões.",q:[
+ {id:"tema",label:"Sobre qual tema você quer saber a preferência do público?",ph:"Ex.: horário preferido para atendimento",type:"topic",empty:"Escolha um tema relevante para o negócio a partir do briefing."}]},
+"26":{name:"Decisão Compartilhada",desc:"Inclui seus seguidores em uma escolha real da marca.",q:[
+ {id:"decisao",label:"Qual decisão real você quer que o público ajude a tomar, e quais são as opções?",hint:"Ex.: escolher entre duas cores para a nova coleção.",ph:"Opcional",long:true,type:"topic",empty:"Nenhuma decisão real foi informada. Peça a confirmação de uma decisão real e das opções antes de escrever como fato."}]},
+"27":{name:"Desafio do Conhecimento",desc:"Um quiz que ensina enquanto engaja.",q:[
+ {id:"tema",label:"Sobre qual assunto você quer fazer o quiz?",ph:"Ex.: cuidados com a pele no verão",type:"topic",empty:"Escolha um assunto do segmento em que a marca tenha conhecimento, com questões tecnicamente corretas."}]},
+"28":{name:"Espaço de Escuta",desc:"Abre a caixa de perguntas para ouvir o que o público tem a dizer.",q:[
+ {id:"tema",label:"Sobre o que você quer ouvir o seu público?",ph:"Ex.: a maior dificuldade para organizar a semana",type:"topic",empty:"Escolha um tema específico a partir das dores e desejos do público, evitando perguntas amplas demais."}]},
+"29":{name:"Duelo de Preferências",desc:"Coloca duas opções lado a lado e convida o público a escolher.",q:[
+ {id:"opcoes",label:"Quais duas opções você quer comparar?",ph:"Ex.: foto de produto x vídeo de bastidor",type:"topic",empty:"Escolha duas opções relevantes para o segmento e compare-as de forma equilibrada."}]},
+"30":{name:"Radar de Necessidades",desc:"Uma pesquisa rápida para descobrir o que seu público precisa.",q:[
+ {id:"objetivo",label:"O que você quer descobrir com essa pesquisa?",hint:"Ex.: dificuldades, formatos preferidos, próximo produto.",ph:"Opcional",type:"topic",empty:"Defina perguntas úteis para o negócio a partir do briefing, sem coletar dados pessoais."}]}
+};
