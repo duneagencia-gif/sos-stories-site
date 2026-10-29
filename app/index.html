@@ -170,7 +170,7 @@ img{max-width:100%}
 <style>
 /* ---------- abas do app ---------- */
 #app{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
-.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(31,7,12,.96);border-top:1px solid var(--line-2);
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:rgba(31,7,12,.96);border-top:1px solid var(--line-2);
   padding:8px max(16px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));backdrop-filter:blur(8px)}
 .tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;color:var(--faint);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:8px 6px;border-radius:14px;cursor:pointer;max-width:240px;width:100%;justify-self:center}
 .tabbar svg{width:22px;height:22px}
@@ -178,6 +178,23 @@ img{max-width:100%}
 /* ---------- narrativas ---------- */
 #viewNarr{display:flex;flex-direction:column;gap:18px}
 #viewNarr[hidden]{display:none!important}
+#viewTxt{display:flex;flex-direction:column;gap:16px}
+.tfonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;max-height:300px;overflow:auto;padding:2px}
+.tfont{border:1px solid var(--line-2);background:var(--bg-deep);color:var(--ink);border-radius:14px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-width:0}
+.tfont b{font-size:26px;font-weight:400;line-height:1.15}
+.tfont span{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tfont[aria-pressed="true"]{border-color:var(--gold);background:var(--surface-2);box-shadow:0 0 0 1px var(--gold) inset}
+.trow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tcustom{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;position:relative}
+.tcustom.on{border-color:var(--gold);background:var(--surface-2);font-weight:600}
+.tcustom i{width:14px;height:14px;border-radius:50%;border:1px solid var(--line-2)}
+.tcustom input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:0;padding:0}
+.ttoggles button[aria-pressed="true"]{background:var(--gold-grad);color:var(--on-gold);border-color:transparent}
+#tPreview{min-height:180px}
+#tPreview img{max-height:260px}
+.tfile{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}
+.tfile input{position:absolute;inset:0;opacity:0;cursor:pointer}
+@media (max-width:520px){.trow{grid-template-columns:1fr}}
 .nhead{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;padding-top:4px}
 .nhead h1{font-weight:800;font-size:clamp(24px,6vw,34px);line-height:1.08;letter-spacing:-.02em;margin:0;text-transform:uppercase;text-wrap:balance}
 .nhead p{margin:0;color:var(--muted);max-width:46ch;font-weight:300}
@@ -474,9 +491,45 @@ input[type=range]{width:100%;accent-color:#DDB57C;height:28px}
     </section>
   </div>
 
+  <div id="viewTxt" hidden>
+    <section class="panel" aria-labelledby="tTitle">
+      <div><h2 id="tTitle" class="label" style="font-size:13px;margin:0">Criar texto</h2>
+      <p class="muted" style="margin-top:4px">Escreva, escolha a fonte e as cores da sua paleta. Depois copie e cole no Stories, ou salve em PNG para usar onde quiser.</p></div>
+      <div class="preview" id="tPreview"><img id="tPv" alt="Prévia do texto"></div>
+      <div class="field"><label class="label" for="tTxt">Seu texto</label>
+        <textarea class="nin" id="tTxt" rows="3" placeholder="Digite aqui. Enter quebra a linha."></textarea></div>
+      <div class="sheet-actions"><button class="btn" id="tCopy" type="button">Copiar texto</button><button class="btn ghost" id="tSave" type="button">Salvar PNG</button></div>
+      <p class="status" id="tStatus" role="status"></p>
+    </section>
+    <section class="panel" aria-label="Fonte">
+      <span class="label">Fonte</span>
+      <nav class="sections" id="tCats" aria-label="Estilos de fonte"></nav>
+      <div class="tfonts" id="tFonts"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <label class="btn small ghost tfile">+ Adicionar minha fonte<input type="file" id="tFontFile" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2"></label>
+        <button class="link" id="tDelFont" type="button" hidden>Remover esta fonte</button>
+      </div>
+      <p class="muted">Fontes que você adiciona ficam salvas só neste aparelho.</p>
+    </section>
+    <section class="panel" aria-label="Estilo">
+      <div class="field"><span class="label">Cor do texto</span><div class="seg" id="tColor"></div></div>
+      <div class="seg ttoggles"><button type="button" id="tBold" aria-pressed="false"><b>N</b> Negrito</button><button type="button" id="tItalic" aria-pressed="false"><i style="all:unset;font-style:italic">I</i> Itálico</button><button type="button" id="tUpper" aria-pressed="false">AA Caixa alta</button></div>
+      <div class="field"><span class="label">Alinhamento</span><div class="seg" id="tAlign"><button type="button" data-v="left">Esquerda</button><button type="button" data-v="center">Centro</button><button type="button" data-v="right">Direita</button></div></div>
+      <div class="field"><div class="op-head"><label class="label" for="tSize">Tamanho</label><span id="tSizeV"></span></div><input type="range" id="tSize" min="24" max="200" step="2"></div>
+      <div class="trow">
+        <div class="field"><div class="op-head"><label class="label" for="tLs">Espaço entre letras</label><span id="tLsV"></span></div><input type="range" id="tLs" min="-10" max="60" step="1"></div>
+        <div class="field"><div class="op-head"><label class="label" for="tLh">Espaço entre linhas</label><span id="tLhV"></span></div><input type="range" id="tLh" min="70" max="220" step="5"></div>
+      </div>
+      <div class="field"><span class="label">Fundo</span><div class="seg" id="tBg"><button type="button" data-v="none">Sem fundo</button><button type="button" data-v="box">Caixa</button><button type="button" data-v="line">Tarja por linha</button></div></div>
+      <div class="field" id="tBgColorWrap" hidden><span class="label">Cor do fundo</span><div class="seg" id="tBgColor"></div></div>
+      <button class="link" id="tReset" type="button" style="align-self:flex-start">Voltar ao padrão</button>
+    </section>
+  </div>
+
   <nav class="tabbar" role="tablist" aria-label="Seções do app">
     <button type="button" role="tab" data-tab="fig" aria-selected="true" aria-controls="viewFig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7l-7 7H6a2 2 0 0 1-2-2z"/><path d="M13 20v-5a2 2 0 0 1 2-2h5"/></svg>Figurinhas</button>
     <button type="button" role="tab" data-tab="narr" aria-selected="false" aria-controls="viewNarr" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>Narrativas</button>
+    <button type="button" role="tab" data-tab="txt" aria-selected="false" aria-controls="viewTxt" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7V5h14v2M12 5v14M9 19h6"/></svg>Textos</button>
   </nav>
 </div>
 
@@ -677,7 +730,7 @@ function buildPresets(){$("presets").innerHTML=PRESETS.map((p,i)=>`<button class
 function markPreset(){if($("mine"))renderMine();$("presets").querySelectorAll(".pill").forEach(b=>{const c=PRESETS[b.dataset.i].c;b.setAttribute("aria-pressed",String(c[0]===pal.c1&&c[1]===pal.c2&&c[2]===pal.c3))})}
 function setColor(k,v){pal[k]=normHex(v)||pal[k];paintSw(k);changed()}
 function applyPal(p){pal={c1:p.c1,c2:p.c2,c3:p.c3};syncSwatches();changed()}
-let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{refreshColorCards();if(cur){refreshPreview();renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur))}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
+let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{refreshColorCards();window.SOSTextos&&SOSTextos.refresh();if(cur){refreshPreview();renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur))}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
 
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
   ["adj","photo","saved"].forEach(t=>{const p=$("pane-"+t);p.hidden=t!==b.dataset.tab;p.style.display=p.hidden?"":"flex"})});
@@ -829,7 +882,8 @@ $("logout").onclick=()=>{try{localStorage.removeItem("fig_code")}catch(e){}locat
 (async function start(){const c=local.get("fig_code",null);if(c&&await tryCode(c,true))return;$("aCode").focus()})();
 </script>
 
-<script src="/app/narrativas-data.js?v=20261029c"></script>
-<script src="/app/narrativas.js?v=20261029c"></script>
+<script src="/app/narrativas-data.js?v=20261029d"></script>
+<script src="/app/narrativas.js?v=20261029d"></script>
+<script src="/app/textos.js?v=20261029d"></script>
 </body>
 </html>

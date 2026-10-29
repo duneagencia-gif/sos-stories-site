@@ -74,9 +74,10 @@
 
   /* ---------- abas ---------- */
   function showTab(name){
-    var fig = name !== "narr";
-    $("viewFig").hidden = !fig;
-    $("viewNarr").hidden = fig;
+    var fig = name === "fig";
+    $("viewFig").hidden = name !== "fig";
+    $("viewNarr").hidden = name !== "narr";
+    if($("viewTxt")) $("viewTxt").hidden = name !== "txt";
     document.querySelectorAll(".tabbar button").forEach(function(b){
       var on = b.dataset.tab === name;
       b.setAttribute("aria-selected", String(on));
@@ -90,7 +91,9 @@
     b.addEventListener("click", function(){ showTab(b.dataset.tab); });
     b.addEventListener("keydown", function(e){
       if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
-        var other = document.querySelector('.tabbar button:not([data-tab="' + b.dataset.tab + '"])');
+        var all = Array.prototype.slice.call(document.querySelectorAll(".tabbar button"));
+        var i = all.indexOf(b) + (e.key === "ArrowRight" ? 1 : -1);
+        var other = all[(i + all.length) % all.length];
         other.focus(); other.click(); e.preventDefault();
       }
     });
