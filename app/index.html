@@ -83,6 +83,13 @@ select.in option{background:var(--bg-deep)}
 .sec{flex:none;border:1px solid var(--line-2);background:transparent;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .sec[aria-pressed="true"]{background:var(--gold-grad);color:var(--on-gold);border-color:transparent}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.finder{display:flex;flex-direction:column;gap:10px}
+.search{width:100%;box-sizing:border-box;border:1px solid var(--line-2);background:rgba(255,240,225,.045);color:var(--ink);border-radius:999px;padding:11px 18px;font:inherit;font-size:14px}
+.search::placeholder{color:var(--faint)}
+.packs .sec{text-transform:none;letter-spacing:0;font-weight:500;padding:6px 13px;font-size:12.5px}
+.packs .sec em{font-style:normal;opacity:.6;margin-left:5px;font-size:11px}
+.count{font-size:12px;color:var(--faint);margin:-2px 2px 0}
+.more{grid-column:1/-1;height:40px}
 .card{background:rgba(255,240,225,.045);border:1px solid var(--line);border-radius:18px;padding:10px 10px 12px;display:flex;flex-direction:column;gap:8px;
   cursor:pointer;text-align:left;transition:transform .15s ease,border-color .15s;min-width:0}
 .card:hover{border-color:var(--line-2)}
@@ -343,7 +350,12 @@ input[type=range]{width:100%;accent-color:#DDB57C;height:28px}
     </div>
   </section>
 
-  <nav class="sections" id="sections" aria-label="Seções de figurinhas"></nav>
+  <div class="finder">
+    <input class="search" id="search" type="search" placeholder="Buscar (ex.: psicóloga, bom dia, promoção)" aria-label="Buscar figurinha" autocomplete="off">
+    <nav class="sections" id="sections" aria-label="Seções de figurinhas"></nav>
+    <nav class="sections packs" id="packs" aria-label="Pacotes da seção" hidden></nav>
+    <p class="count" id="count"></p>
+  </div>
   <section class="grid" id="grid" aria-label="Figurinhas"></section>
 
   <section class="panel" id="adminPanel" hidden>
@@ -507,6 +519,7 @@ let fav=new Set(local.get("fig_fav",[]));
 const FAV="♡ Favoritas";
 let saved=local.get("fig_saved",[]);
 let texts=local.get("fig_txt",{});
+let pack="", query="", shown=0, curItems=[], moreObs=null;
 let customs=[], sectionsCfg=[], filter="Todas", db=null, uid=null, canAdmin=false, prefsRef=null;
 
 const $=id=>document.getElementById(id);
@@ -598,18 +611,36 @@ function sectionList(){const set=[...sectionsCfg];customs.forEach(c=>{if(c.secti
 
 function renderSections(){const list=["Todas",FAV,ESS,...sectionList()];if(!list.includes(filter))filter="Todas";
   $("sections").innerHTML=list.map(s=>`<button class="sec" aria-pressed="${s===filter}" data-s="${esc(s)}">${esc(s)}</button>`).join("");
-  $("sections").querySelectorAll(".sec").forEach(b=>b.onclick=()=>{filter=b.dataset.s;renderSections();renderGrid()})}
+  $("sections").querySelectorAll(".sec").forEach(b=>b.onclick=()=>{filter=b.dataset.s;pack="";renderSections();renderGrid()})}
 const ICON_PAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10" cy="7" r="1.2" fill="currentColor"/><circle cx="15" cy="7" r="1.2" fill="currentColor"/></svg>';
 const ICON_ADJ='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>';
 const ICON_HEART='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
 const canColor=s=>s.kind!=="image"&&(rolesUsed(s).length>0||s.text!=null);
 function cardInner(s){const o=s.kind==="builtin"?stickerSvg(s):null;const vis=s.kind!=="builtin"?`<img src="${thumbSrc(s)}" alt="" loading="lazy">`:o.svg;
   return `<div class="stage${needsLight(s)?" light":""}"><div class="vis" style="opacity:${opOf(s)/100}">${vis}</div></div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}`}
-function renderGrid(){const items=allStickers().filter(s=>filter==="Todas"||(filter===FAV?fav.has(s.id):s.section===filter));
-  let html=items.map(s=>{const col=canColor(s);const nm=esc(s.name);
-    return `<div class="card" data-id="${esc(s.id)}"><div class="card-tools"><button type="button" class="tool" data-act="edit" aria-label="${col?"Mudar cor e transparência":"Ajustar transparência"}: ${nm}" title="${col?"Cor e transparência":"Transparência"}">${col?ICON_PAL:ICON_ADJ}</button><button type="button" class="tool fav" data-act="fav" aria-pressed="${fav.has(s.id)}" aria-label="Favoritar: ${nm}" title="Favoritar">${ICON_HEART}</button></div><button type="button" class="card-main" data-act="copy" aria-label="Copiar figurinha: ${nm}">${cardInner(s)}</button></div>`}).join("");
-  if(!items.length)html=filter===FAV?`<div class="empty"><b>Nenhuma favorita ainda</b>Toque no coração de uma figurinha para guardar aqui.</div>`:`<div class="empty"><b>Nenhuma figurinha em ${esc(filter)} ainda</b>${canAdmin?"Abra “Gerenciar figurinhas” abaixo e suba os SVGs desta seção.":"As figurinhas desta seção chegam em breve."}</div>`;
-  $("grid").innerHTML=html}
+const PAGE=120;
+const norm=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function cardHtml(s){const col=canColor(s);const nm=esc(s.name);
+  return `<div class="card" data-id="${esc(s.id)}"><div class="card-tools"><button type="button" class="tool" data-act="edit" aria-label="${col?"Mudar cor e transparência":"Ajustar transparência"}: ${nm}" title="${col?"Cor e transparência":"Transparência"}">${col?ICON_PAL:ICON_ADJ}</button><button type="button" class="tool fav" data-act="fav" aria-pressed="${fav.has(s.id)}" aria-label="Favoritar: ${nm}" title="Favoritar">${ICON_HEART}</button></div><button type="button" class="card-main" data-act="copy" aria-label="Copiar figurinha: ${nm}">${cardInner(s)}</button></div>`}
+function renderPacks(base){const el=$("packs");const m=new Map();base.forEach(s=>{if(s.pack)m.set(s.pack,(m.get(s.pack)||0)+1)});
+  if(filter==="Todas"||filter===FAV||m.size<2){el.hidden=true;el.innerHTML="";if(!m.has(pack))pack="";return}
+  if(pack&&!m.has(pack))pack="";el.hidden=false;
+  el.innerHTML=[["",base.length],...m].map(([n,c])=>`<button class="sec" aria-pressed="${n===pack}" data-p="${esc(n)}">${n?esc(n):"Todos"}<em>${c}</em></button>`).join("");
+  el.querySelectorAll(".sec").forEach(b=>b.onclick=()=>{pack=b.dataset.p;renderGrid()})}
+function renderGrid(){let base=allStickers().filter(s=>filter==="Todas"||(filter===FAV?fav.has(s.id):s.section===filter));
+  const q=norm(query).trim();if(q){const ws=q.split(/\s+/);base=base.filter(s=>{const t=norm(s.name+" "+(s.pack||"")+" "+s.section);return ws.every(w=>t.includes(w))})}
+  renderPacks(base);const items=pack?base.filter(s=>s.pack===pack):base;curItems=items;shown=Math.min(PAGE,items.length);
+  $("count").textContent=items.length>PAGE?`${items.length.toLocaleString("pt-BR")} figurinhas`:"";
+  let html=items.slice(0,shown).map(cardHtml).join("");
+  if(!items.length)html=q?`<div class="empty"><b>Nada encontrado</b>Tente outra palavra, como “bom dia”, “promoção” ou o nome da sua profissão.</div>`:filter===FAV?`<div class="empty"><b>Nenhuma favorita ainda</b>Toque no coração de uma figurinha para guardar aqui.</div>`:`<div class="empty"><b>Nenhuma figurinha em ${esc(filter)} ainda</b>${canAdmin?"Abra “Gerenciar figurinhas” abaixo e suba os SVGs desta seção.":"As figurinhas desta seção chegam em breve."}</div>`;
+  if(shown<items.length)html+='<div class="more" id="more" aria-hidden="true"></div>';
+  $("grid").innerHTML=html;watchMore()}
+function watchMore(){if(moreObs)moreObs.disconnect();const m=$("more");if(!m)return;
+  moreObs=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))showMore()},{rootMargin:"900px 0px"});moreObs.observe(m)}
+function showMore(){const m=$("more");if(!m)return;const next=curItems.slice(shown,shown+PAGE);shown+=next.length;
+  m.insertAdjacentHTML("beforebegin",next.map(cardHtml).join(""));if(shown>=curItems.length){m.remove();moreObs&&moreObs.disconnect()}}
+function refreshColorCards(){const m=new Map(curItems.map(x=>[x.id,x]));$("grid").querySelectorAll(".card").forEach(c=>{const s=m.get(c.dataset.id);if(s&&s.kind!=="image")c.querySelector(".card-main").innerHTML=cardInner(s)})}
+let searchT;$("search").addEventListener("input",e=>{clearTimeout(searchT);searchT=setTimeout(()=>{query=e.target.value;renderGrid()},180)});
 function updateCard(s){const c=[...$("grid").querySelectorAll(".card")].find(x=>x.dataset.id===s.id);if(c)c.querySelector(".card-main").innerHTML=cardInner(s)}
 $("grid").addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b)return;const card=b.closest(".card");const s=allStickers().find(x=>x.id===card.dataset.id);if(!s)return;
   if(b.dataset.act==="copy")copySticker(s);
@@ -637,7 +668,7 @@ function buildPresets(){$("presets").innerHTML=PRESETS.map((p,i)=>`<button class
 function markPreset(){if($("mine"))renderMine();$("presets").querySelectorAll(".pill").forEach(b=>{const c=PRESETS[b.dataset.i].c;b.setAttribute("aria-pressed",String(c[0]===pal.c1&&c[1]===pal.c2&&c[2]===pal.c3))})}
 function setColor(k,v){pal[k]=normHex(v)||pal[k];paintSw(k);changed()}
 function applyPal(p){pal={c1:p.c1,c2:p.c2,c3:p.c3};syncSwatches();changed()}
-let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{renderGrid();if(cur){refreshPreview();renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur))}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
+let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{refreshColorCards();if(cur){refreshPreview();renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur))}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
 
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
   ["adj","photo","saved"].forEach(t=>{const p=$("pane-"+t);p.hidden=t!==b.dataset.tab;p.style.display=p.hidden?"":"flex"})});
@@ -749,7 +780,7 @@ $("saveAll").onclick=async()=>{const section=$("secSel").value;if(!section){admi
   $("saveAll").disabled=false;renderPending();if(ok)adminMsg(`${ok} figurinha${ok>1?"s":""} salva${ok>1?"s":""} em ${section}.`)};
 function adminMsg(t,err){const s=$("adminStatus");s.textContent=t;s.className="status "+(err?"err":"ok")}
 function renderLib(){const el=$("libList");if(!customs.length){el.innerHTML=`<p class="muted">Nenhuma figurinha enviada ainda.</p>`;return}
-  el.innerHTML=customs.map(s=>`<div class="lib-item"><img src="${thumbSrc(s)}" alt=""><div><b>${esc(s.name)}</b><small>${esc(s.section)}</small></div><button class="icon-btn" data-del="${esc(s.id)}">Excluir</button></div>`).join("");
+  el.innerHTML=customs.filter(s=>!s.pack).map(s=>`<div class="lib-item"><img src="${thumbSrc(s)}" alt="" loading="lazy"><div><b>${esc(s.name)}</b><small>${esc(s.section)}</small></div><button class="icon-btn" data-del="${esc(s.id)}">Excluir</button></div>`).join("");
   el.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!b.dataset.armed){b.dataset.armed="1";b.textContent="Confirmar";b.classList.add("danger");return}
     try{await fig.del(b.dataset.del)}catch(e){adminMsg("Não consegui excluir. Tente de novo.",true);return}await loadStickers()})}
 
@@ -760,9 +791,12 @@ const DUNE_SAVED=[{id:"psos1",name:"SOS Stories",c1:"#6A1D2E",c2:"#DDB57C",c3:"#
 let accessCode=null,library=null,booted=false;
 async function pushPrefs(){}
 async function rpc(fn,args){const {data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
-async function loadLibrary(){if(library)return library;try{const BASE="/app/";const r=await fetch(BASE+"library.json",{cache:"no-cache"});const list=await r.json();
+async function loadMood(BASE){try{const d=await (await fetch(BASE+"mood.json",{cache:"no-cache"})).json();
+    const seq={};return d.items.map(([pi,k,w,h,l])=>{const p=d.packs[pi];const n=String(k).padStart(3,"0");seq[p.n]=(seq[p.n]||0)+1;return {id:`lib-am-${p.g}-${n}`,kind:"image",name:`${p.n} ${seq[p.n]}`,section:p.s,pack:p.n,src:`${BASE}lib/am-${p.g}-${n}.webp`,w,h,light:!!l}})}
+  catch(e){return []}}
+async function loadLibrary(){if(library)return library;const BASE="/app/";const moodP=loadMood(BASE);try{const r=await fetch(BASE+"library.json",{cache:"no-cache"});const list=await r.json();
     library=await Promise.all(list.map(async it=>it.kind==="svg"?{id:it.id,kind:"custom",name:it.name,section:it.section,svg:await (await fetch(BASE+it.file)).text(),w:it.w,h:it.h,map:it.map||{}}:{id:it.id,kind:"image",name:it.name,section:it.section,src:BASE+it.file,w:it.w,h:it.h,light:!!it.light}))}
-  catch(e){library=[]}return library}
+  catch(e){library=[]}library=[...library,...await moodP];return library}
 function applyData(d,lib){sectionsCfg=d.sections||[];const hidden=new Set(d.hidden||[]);
   const extra=(d.stickers||[]).map(v=>v.kind==="image"?{id:v.id,kind:"image",name:v.name,section:v.section,src:v.src,w:+v.w,h:+v.h,light:!!v.light}:{id:v.id,kind:"custom",name:v.name,section:v.section,svg:v.svg||"",w:+v.w,h:+v.h,map:v.map||{}});
   customs=[...lib.filter(s=>!hidden.has(s.id)),...extra];renderSections();renderGrid();if(canAdmin){renderLib();renderSecSel()}}
