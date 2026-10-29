@@ -195,6 +195,8 @@ img{max-width:100%}
       <div class="swatches" id="swatches"></div>
       <div class="label">Paletas prontas</div>
       <div class="row" id="presets" role="group" aria-label="Paletas prontas"></div>
+      <div class="label" id="mineLabel" hidden>Suas paletas</div>
+      <div class="row" id="mine" role="group" aria-label="Suas paletas" hidden></div>
     </div>
 
     <div id="pane-photo" class="pane" hidden style="flex-direction:column;gap:14px">
@@ -259,6 +261,10 @@ img{max-width:100%}
     <div class="grab"></div>
     <div class="sheet-head"><h2 id="sheetTitle">Figurinha</h2><button class="x" id="close" aria-label="Fechar">✕</button></div>
     <div class="preview"><img id="pv" alt="Prévia da figurinha"></div>
+    <div class="field" id="colorField" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="label">Cores desta figurinha</span><button class="link" id="ovReset" type="button">Voltar ao padrão</button></div>
+      <div id="roleRows" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
     <div class="field" id="textField" hidden>
       <label class="label" for="txt">Texto</label>
       <textarea id="txt" rows="2"></textarea>
@@ -273,16 +279,13 @@ img{max-width:100%}
 <script>
 const SANS="'Helvetica Neue', Helvetica, Arial, sans-serif", SERIF="Georgia, 'Times New Roman', serif";
 const PRESETS=[
-  {name:"SOS Stories",c:["#6A1D2E","#DDB57C","#F7EEE4"]},{name:"SOS Coral",c:["#E0485A","#F1D29C","#FFFFFF"]},
-  {name:"Areia",c:["#C9A27E","#3B2F2A","#FFF8F0"]},{name:"Oliva",c:["#6B7A4B","#E9E4D4","#FFFFFF"]},
-  {name:"Rosé",c:["#E7A5A5","#5A2E3A","#FFFFFF"]},{name:"Noite",c:["#1D2A44","#D9B26F","#FFFFFF"]},
-  {name:"Lavanda",c:["#B8A9E3","#2D2547","#FFFFFF"]},{name:"Cítrico",c:["#F2C230","#1B1B1B","#1B1B1B"]},
-  {name:"Terra",c:["#9A4B2F","#F1D9C4","#FFFFFF"]}];
+  {name:"Nude",c:["#C9A27E","#3B2F2A","#FFF8F0"]},{name:"Preto e branco",c:["#1B1B1B","#8A8A8A","#FFFFFF"]}];
 const ROLES=[["c1","Principal"],["c2","Destaque"],["c3","Texto"]];
 const ESS="Essenciais";
 
 const local={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let pal=local.get("fig_pal",{c1:"#6A1D2E",c2:"#DDB57C",c3:"#F7EEE4"});
+let pal=local.get("fig_pal",{c1:"#C9A27E",c2:"#3B2F2A",c3:"#FFF8F0"});
+let ov=local.get("fig_ov",{});
 let saved=local.get("fig_saved",[]);
 let texts=local.get("fig_txt",{});
 let customs=[], sectionsCfg=[], filter="Todas", db=null, uid=null, canAdmin=false, prefsRef=null;
@@ -356,8 +359,16 @@ function guessMap(colors){const m={};const order=["c1","c2","c3"];
 
 /* ---------- render comum ---------- */
 const dataUri=svg=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
-function stickerSvg(s){if(s.kind==="image")return{svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${s.w} ${s.h}" width="${s.w}" height="${s.h}"><image href="${s.src}" width="${s.w}" height="${s.h}"/></svg>`,w:s.w,h:s.h,src:s.src};if(s.kind==="custom")return{svg:recolor(s.svg,s.map||{},pal),w:s.w,h:s.h};
-  const t=s.text!=null?(texts[s.id]??s.text):"";const o=s.r(pal,t);return{svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${o.w} ${o.h}" width="${o.w}" height="${o.h}">${o.b}</svg>`,w:o.w,h:o.h}}
+function stickerSvg(s){if(s.kind==="image")return{svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${s.w} ${s.h}" width="${s.w}" height="${s.h}"><image href="${s.src}" width="${s.w}" height="${s.h}"/></svg>`,w:s.w,h:s.h,src:s.src};if(s.kind==="custom")return{svg:recolor(s.svg,s.map||{},effPal(s)),w:s.w,h:s.h};
+  const t=s.text!=null?(texts[s.id]??s.text):"";const o=s.r(effPal(s),t);return{svg:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${o.w} ${o.h}" width="${o.w}" height="${o.h}">${o.b}</svg>`,w:o.w,h:o.h}}
+function effPal(s){const o=ov[s.id];if(!o)return pal;return{c1:pal[o.c1||"c1"],c2:pal[o.c2||"c2"],c3:pal[o.c3||"c3"]}}
+function rolesUsed(s){if(s.kind==="image")return[];if(s.kind==="custom"){const v=new Set(Object.values(s.map||{}));return["c1","c2","c3"].filter(r=>v.has(r))}
+  const t=s.text!=null?(texts[s.id]??s.text):"";const b=s.r({c1:"#010101",c2:"#020202",c3:"#030303"},t).b;return["c1","c2","c3"].filter((r,i)=>b.includes("#0"+(i+1)+"0"+(i+1)+"0"+(i+1)))}
+function renderRoles(){const roles=cur?rolesUsed(cur):[];$("colorField").hidden=!roles.length;if(!roles.length)return;const o=ov[cur.id]||{};
+  $("roleRows").innerHTML=roles.map((r,i)=>{const sel=o[r]||r;return `<div class="seg" role="group" aria-label="Parte ${i+1}"><span class="muted" style="align-self:center;min-width:56px">Parte ${i+1}</span>${ROLES.map(([k,n])=>`<button type="button" data-r="${r}" data-k="${k}" aria-pressed="${sel===k}"><i style="background:${pal[k]}"></i>${n}</button>`).join("")}</div>`}).join("");
+  $("ovReset").hidden=!ov[cur.id];
+  $("roleRows").querySelectorAll("button").forEach(b=>b.onclick=()=>{const o2={...(ov[cur.id]||{})};o2[b.dataset.r]=b.dataset.k;
+    if(Object.entries(o2).every(([r,k])=>r===k))delete ov[cur.id];else ov[cur.id]=o2;local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid()})}
 function pngBlob(s){const o=stickerSvg(s);return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const k=Math.max(1,1000/Math.max(o.w,o.h));
   const c=document.createElement("canvas");c.width=Math.round(o.w*k);c.height=Math.round(o.h*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);
   c.toBlob(b=>b?res(b):rej(new Error("png")),"image/png")};img.onerror=rej;img.src=o.src||dataUri(o.svg)})}
@@ -383,20 +394,23 @@ function buildSwatches(){$("swatches").innerHTML=ROLES.map(([k,n])=>`<div class=
 function syncSwatches(){ROLES.forEach(([k])=>{$("col-"+k).value=pal[k].toLowerCase();$("hex-"+k).value=pal[k]})}
 function buildPresets(){$("presets").innerHTML=PRESETS.map((p,i)=>`<button class="pill" data-i="${i}" aria-pressed="false"><span class="dots">${p.c.map(c=>`<i style="background:${c}"></i>`).join("")}</span>${p.name}</button>`).join("");
   $("presets").querySelectorAll(".pill").forEach(b=>b.onclick=()=>{const c=PRESETS[b.dataset.i].c;applyPal({c1:c[0],c2:c[1],c3:c[2]})})}
-function markPreset(){$("presets").querySelectorAll(".pill").forEach(b=>{const c=PRESETS[b.dataset.i].c;b.setAttribute("aria-pressed",String(c[0]===pal.c1&&c[1]===pal.c2&&c[2]===pal.c3))})}
+function markPreset(){if($("mine"))renderMine();$("presets").querySelectorAll(".pill").forEach(b=>{const c=PRESETS[b.dataset.i].c;b.setAttribute("aria-pressed",String(c[0]===pal.c1&&c[1]===pal.c2&&c[2]===pal.c3))})}
 function setColor(k,v){pal[k]=normHex(v)||pal[k];changed()}
 function applyPal(p){pal={c1:p.c1,c2:p.c2,c3:p.c3};syncSwatches();changed()}
-let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{renderGrid();if(cur)refreshPreview()});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
+let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{renderGrid();if(cur){refreshPreview();renderRoles()}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
 
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
   ["adj","photo","saved"].forEach(t=>{const p=$("pane-"+t);p.hidden=t!==b.dataset.tab;p.style.display=p.hidden?"":"flex"})});
 
 /* ---------- minhas paletas ---------- */
-function renderSaved(){const el=$("savedList");
+function renderSaved(){renderMine();const el=$("savedList");
   if(!saved.length){el.innerHTML=`<p class="muted">Nenhuma paleta salva. Ajuste as cores (ou tire da foto), dê um nome e toque em Salvar atual.</p>`;return}
   el.innerHTML=saved.map(p=>`<div class="saved-item"><span class="dots">${[p.c1,p.c2,p.c3].map(c=>`<i style="background:${c}"></i>`).join("")}</span><b>${esc(p.name)}</b><button class="btn small ghost" data-use="${p.id}" style="background:var(--surface)">Usar</button><button class="icon-btn" data-del="${p.id}">Excluir</button></div>`).join("");
   el.querySelectorAll("[data-use]").forEach(b=>b.onclick=()=>{const p=saved.find(x=>x.id===b.dataset.use);if(p)applyPal(p)});
   el.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{if(b.dataset.armed){saved=saved.filter(x=>x.id!==b.dataset.del);storeSaved()}else{b.dataset.armed="1";b.textContent="Confirmar";b.classList.add("danger")}})}
+function renderMine(){const el=$("mine");$("mineLabel").hidden=el.hidden=!saved.length;
+  el.innerHTML=saved.map(p=>`<button class="pill" data-id="${p.id}" aria-pressed="${p.c1===pal.c1&&p.c2===pal.c2&&p.c3===pal.c3}"><span class="dots">${[p.c1,p.c2,p.c3].map(c=>`<i style="background:${c}"></i>`).join("")}</span>${esc(p.name)}</button>`).join("");
+  el.querySelectorAll(".pill").forEach(b=>b.onclick=()=>{const p=saved.find(x=>x.id===b.dataset.id);if(p)applyPal(p)})}
 function storeSaved(){local.set("fig_saved",saved);renderSaved();pushPrefs()}
 $("savePal").onclick=()=>{const name=$("palName").value.trim()||"Paleta "+(saved.length+1);saved.unshift({id:"p"+Date.now().toString(36),name,...pal});$("palName").value="";storeSaved()};
 
@@ -431,7 +445,8 @@ $("autoPal").onclick=()=>{if(!extracted.length)return;const tot=extracted.reduce
 let cur=null,pvUrl=null,tmr;
 function openSheet(id){cur=allStickers().find(s=>s.id===id);if(!cur)return;$("sheetTitle").textContent=cur.name;
   $("textField").hidden=cur.text==null;if(cur.text!=null){$("txt").value=texts[cur.id]??cur.text;$("txt").rows=Math.min(5,Math.max(2,$("txt").value.split("\n").length))}
-  document.querySelector(".preview").classList.toggle("light",!!cur.light);$("status").textContent="";$("status").className="status";$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();$("copy").focus()}
+  renderRoles();document.querySelector(".preview").classList.toggle("light",!!cur.light);$("status").textContent="";$("status").className="status";$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();$("copy").focus()}
+$("ovReset").onclick=()=>{if(!cur)return;delete ov[cur.id];local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid()};
 function closeSheet(){$("sheet").hidden=true;$("scrim").hidden=true;cur=null}
 $("close").onclick=closeSheet;$("scrim").onclick=closeSheet;document.addEventListener("keydown",e=>{if(e.key==="Escape"&&cur)closeSheet()});
 $("txt").oninput=()=>{texts[cur.id]=$("txt").value;local.set("fig_txt",texts);clearTimeout(tmr);tmr=setTimeout(()=>{refreshPreview();renderGrid();clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)},180)};
@@ -498,7 +513,7 @@ function renderLib(){const el=$("libList");if(!customs.length){el.innerHTML=`<p 
 /* ---------- dados (Supabase, acesso por palavra-chave) ---------- */
 const SB_URL="https://rppgpmddpuvcrbvljfms.supabase.co", SB_KEY="sb_publishable_wARnoXPMSBWvVkII-bZbtw_GCb4OaE6";
 const sb=window.supabase?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false}}):null;
-const DUNE_SAVED=[{id:"pdune1",name:"Dune · Bronze",c1:"#9C6B3C",c2:"#E3C49A",c3:"#FBFAF9"},{id:"pdune2",name:"Dune · Grafite",c1:"#3E3F45",c2:"#C09765",c3:"#F2F1EF"}];
+const DUNE_SAVED=[{id:"psos1",name:"SOS Stories",c1:"#6A1D2E",c2:"#DDB57C",c3:"#F7EEE4"},{id:"pdune1",name:"Dune · Bronze",c1:"#9C6B3C",c2:"#E3C49A",c3:"#FBFAF9"},{id:"pdune2",name:"Dune · Grafite",c1:"#3E3F45",c2:"#C09765",c3:"#F2F1EF"}];
 let accessCode=null,library=null,booted=false;
 async function pushPrefs(){}
 async function rpc(fn,args){const {data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
