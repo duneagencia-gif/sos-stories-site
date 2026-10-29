@@ -249,6 +249,9 @@ select.nin option{background:var(--bg-deep)}
 /* ---------- cartão de figurinha: ferramentas em cima, toque copia ---------- */
 .card{cursor:default;gap:6px;padding:8px 8px 10px;position:relative}
 .card-tools{display:flex;justify-content:space-between;align-items:center}
+.card-tools .tr{display:flex}
+.tool.del:hover{color:#E8877C;background:rgba(232,135,124,.1)}
+.toast button{all:unset;cursor:pointer;margin-left:12px;text-decoration:underline;text-underline-offset:3px}
 .tool{width:36px;height:36px;display:grid;place-items:center;border:0;background:transparent;color:var(--muted);border-radius:10px;cursor:pointer;padding:0}
 .tool svg{width:19px;height:19px}
 .tool:hover{color:var(--gold);background:rgba(221,181,124,.08)}
@@ -615,13 +618,14 @@ function renderSections(){const list=["Todas",FAV,ESS,...sectionList()];if(!list
 const ICON_PAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10" cy="7" r="1.2" fill="currentColor"/><circle cx="15" cy="7" r="1.2" fill="currentColor"/></svg>';
 const ICON_ADJ='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>';
 const ICON_HEART='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>';
+const ICON_TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 12.5h9L17.5 7M10 11v5M14 11v5"/></svg>';
 const canColor=s=>s.kind!=="image"&&(rolesUsed(s).length>0||s.text!=null);
 function cardInner(s){const o=s.kind==="builtin"?stickerSvg(s):null;const vis=s.kind!=="builtin"?`<img src="${thumbSrc(s)}" alt="" loading="lazy">`:o.svg;
   return `<div class="stage${needsLight(s)?" light":""}"><div class="vis" style="opacity:${opOf(s)/100}">${vis}</div></div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}`}
 const PAGE=120;
 const norm=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 function cardHtml(s){const col=canColor(s);const nm=esc(s.name);
-  return `<div class="card" data-id="${esc(s.id)}"><div class="card-tools"><button type="button" class="tool" data-act="edit" aria-label="${col?"Mudar cor e transparência":"Ajustar transparência"}: ${nm}" title="${col?"Cor e transparência":"Transparência"}">${col?ICON_PAL:ICON_ADJ}</button><button type="button" class="tool fav" data-act="fav" aria-pressed="${fav.has(s.id)}" aria-label="Favoritar: ${nm}" title="Favoritar">${ICON_HEART}</button></div><button type="button" class="card-main" data-act="copy" aria-label="Copiar figurinha: ${nm}">${cardInner(s)}</button></div>`}
+  return `<div class="card" data-id="${esc(s.id)}"><div class="card-tools"><button type="button" class="tool" data-act="edit" aria-label="${col?"Mudar cor e transparência":"Ajustar transparência"}: ${nm}" title="${col?"Cor e transparência":"Transparência"}">${col?ICON_PAL:ICON_ADJ}</button><span class="tr">${canAdmin?`<button type="button" class="tool del" data-act="del" aria-label="Excluir do app: ${nm}" title="Excluir do app">${ICON_TRASH}</button>`:""}<button type="button" class="tool fav" data-act="fav" aria-pressed="${fav.has(s.id)}" aria-label="Favoritar: ${nm}" title="Favoritar">${ICON_HEART}</button></span></div><button type="button" class="card-main" data-act="copy" aria-label="Copiar figurinha: ${nm}">${cardInner(s)}</button></div>`}
 function renderPacks(base){const el=$("packs");const m=new Map();base.forEach(s=>{if(s.pack)m.set(s.pack,(m.get(s.pack)||0)+1)});
   if(filter==="Todas"||filter===FAV||m.size<2){el.hidden=true;el.innerHTML="";if(!m.has(pack))pack="";return}
   if(pack&&!m.has(pack))pack="";el.hidden=false;
@@ -644,10 +648,15 @@ let searchT;$("search").addEventListener("input",e=>{clearTimeout(searchT);searc
 function updateCard(s){const c=[...$("grid").querySelectorAll(".card")].find(x=>x.dataset.id===s.id);if(c)c.querySelector(".card-main").innerHTML=cardInner(s)}
 $("grid").addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b)return;const card=b.closest(".card");const s=allStickers().find(x=>x.id===card.dataset.id);if(!s)return;
   if(b.dataset.act==="copy")copySticker(s);
+  else if(b.dataset.act==="del")hideSticker(s,card);
   else if(b.dataset.act==="edit")openSheet(s.id);
   else if(b.dataset.act==="fav"){if(fav.has(s.id))fav.delete(s.id);else fav.add(s.id);local.set("fig_fav",[...fav]);b.setAttribute("aria-pressed",String(fav.has(s.id)));
     toast(fav.has(s.id)?"Adicionada às favoritas":"Removida das favoritas");if(filter===FAV)renderGrid()}});
-let toastT;function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{el.hidden=true},1800)}
+async function hideSticker(s,card){const i=customs.indexOf(s);customs=customs.filter(x=>x!==s);curItems=curItems.filter(x=>x!==s);card.remove();if(shown>0)shown--;
+  try{await fig.del(s.id)}catch(e){customs.splice(Math.max(0,i),0,s);renderGrid();toast("Não consegui excluir. Tente de novo.");return}
+  if(!s.pack&&canAdmin)renderLib();
+  toast("Figurinha excluída",{label:"Desfazer",fn:async()=>{try{await rpc(s.id.startsWith("lib-")?"fig_restore_sticker":"fig_add_sticker",s.id.startsWith("lib-")?{p_code:accessCode,p_id:s.id}:{p_code:accessCode,p_data:s});customs.splice(Math.max(0,i),0,s);renderGrid();toast("Figurinha de volta")}catch(e){toast("Não consegui desfazer.")}}},5000)}
+let toastT;function toast(t,act,ms){const el=$("toast");el.textContent=t;if(act){const b=document.createElement("button");b.type="button";b.textContent=act.label;b.onclick=()=>{el.hidden=true;act.fn()};el.appendChild(b)}el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{el.hidden=true},ms||1800)}
 const canClipImg=()=>!!(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write);
 async function copySticker(s){if(!canClipImg()){openSheet(s.id,"copy");return}
   try{await navigator.clipboard.write([new ClipboardItem({"image/png":pngBlob(s)})]);toast("Figurinha copiada!")}
