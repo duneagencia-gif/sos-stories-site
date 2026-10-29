@@ -368,7 +368,8 @@ function renderRoles(){const roles=cur?rolesUsed(cur):[];$("colorField").hidden=
   $("roleRows").innerHTML=roles.map((r,i)=>{const sel=o[r]||r;return `<div class="seg" role="group" aria-label="Parte ${i+1}"><span class="muted" style="align-self:center;min-width:56px">Parte ${i+1}</span>${ROLES.map(([k,n])=>`<button type="button" data-r="${r}" data-k="${k}" aria-pressed="${sel===k}"><i style="background:${pal[k]}"></i>${n}</button>`).join("")}</div>`}).join("");
   $("ovReset").hidden=!ov[cur.id];
   $("roleRows").querySelectorAll("button").forEach(b=>b.onclick=()=>{const o2={...(ov[cur.id]||{})};o2[b.dataset.r]=b.dataset.k;
-    if(Object.entries(o2).every(([r,k])=>r===k))delete ov[cur.id];else ov[cur.id]=o2;local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid()})}
+    if(Object.entries(o2).every(([r,k])=>r===k))delete ov[cur.id];else ov[cur.id]=o2;local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid();document.querySelector(".preview").classList.toggle("light",needsLight(cur))})}
+function needsLight(s){if(s.kind==="image")return !!s.light;const r=rolesUsed(s);if(!r.length)return false;const p=effPal(s);return Math.max(...r.map(k=>lum(p[k])))<0.2}
 function pngBlob(s){const o=stickerSvg(s);return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const k=Math.max(1,1000/Math.max(o.w,o.h));
   const c=document.createElement("canvas");c.width=Math.round(o.w*k);c.height=Math.round(o.h*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);
   c.toBlob(b=>b?res(b):rej(new Error("png")),"image/png")};img.onerror=rej;img.src=o.src||dataUri(o.svg)})}
@@ -381,7 +382,7 @@ function renderSections(){const list=["Todas",ESS,...sectionList()];if(!list.inc
   $("sections").querySelectorAll(".sec").forEach(b=>b.onclick=()=>{filter=b.dataset.s;renderSections();renderGrid()})}
 function renderGrid(){const items=allStickers().filter(s=>filter==="Todas"||s.section===filter);
   let html=items.map(s=>{const o=stickerSvg(s);const vis=s.kind!=="builtin"?`<img src="${thumbSrc(s)}" alt="" loading="lazy">`:o.svg;
-    return `<button class="card" data-id="${esc(s.id)}"><div class="stage${s.light?" light":""}">${vis}</div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}</button>`}).join("");
+    return `<button class="card" data-id="${esc(s.id)}"><div class="stage${needsLight(s)?" light":""}">${vis}</div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}</button>`}).join("");
   if(!items.length)html=`<div class="empty"><b>Nenhuma figurinha em ${esc(filter)} ainda</b>${canAdmin?"Abra “Gerenciar figurinhas” abaixo e suba os SVGs desta seção.":"As figurinhas desta seção chegam em breve."}</div>`;
   $("grid").innerHTML=html;$("grid").querySelectorAll(".card").forEach(b=>b.onclick=()=>openSheet(b.dataset.id))}
 
@@ -397,7 +398,7 @@ function buildPresets(){$("presets").innerHTML=PRESETS.map((p,i)=>`<button class
 function markPreset(){if($("mine"))renderMine();$("presets").querySelectorAll(".pill").forEach(b=>{const c=PRESETS[b.dataset.i].c;b.setAttribute("aria-pressed",String(c[0]===pal.c1&&c[1]===pal.c2&&c[2]===pal.c3))})}
 function setColor(k,v){pal[k]=normHex(v)||pal[k];changed()}
 function applyPal(p){pal={c1:p.c1,c2:p.c2,c3:p.c3};syncSwatches();changed()}
-let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{renderGrid();if(cur){refreshPreview();renderRoles()}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
+let raf,prefT;function changed(){local.set("fig_pal",pal);markPreset();renderSlots();cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{renderGrid();if(cur){refreshPreview();renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur))}});clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)}
 
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
   ["adj","photo","saved"].forEach(t=>{const p=$("pane-"+t);p.hidden=t!==b.dataset.tab;p.style.display=p.hidden?"":"flex"})});
@@ -445,7 +446,7 @@ $("autoPal").onclick=()=>{if(!extracted.length)return;const tot=extracted.reduce
 let cur=null,pvUrl=null,tmr;
 function openSheet(id){cur=allStickers().find(s=>s.id===id);if(!cur)return;$("sheetTitle").textContent=cur.name;
   $("textField").hidden=cur.text==null;if(cur.text!=null){$("txt").value=texts[cur.id]??cur.text;$("txt").rows=Math.min(5,Math.max(2,$("txt").value.split("\n").length))}
-  renderRoles();document.querySelector(".preview").classList.toggle("light",!!cur.light);$("status").textContent="";$("status").className="status";$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();$("copy").focus()}
+  renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur));$("status").textContent="";$("status").className="status";$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();$("copy").focus()}
 $("ovReset").onclick=()=>{if(!cur)return;delete ov[cur.id];local.set("fig_ov",ov);renderRoles();refreshPreview();renderGrid()};
 function closeSheet(){$("sheet").hidden=true;$("scrim").hidden=true;cur=null}
 $("close").onclick=closeSheet;$("scrim").onclick=closeSheet;document.addEventListener("keydown",e=>{if(e.key==="Escape"&&cur)closeSheet()});
