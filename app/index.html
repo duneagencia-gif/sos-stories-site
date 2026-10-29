@@ -618,9 +618,9 @@ $("grid").addEventListener("click",e=>{const b=e.target.closest("[data-act]");if
     toast(fav.has(s.id)?"Adicionada às favoritas":"Removida das favoritas");if(filter===FAV)renderGrid()}});
 let toastT;function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{el.hidden=true},1800)}
 const canClipImg=()=>!!(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write);
-async function copySticker(s){if(!canClipImg()){openSheet(s.id,"fail");return}
+async function copySticker(s){if(!canClipImg()){openSheet(s.id,"copy");return}
   try{await navigator.clipboard.write([new ClipboardItem({"image/png":pngBlob(s)})]);toast("Figurinha copiada!")}
-  catch(e){openSheet(s.id,"fail")}}
+  catch(e){openSheet(s.id,"copy")}}
 function slug(t){return String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"figurinha"}
 async function saveSticker(s){try{const b=await pngBlob(s);const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=slug(s.name)+".png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return true}catch(e){return false}}
 
@@ -685,7 +685,7 @@ $("autoPal").onclick=()=>{if(!extracted.length)return;const tot=extracted.reduce
 let cur=null,pvUrl=null,tmr;
 function openSheet(id,mode){cur=allStickers().find(s=>s.id===id);if(!cur)return;$("sheetTitle").textContent=cur.name;$("opRange").value=opOf(cur);$("opVal").textContent=opOf(cur)+"%";
   $("textField").hidden=cur.text==null;if(cur.text!=null){$("txt").value=texts[cur.id]??cur.text;$("txt").rows=Math.min(5,Math.max(2,$("txt").value.split("\n").length))}
-  renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur));$("status").textContent=mode==="fail"?"Seu navegador não deixou copiar a imagem direto. Toque e segure a prévia e escolha Copiar, ou toque em Salvar imagem.":"";$("status").className="status"+(mode==="fail"?" err":"");$("copy").hidden=mode==="fail"&&!canClipImg();$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();(mode==="fail"?$("saveImg"):$("close")).focus()}
+  renderRoles();document.querySelector(".preview").classList.toggle("light",needsLight(cur));$("status").textContent="";$("status").className="status";$("copy").hidden=false;$("sheet").hidden=false;$("scrim").hidden=false;refreshPreview();(mode==="copy"?$("copy"):$("close")).focus()}
 $("ovReset").onclick=()=>{if(!cur)return;delete ov[cur.id];delete op[cur.id];local.set("fig_ov",ov);local.set("fig_op",op);$("opRange").value=100;$("opVal").textContent="100%";renderRoles();refreshPreview();updateCard(cur);document.querySelector(".preview").classList.toggle("light",needsLight(cur))};
 let opT;$("opRange").addEventListener("input",()=>{if(!cur)return;const v=+$("opRange").value;$("opVal").textContent=v+"%";if(v>=100)delete op[cur.id];else op[cur.id]=v;local.set("fig_op",op);$("pv").style.opacity="";
   clearTimeout(opT);opT=setTimeout(()=>{refreshPreview();updateCard(cur);$("ovReset").hidden=!(ov[cur.id]||op[cur.id])},60)});
@@ -695,7 +695,7 @@ $("close").onclick=closeSheet;$("scrim").onclick=closeSheet;document.addEventLis
 $("txt").oninput=()=>{texts[cur.id]=$("txt").value;local.set("fig_txt",texts);clearTimeout(tmr);tmr=setTimeout(()=>{refreshPreview();updateCard(cur);clearTimeout(prefT);prefT=setTimeout(pushPrefs,1200)},180)};
 function refreshPreview(){const s=cur;pngBlob(s).then(b=>{if(cur!==s)return;if(pvUrl)URL.revokeObjectURL(pvUrl);pvUrl=URL.createObjectURL(b);$("pv").src=pvUrl}).catch(()=>{$("pv").src=dataUri(stickerSvg(s).svg)})}
 $("copy").onclick=async()=>{if(!cur)return;const st=$("status");st.className="status";st.textContent="Preparando…";
-  try{if(!window.ClipboardItem||!navigator.clipboard?.write)throw 0;await navigator.clipboard.write([new ClipboardItem({"image/png":pngBlob(cur)})]);
+  try{if(!canClipImg())throw 0;await navigator.clipboard.write([new ClipboardItem({"image/png":pngBlob(cur)})]);
     st.className="status ok";st.textContent="";toast("Figurinha copiada!")}
   catch(e){st.className="status err";st.textContent="Seu navegador não deixou copiar a imagem direto. Toque e segure a prévia e escolha Copiar, ou toque em Salvar imagem."}};
 
