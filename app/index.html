@@ -676,6 +676,7 @@ const canColor=s=>s.kind!=="image"&&(rolesUsed(s).length>0||s.text!=null);
 function cardInner(s){const o=s.kind==="builtin"?stickerSvg(s):null;const vis=s.kind!=="builtin"?`<img src="${thumbSrc(s)}" alt="" loading="lazy">`:o.svg;
   return `<div class="stage${needsLight(s)?" light":""}"><div class="vis" style="opacity:${opOf(s)/100}">${vis}</div></div><span>${esc(s.name)}</span>${filter==="Todas"&&s.kind!=="builtin"?`<small>${esc(s.section)}</small>`:""}`}
 const PAGE=120;
+const SYN={seta:["seta","flecha","arrow"],setas:["seta","flecha","arrow"],flecha:["seta","flecha","arrow"],coracao:["coracao","heart"],coracoes:["coracao","heart"],estrela:["estrela","star"],estrelas:["estrela","star"],flor:["flor","flores","floral"],flores:["flor","flores","floral"]};
 const norm=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 function cardHtml(s){const col=canColor(s);const nm=esc(s.name);
   return `<div class="card" data-id="${esc(s.id)}"><div class="card-tools"><button type="button" class="tool" data-act="edit" aria-label="${col?"Mudar cor e transparência":"Ajustar transparência"}: ${nm}" title="${col?"Cor e transparência":"Transparência"}">${col?ICON_PAL:ICON_ADJ}</button><span class="tr">${canAdmin?`<button type="button" class="tool del" data-act="del" aria-label="Excluir do app: ${nm}" title="Excluir do app">${ICON_TRASH}</button>`:""}<button type="button" class="tool fav" data-act="fav" aria-pressed="${fav.has(s.id)}" aria-label="Favoritar: ${nm}" title="Favoritar">${ICON_HEART}</button></span></div><button type="button" class="card-main" data-act="copy" aria-label="Copiar figurinha: ${nm}">${cardInner(s)}</button></div>`}
@@ -685,7 +686,7 @@ function renderPacks(base){const el=$("packs");const m=new Map();base.forEach(s=
   el.innerHTML=[["",base.length],...m].map(([n,c])=>`<button class="sec" aria-pressed="${n===pack}" data-p="${esc(n)}">${n?esc(n):"Todos"}<em>${c}</em></button>`).join("");
   el.querySelectorAll(".sec").forEach(b=>b.onclick=()=>{pack=b.dataset.p;renderGrid()})}
 function renderGrid(){let base=allStickers().filter(s=>filter==="Todas"||(filter===FAV?fav.has(s.id):s.section===filter));
-  const q=norm(query).trim();if(q){const ws=q.split(/\s+/);base=base.filter(s=>{const t=norm(s.name+" "+(s.pack||"")+" "+s.section);return ws.every(w=>t.includes(w))})}
+  const q=norm(query).replace(/[^a-z0-9#@ ]+/g," ").trim();if(q){const ws=q.split(/\s+/);base=base.filter(s=>{const t=s._q||(s._q=" "+norm(s.name+" "+(s.pack||"")+" "+s.section+" "+(s.tags||"")+" "+(s.text||"")).replace(/[^a-z0-9#@ ]+/g," ").replace(/\s+/g," ")+" ");return ws.every(w=>(SYN[w]||[w]).some(x=>t.includes(x)))})}
   renderPacks(base);const items=pack?base.filter(s=>s.pack===pack):base;curItems=items;shown=Math.min(PAGE,items.length);
   $("count").textContent=items.length>PAGE?`${items.length.toLocaleString("pt-BR")} figurinhas`:"";
   let html=items.slice(0,shown).map(cardHtml).join("");
@@ -854,7 +855,7 @@ let accessCode=null,library=null,booted=false;
 async function pushPrefs(){}
 async function rpc(fn,args){const {data,error}=await sb.rpc(fn,args);if(error)throw error;return data}
 async function loadMood(BASE){try{const d=await (await fetch(BASE+"mood.json",{cache:"no-cache"})).json();
-    const seq={};return d.items.map(([pi,k,w,h,l])=>{const p=d.packs[pi];const n=String(k).padStart(3,"0");seq[p.n]=(seq[p.n]||0)+1;return {id:`lib-am-${p.g}-${n}`,kind:"image",name:`${p.n} ${seq[p.n]}`,section:p.s,pack:p.n,src:`${BASE}lib/am-${p.g}-${n}.webp`,w,h,light:!!l}})}
+    const seq={};return d.items.map(([pi,k,w,h,l,t])=>{const p=d.packs[pi];const n=String(k).padStart(3,"0");seq[p.n]=(seq[p.n]||0)+1;return {id:`lib-am-${p.g}-${n}`,kind:"image",name:`${p.n} ${seq[p.n]}`,tags:t||"",section:p.s,pack:p.n,src:`${BASE}lib/am-${p.g}-${n}.webp`,w,h,light:!!l}})}
   catch(e){return []}}
 async function loadLibrary(){if(library)return library;const BASE="/app/";const moodP=loadMood(BASE);try{const r=await fetch(BASE+"library.json",{cache:"no-cache"});const list=await r.json();
     library=await Promise.all(list.map(async it=>it.kind==="svg"?{id:it.id,kind:"custom",name:it.name,section:it.section,svg:await (await fetch(BASE+it.file)).text(),w:it.w,h:it.h,map:it.map||{}}:{id:it.id,kind:"image",name:it.name,section:it.section,src:BASE+it.file,w:it.w,h:it.h,light:!!it.light}))}
