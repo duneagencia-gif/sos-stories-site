@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bem-vinda ao SOS Stories</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Sua compra foi confirmada. Veja como acessar o curso SOS Stories e o app de figurinhas.">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --wine-950:#1F070C; --wine-900:#2B0A11; --wine-800:#3A0E18;
+  --cream:#F7EEE4; --cream2:#DCC6B6; --cream3:#A88D7E;
+  --line:rgba(221,181,124,.18); --line2:rgba(221,181,124,.35);
+  --card:rgba(255,240,225,.045); --card2:rgba(255,240,225,.08);
+  --gold:linear-gradient(92deg,#A8733F 0%,#D9A766 30%,#F1D29C 55%,#C08A55 80%,#A8733F 100%);
+  --goldsolid:#DDB57C; --note:#FFF6D9; --noteink:#5E430B;
+  --font:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+body{margin:0;background:var(--wine-900) linear-gradient(180deg,#2B0A11 0%,#3A0E18 30%,#2E0B13 60%,#1F070C 100%);color:var(--cream2);font:400 15.5px/1.65 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh}
+main{max-width:720px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 20px 56px}
+h1,h2,h3{margin:0;color:var(--cream);line-height:1.15;text-wrap:balance}
+p{margin:0}
+a{color:#F1D29C}
+.gold{background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo{display:block;width:clamp(120px,30vw,150px);height:auto;margin:0 auto 28px}
+.hero{text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center;margin-bottom:34px}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:999px;padding:6px 14px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--goldsolid);font-weight:600}
+.badge svg{width:15px;height:15px}
+h1{font-size:clamp(30px,7vw,44px);font-weight:800}
+.lead{font-size:16.5px;color:var(--cream2);max-width:520px}
+.steps{display:flex;flex-direction:column;gap:16px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 20px;display:flex;flex-direction:column;gap:12px}
+.step-h{display:flex;gap:14px;align-items:center}
+.num{flex:none;width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--wine-950);display:grid;place-items:center;font-weight:800;font-size:16px}
+.step h2{font-size:19px;font-weight:700}
+.step ol,.step ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.step li::marker{color:var(--goldsolid)}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--gold);color:var(--wine-950);font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;text-decoration:none;box-shadow:0 0 0 1px rgba(241,210,156,.35),0 10px 36px rgba(217,167,102,.28);transition:transform .15s,box-shadow .15s;align-self:flex-start}
+.cta:hover{transform:translateY(-2px)}
+.cta.ghost{background:transparent;color:var(--cream);box-shadow:inset 0 0 0 1.5px var(--line2)}
+.creds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cred{background:var(--wine-950);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-width:0}
+.cred small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--goldsolid);font-weight:600}
+.cred b{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--cream);font-size:15.5px;font-weight:600;word-break:break-word}
+.copy{border:1px solid var(--line2);background:transparent;color:#F1D29C;border-radius:999px;padding:4px 10px;font:600 12px var(--font);cursor:pointer;flex:none}
+.note{background:var(--note);color:var(--noteink);border-radius:6px;padding:12px 14px;font-size:14px;transform:rotate(-.4deg);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.note b{color:var(--noteink)}
+details{border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;color:var(--cream);font-weight:600;font-size:14.5px}
+details p,details ol{margin-top:8px;font-size:14.5px}
+.help{text-align:center;margin-top:34px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.help h3{font-size:18px}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--cream3);display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
+footer a{color:var(--cream3)}
+@media (max-width:520px){.creds{grid-template-columns:1fr}.cta{align-self:stretch}}
+@media (prefers-reduced-motion:reduce){.cta{transition:none}}
+</style>
+</head><body><main>
+  <img class="logo" src="/logo.png" alt="SOS Stories" width="640" height="399">
+
+  <section class="hero">
+    <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Compra confirmada</span>
+    <h1>Que alegria ter você no <span class="gold">SOS Stories</span>!</h1>
+    <p class="lead">Seu combo já está liberado: o curso completo e o app de figurinhas. Siga os dois passos abaixo para começar hoje mesmo.</p>
+  </section>
+
+  <div class="steps">
+    <section class="step" aria-labelledby="s1">
+      <div class="step-h"><span class="num">1</span><h2 id="s1">Acesse o curso</h2></div>
+      <p>As aulas ficam na área de membros da Hotmart. Você também recebeu um e-mail da Hotmart com o acesso.</p>
+      <ol>
+        <li>Entre com o <b>mesmo e-mail da compra</b>.</li>
+        <li>No primeiro acesso, a Hotmart pede para você criar uma senha.</li>
+        <li>Abra <b>Minhas compras</b> e clique em <b>SOS Stories</b>.</li>
+      </ol>
+      <a class="cta" href="https://consumer.hotmart.com" target="_blank" rel="noopener">Acessar o curso</a>
+    </section>
+
+    <section class="step" aria-labelledby="s2">
+      <div class="step-h"><span class="num">2</span><h2 id="s2">Entre no app de figurinhas</h2></div>
+      <p>Figurinhas que mudam para as cores da sua marca, prontas para copiar e colar no Stories, e o gerador de narrativas estratégicas.</p>
+      <div class="creds">
+        <div class="cred"><small>E-mail</small><b>o mesmo da compra</b></div>
+        <div class="cred"><small>Palavra-chave</small><b><span id="key">SOS2026</span><button class="copy" type="button" id="copyKey">Copiar</button></b></div>
+      </div>
+      <a class="cta" href="/app/">Abrir o app</a>
+      <p class="note"><b>Importante:</b> use exatamente o e-mail que você usou na Hotmart. Seu acesso ao app vale por <b>1 ano</b> a partir da compra.</p>
+      <details>
+        <summary>Deixe o app na tela do seu celular</summary>
+        <p><b>iPhone (Safari):</b> abra o app, toque em Compartilhar e escolha <b>Adicionar à Tela de Início</b>.</p>
+        <p><b>Android (Chrome):</b> abra o app, toque nos três pontinhos e escolha <b>Adicionar à tela inicial</b>.</p>
+      </details>
+      <details>
+        <summary>Como colar a figurinha no Stories</summary>
+        <ol>
+          <li>No app, toque na figurinha para copiar.</li>
+          <li>No Instagram, abra o Stories e toque na tela para escrever.</li>
+          <li>Toque e segure, escolha <b>Colar</b>.</li>
+        </ol>
+      </details>
+    </section>
+  </div>
+
+  <section class="help">
+    <h3>Precisa de ajuda?</h3>
+    <p>Se o app disser que não encontrou seu e-mail, espere alguns minutos depois da compra e tente de novo. Se continuar, fale com a gente informando o e-mail da compra.</p>
+    <a class="cta ghost" href="mailto:reembolso@sosstories.com.br?subject=Ajuda%20com%20o%20acesso%20ao%20SOS%20Stories">Falar com o suporte</a>
+  </section>
+
+  <footer><a href="/">SOS Stories</a><a href="/privacidade.html">Política de privacidade</a><a href="/termos.html">Termos de uso</a><a href="/reembolso.html">Política de reembolso</a></footer>
+</main>
+<script>
+document.getElementById("copyKey").addEventListener("click",function(){var b=this,t=document.getElementById("key").textContent;
+  var done=function(){b.textContent="Copiada!";setTimeout(function(){b.textContent="Copiar"},1800)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}else{var r=document.createRange();r.selectNode(document.getElementById("key"));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand("copy");done()}catch(e){}s.removeAllRanges()}});
+</script>
+</body></html>
