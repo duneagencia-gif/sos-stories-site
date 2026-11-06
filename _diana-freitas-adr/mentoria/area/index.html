@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Área da aluna · Mentoria Sublime</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B0A11">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="area.css">
+<style>
+/* boas-vindas */
+.hero{padding-bottom:84px}
+.hero-in{width:min(1080px,100% - 40px);margin:0 auto;padding:clamp(40px,7vw,76px) 0 0;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero h1{font-weight:300;font-size:clamp(32px,5.2vw,54px);line-height:1.08;letter-spacing:-.025em;margin-top:14px}
+.hero h1 .nm{display:block;font-weight:500;background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.06em}
+.hero .lead{color:#DCC6B6;margin-top:20px;max-width:46ch;font-size:clamp(15px,1.55vw,16.5px)}
+.hero .msg{margin-top:20px;max-width:46ch;padding:16px 18px 16px 20px;border-left:2px solid var(--goldl);color:#F2E4D6;font-size:14.5px;background:rgba(255,255,255,.035);border-radius:0 14px 14px 0}
+.hero .msg small{display:block;color:var(--goldl);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.prox{position:relative;border:1px solid var(--lined);border-radius:28px;padding:28px 26px 26px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));backdrop-filter:blur(4px)}
+.prox .seal{position:absolute;right:-14px;top:-30px;width:78px;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45));animation:flt 7s ease-in-out infinite}
+.prox .eyebrow{color:var(--goldl);font-size:10.5px}
+.prox h2{font-weight:400;font-size:22px;line-height:1.25;margin-top:10px;letter-spacing:-.01em}
+.prox .when{display:flex;align-items:center;gap:16px;margin-top:20px}
+.cal{flex:none;width:64px;border-radius:14px;overflow:hidden;text-align:center;background:var(--paper);color:var(--wine);box-shadow:0 10px 20px rgba(0,0,0,.25)}
+.cal small{display:block;background:var(--goldg);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:3px 0;color:var(--wine)}
+.cal b{display:block;font-size:26px;font-weight:500;line-height:1.25;padding:4px 0 0}
+.cal i{display:block;font-style:normal;font-size:11px;color:var(--muted);padding-bottom:6px}
+.when p{font-size:14.5px;color:#E9D9CB;line-height:1.5}
+.when p b{color:#fff;display:block;font-size:16px}
+.prox .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.prox .tbd{color:#CDB6A8;font-size:14px;margin-top:14px}
+.trilha{display:flex;gap:6px;margin-top:22px}
+.trilha i{flex:1;height:3px;border-radius:3px;background:rgba(226,192,142,.18)}
+.trilha i.ok{background:var(--goldl)}
+.trilha-l{font-size:12px;color:#BFA698;margin-top:8px}
+
+/* conteúdo */
+main{width:min(1080px,100% - 40px);margin:0 auto;padding:clamp(56px,8vw,88px) 0 90px}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px}
+.sec-h h2{font-weight:400;font-size:clamp(25px,3.4vw,34px);letter-spacing:-.02em;line-height:1.15;margin-top:8px}
+.sec-h p{color:var(--muted);font-size:14.5px;max-width:40ch}
+section+section{margin-top:clamp(64px,9vw,100px)}
+
+.mods{display:grid;gap:16px}
+.mod{background:var(--paper);border:1px solid var(--line);border-radius:26px;overflow:hidden;transition:box-shadow .3s,border-color .3s}
+.mod.open{box-shadow:0 24px 50px rgba(43,10,17,.08);border-color:rgba(184,137,79,.35)}
+.mod-h{width:100%;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:clamp(14px,2.4vw,26px);padding:clamp(18px,2.6vw,26px) clamp(18px,3vw,30px);background:none;border:0;cursor:pointer;text-align:left}
+.num{width:52px;height:52px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font-size:15px;font-weight:500;color:var(--wine3);position:relative}
+.mod.done .num{background:var(--wine3);border-color:var(--wine3);color:var(--goldl)}
+.mod.done .num::after{content:"";position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;background:var(--goldg) center/11px no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B0A11' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12.5l4.5 4.5L19 7.5'/></svg>")}
+.mod-t small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.mod-t h3{font-weight:500;font-size:clamp(17px,2vw,20px);letter-spacing:-.01em;line-height:1.3;margin-top:2px}
+.mod-t p{font-size:14px;color:var(--muted);line-height:1.5;margin-top:3px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:400;color:var(--wine3);background:var(--sand);border-radius:999px;padding:7px 13px;white-space:nowrap}
+.chip svg{width:14px;height:14px}
+.chip.wait{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--soft);text-transform:none}
+.chev{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line);transition:transform .3s}
+.chev svg{width:16px;height:16px}
+.mod.open .chev{transform:rotate(180deg)}
+.mod-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.mod.open .mod-b{grid-template-rows:1fr}
+.mod-b>div{overflow:hidden}
+.mod-in{padding:0 clamp(18px,3vw,30px) clamp(22px,3vw,30px);display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(20px,3vw,40px);border-top:1px solid var(--line);padding-top:clamp(20px,3vw,28px);margin:0 clamp(0px,0vw,0px)}
+.info{display:grid;gap:16px;align-content:start}
+.info .row{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.5}
+.info .row svg{width:20px;height:20px;flex:none;color:var(--gold);margin-top:1px}
+.info .row b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:500}
+.info .row span{text-transform:none}
+.info .cap{text-transform:capitalize}
+.get{background:linear-gradient(120deg,#F6EDE2,#FBF5EE);border-radius:18px;padding:14px 16px;font-size:14px;display:flex;gap:12px;align-items:center}
+.get svg{width:22px;height:22px;color:var(--goldd);flex:none}
+.get b{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--goldd)}
+.orient{font-size:14.5px;color:var(--ink);white-space:normal}
+.orient b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:4px}
+.info .acts{display:flex;flex-wrap:wrap;gap:10px}
+.mats h4{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:500;margin-bottom:12px}
+.mat-list{display:grid;gap:10px}
+.mat{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:12px 12px 12px 12px;border-radius:18px;background:var(--ivory);border:1px solid var(--line);transition:border-color .2s,background .2s}
+.mat:hover{border-color:rgba(184,137,79,.45);background:#fff}
+.mat .ic{width:44px;height:44px;border-radius:14px;background:var(--paper);display:grid;place-items:center;color:var(--wine3);box-shadow:inset 0 0 0 1px var(--line)}
+.mat .ic svg{width:21px;height:21px}
+.mat .tt{min-width:0}
+.mat .tt b{display:block;font-size:14.5px;font-weight:500;line-height:1.35;overflow-wrap:anywhere}
+.mat .tt small{font-size:12px;color:var(--soft)}
+.mat .bt{display:flex;gap:6px}
+.icb{width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:var(--wine3);color:#FFF6EC;transition:background .2s,transform .2s}
+.icb:hover{background:var(--wine2);transform:translateY(-1px)}
+.icb.l{background:transparent;color:var(--wine3);box-shadow:inset 0 0 0 1px rgba(106,29,46,.25)}
+.icb svg{width:17px;height:17px}
+.empty{font-size:14px;color:var(--soft);padding:18px;border:1px dashed rgba(43,10,17,.15);border-radius:18px;text-align:center;line-height:1.5}
+
+/* presentes */
+.gift{border-radius:30px;padding:clamp(28px,4vw,46px);display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,4vw,50px);align-items:start;overflow:hidden}
+.gift::before{-webkit-mask-position:left -220px bottom -260px;mask-position:left -220px bottom -260px;opacity:.11}
+.gift .eyebrow{color:var(--goldl)}
+.gift h2{font-weight:400;font-size:clamp(25px,3.4vw,34px);letter-spacing:-.02em;line-height:1.15;margin-top:10px}
+.gift p{color:#DCC6B6;font-size:14.5px;margin-top:12px;max-width:34ch}
+.gift .box{width:74px;height:74px;border-radius:22px;display:grid;place-items:center;background:var(--goldg);color:var(--wine);margin-bottom:22px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.gift .box svg{width:34px;height:34px}
+.gift .mat{background:rgba(255,255,255,.05);border-color:var(--lined);color:#F7EEE4}
+.gift .mat:hover{background:rgba(255,255,255,.09);border-color:rgba(226,192,142,.5)}
+.gift .mat .ic{background:rgba(226,192,142,.12);color:var(--goldl);box-shadow:none}
+.gift .mat .tt small{color:#BFA698}
+.gift .icb{background:var(--goldg);color:var(--wine)}
+.gift .icb.l{background:transparent;color:var(--goldl);box-shadow:inset 0 0 0 1px rgba(226,192,142,.4)}
+.gift .empty{color:#BFA698;border-color:var(--lined)}
+
+/* documentos */
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.doc{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px}
+.doc-h{display:flex;gap:14px;align-items:center}
+.doc-h .ic{width:48px;height:48px;border-radius:16px;background:var(--sand);display:grid;place-items:center;color:var(--wine3);flex:none}
+.doc-h .ic svg{width:23px;height:23px}
+.doc-h h3{font-weight:500;font-size:18px;line-height:1.3}
+.doc-h p{font-size:13.5px;color:var(--muted);line-height:1.45}
+.brief{font-size:14px;line-height:1.6;background:var(--ivory);border-radius:18px;padding:16px 18px;max-height:220px;overflow:hidden;position:relative;white-space:pre-wrap}
+.brief.full{max-height:none}
+.brief:not(.full)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(transparent,var(--ivory))}
+.brief .t{font-weight:500;color:var(--wine3)}
+
+/* recados */
+.notes{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(20px,4vw,48px);align-items:start}
+.note-form{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,3vw,28px);display:grid;gap:14px;position:relative;overflow:hidden}
+.note-form textarea{min-height:150px;background:repeating-linear-gradient(transparent 0 31px,rgba(184,137,79,.16) 31px 32px) var(--ivory);line-height:32px;padding-top:6px}
+.note-form .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--soft)}
+.feed{display:grid;gap:12px}
+.n{max-width:92%;padding:14px 18px;border-radius:20px;font-size:14.5px;line-height:1.55;position:relative}
+.n small{display:block;font-size:11.5px;color:var(--soft);margin-top:6px}
+.n.aluna{justify-self:end;background:var(--paper);border:1px solid var(--line);border-bottom-right-radius:6px}
+.n.diana{justify-self:start;background:var(--wine3);color:#F7EEE4;border-bottom-left-radius:6px}
+.n.diana small{color:#D9BFAF}
+.n.diana .who{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--goldl);font-weight:500;display:block;margin-bottom:2px}
+.n .del{position:absolute;top:8px;right:10px;border:0;background:none;color:var(--soft);cursor:pointer;font-size:12px;opacity:0;transition:opacity .2s}
+.n:hover .del,.n:focus-within .del{opacity:1}
+
+.banner{background:#FFF4D8;color:#5B4310;font-size:13.5px;text-align:center;padding:10px 16px}
+.banner a{font-weight:500}
+.state{min-height:70svh;display:grid;place-items:center;text-align:center;padding:40px 20px}
+.state h1{font-weight:400;font-size:28px;margin:16px 0 8px}
+.state p{color:#DCC6B6;max-width:40ch;margin:0 auto 22px}
+
+@media (max-width:860px){
+  .hero-in,.mod-in,.gift,.docs,.notes{grid-template-columns:1fr}
+  .mod-h{grid-template-columns:auto 1fr auto}
+  .mod-h .chip{grid-column:2;justify-self:start;margin-top:-6px}
+  .mod-h .chev{grid-row:1;grid-column:3}
+  .sec-h{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:520px){
+  .num{width:44px;height:44px;font-size:14px}
+  .prox .acts .btn{flex:1}
+  .top img{width:84px}
+  .top-r .t{display:none}
+}
+</style>
+</head>
+<body>
+<div id="banner" class="banner" hidden></div>
+<div id="carregando" class="wine loading"><i></i></div>
+<div id="login" class="wine" data-base="../" hidden></div>
+<div id="estado" class="wine" hidden></div>
+<div id="app" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="comum.js"></script>
+<script>
+const ICO = {
+  cal: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  video: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3z"/>',
+  chev: '<path d="M6 9l6 6 6-6"/>',
+  down: '<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',
+  eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  gift: '<rect x="3.5" y="9" width="17" height="11.5" rx="1.5"/><path d="M2.5 9h19v-3h-19zM12 6v14.5M12 6c-1.5-3-5.5-3.5-5.5-1S10 6 12 6zm0 0c1.5-3 5.5-3.5 5.5-1S14 6 12 6z"/>',
+  star: '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
+  doc: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M9.5 13h5M9.5 16.5h5"/>',
+  pen: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
+  logout: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1A2 2 0 1 1 4.3 17l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1A2 2 0 1 1 7 4.3l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1A2 2 0 1 1 19.7 7l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
+};
+let S = { aluna: null, modulos: [], materiais: [], notas: [], admin: false, user: null };
+
+function mostrar(id) { ["carregando", "login", "estado", "app"].forEach(x => $("#" + x).hidden = x !== id); }
+
+async function iniciar() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    montarLogin({ titulo: 'Sua área na<br><em>Mentoria Sublime.</em>', sub: "Área da aluna", aoEntrar: iniciar });
+    $("#login .lg-card").insertAdjacentHTML("afterbegin", '<img class="lg-top" src="../logo-sublime.png" alt="Mentoria Sublime" width="754" height="247">');
+    mostrar("login"); return;
+  }
+  S.user = session.user;
+  S.admin = await souAdmin();
+  const ver = new URLSearchParams(location.search).get("aluna");
+  let q = sb.from("ms_alunas").select("*");
+  q = S.admin && ver ? q.eq("id", ver) : q.eq("user_id", session.user.id);
+  const { data: aluna } = await q.maybeSingle();
+  if (!aluna) {
+    if (S.admin) { location.href = "admin/"; return; }
+    $("#estado").innerHTML = `<div><img src="../selo-sublime.webp" alt="" width="96" style="width:96px;margin:0 auto;filter:drop-shadow(0 12px 20px rgba(0,0,0,.4))"><h1>Seu acesso ainda não está liberado</h1><p>Se você acabou de entrar na mentoria, a Diana libera a sua área em breve. Qualquer dúvida, fale com ela.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-gold" href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">Falar com a Diana</a><button class="btn btn-ghost" onclick="sair()">Sair</button></div></div>`;
+    mostrar("estado"); return;
+  }
+  S.aluna = aluna;
+  const [m, mt, n] = await Promise.all([
+    sb.from("ms_modulos").select("*").eq("aluna_id", aluna.id).order("ordem"),
+    sb.from("ms_materiais").select("*").or(`aluna_id.eq.${aluna.id},aluna_id.is.null`).order("criado_em"),
+    sb.from("ms_notas").select("*").eq("aluna_id", aluna.id).order("criado_em")
+  ]);
+  S.modulos = m.data || [];
+  S.materiais = (mt.data || []).filter(x => x.aluna_id || !["briefing", "contrato"].includes(x.secao));
+  S.notas = n.data || [];
+  if (S.admin) { const b = $("#banner"); b.innerHTML = `Você está vendo a área de <b>${esc(aluna.nome)}</b> como ela vê. <a href="admin/?aluna=${aluna.id}">Voltar ao painel</a>`; b.hidden = false; }
+  render(); mostrar("app");
+}
+
+function proximo() {
+  const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+  const enc = S.modulos.filter(x => x.tipo === "encontro");
+  return enc.find(x => !x.concluido && x.data && parseDate(x.data) >= hoje) || enc.find(x => !x.concluido) || null;
+}
+
+function matHTML(x) {
+  const ic = tipoIcone(x), link = !x.caminho;
+  const sub = link ? "Link" : [({ pdf: "PDF", slide: "Apresentação", img: "Imagem", video: "Vídeo", zip: "Pacote", file: "Arquivo" })[ic], fmtTam(x.tamanho)].filter(Boolean).join(" · ");
+  return `<div class="mat"><span class="ic">${svg(ic)}</span><span class="tt"><b>${esc(x.titulo)}</b><small>${sub}</small></span><span class="bt">
+    ${link ? `<button class="icb" data-ver="${x.id}" aria-label="Abrir ${esc(x.titulo)}">${svg(ICO.ext)}</button>` :
+      `<button class="icb l" data-ver="${x.id}" aria-label="Ver ${esc(x.titulo)}">${svg(ICO.eye)}</button><button class="icb" data-baixar="${x.id}" aria-label="Baixar ${esc(x.titulo)}">${svg(ICO.down)}</button>`}
+  </span></div>`;
+}
+const listaMats = (sec, vazio) => { const l = S.materiais.filter(x => x.secao === sec); return l.length ? `<div class="mat-list">${l.map(matHTML).join("")}</div>` : `<p class="empty">${vazio}</p>`; };
+
+function render() {
+  const a = S.aluna, p = proximo(), enc = S.modulos.filter(x => x.tipo === "encontro"), bonus = S.modulos.find(x => x.tipo === "bonus");
+  const feitos = enc.filter(x => x.concluido).length;
+  const d = p && fmtDia(p.data);
+  const proxHTML = p ? `
+    <span class="eyebrow">Próximo encontro</span>
+    <h2>Encontro ${p.ordem} · ${esc(p.titulo)}</h2>
+    ${d ? `<div class="when"><span class="cal"><small>${d.mes}</small><b>${d.dia}</b><i>${d.sem}</i></span><p><b>${fmtData(p.data)}</b>${p.hora ? "às " + fmtHora(p.hora) + " · online" : "horário a combinar"}</p></div>
+      <div class="acts">${p.link ? `<a class="btn btn-gold btn-sm" href="${esc(p.link)}" target="_blank" rel="noopener">${svg(ICO.video)}Entrar no encontro</a>` : ""}${p.hora ? `<a class="btn btn-ghost btn-sm" href="${agendaLink(p)}" target="_blank" rel="noopener">${svg(ICO.cal)}Pôr na agenda</a>` : ""}</div>`
+      : `<p class="tbd">A data deste encontro ainda vai ser combinada com você pelo WhatsApp.</p>`}`
+    : `<span class="eyebrow">Jornada concluída</span><h2>Você concluiu os 4 encontros.</h2><p class="tbd">Os materiais continuam aqui para você sempre que precisar.</p>`;
+
+  $("#app").innerHTML = `
+  <header class="wine hero">
+    <div class="top"><img src="../logo-sublime.png" alt="Mentoria Sublime" width="754" height="247">
+      <div class="top-r">${S.admin ? `<a href="admin/">${svg(ICO.gear)}<span class="t">Painel</span></a>` : ""}<button onclick="sair()">${svg(ICO.logout)}<span class="t">Sair</span></button></div></div>
+    <div class="hero-in">
+      <div>
+        <span class="eyebrow" style="color:var(--goldl)">Área da aluna</span>
+        <h1>Seja bem-vinda, <span class="nm">${esc(firstName(a.nome))}.</span></h1>
+        <p class="lead">Este é o seu espaço na Mentoria Sublime. Aqui você encontra a data de cada encontro, os materiais de apoio, os slides que usamos e os presentes que preparei para você. Tudo fica salvo para você ver e baixar quando quiser.</p>
+        ${a.mensagem ? `<div class="msg"><small>Recado da Diana</small>${nl(a.mensagem)}</div>` : ""}
+      </div>
+      <aside class="prox"><img class="seal" src="../selo-sublime.webp" alt="" width="440" height="440">${proxHTML}
+        <div class="trilha" aria-hidden="true">${enc.map(x => `<i class="${x.concluido ? "ok" : ""}"></i>`).join("")}</div>
+        <p class="trilha-l">${feitos} de ${enc.length} encontros concluídos</p>
+      </aside>
+    </div>
+  </header>
+  <div class="lace" aria-hidden="true"></div>
+  <main>
+    <section id="encontros">
+      <div class="sec-h"><div><span class="eyebrow">Sua jornada</span><h2>Os quatro encontros</h2></div><p>Toque em cada encontro para ver a data, as orientações e os materiais.</p></div>
+      <div class="mods">${enc.map(m => modHTML(m, p && p.id === m.id)).join("")}</div>
+    </section>
+
+    <section id="presentes" class="wine gift">
+      <div><span class="box">${svg(ICO.gift)}</span><span class="eyebrow">Um carinho a mais</span><h2>${esc(bonus?.titulo || "Presentes da Diana")}</h2><p>${esc(bonus?.descricao || "Materiais complementares para a sua jornada.")}</p></div>
+      <div>${listaMats("bonus", "Os presentes aparecem aqui assim que eu liberar. Fique de olho!")}</div>
+    </section>
+
+    <section id="documentos">
+      <div class="sec-h"><div><span class="eyebrow">Seus documentos</span><h2>Briefing e contrato</h2></div><p>O que você me contou sobre a sua marca e o nosso acordo, guardados em um só lugar.</p></div>
+      <div class="docs">
+        <article class="doc"><div class="doc-h"><span class="ic">${svg(ICO.pen)}</span><div><h3>Seu briefing</h3><p>As respostas que você enviou antes do primeiro encontro.</p></div></div>
+          ${a.briefing ? `<div class="brief" id="brief">${briefHTML(a.briefing)}</div><button class="lnk" id="brief-mais" style="align-self:flex-start">Ver briefing completo</button>` : `<p class="empty">Assim que você enviar o briefing, ele aparece aqui. <a href="../briefing/" style="color:var(--wine3);font-weight:500">Preencher agora</a></p>`}
+          ${S.materiais.some(x => x.secao === "briefing") ? listaMats("briefing", "") : ""}
+        </article>
+        <article class="doc"><div class="doc-h"><span class="ic">${svg(ICO.doc)}</span><div><h3>Seu contrato</h3><p>O contrato da Mentoria Sublime para você consultar quando quiser.</p></div></div>
+          ${listaMats("contrato", "O contrato aparece aqui assim que estiver pronto.")}
+        </article>
+      </div>
+    </section>
+
+    <section id="recados">
+      <div class="sec-h"><div><span class="eyebrow">Bloco de notas</span><h2>Recados para a Diana</h2></div></div>
+      <div class="notes">
+        <form class="note-form" id="nota"><label class="fl" for="nota-t">Deixe uma observação, um pedido ou uma dúvida<small> A Diana lê tudo e te responde por aqui ou no WhatsApp.</small></label>
+          <textarea id="nota-t" maxlength="5000" placeholder="Escreva aqui…"></textarea>
+          <div class="foot"><span id="nota-c">0 / 5000</span><button class="btn btn-sm" type="submit">${svg(ICO.plus)}Salvar recado</button></div></form>
+        <div class="feed" id="feed">${feedHTML()}</div>
+      </div>
+    </section>
+  </main>
+  <footer>Mentoria Sublime · Diana Freitas · <a href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">Falar no WhatsApp</a></footer>`;
+  ligar();
+}
+
+function briefHTML(t) { return esc(t).replace(/\*([^*\n]+)\*/g, '<span class="t">$1</span>'); }
+
+function modHTML(m, aberto) {
+  const sec = "m" + m.ordem;
+  const chip = m.data ? `<span class="chip">${svg(ICO.cal)}${fmtData(m.data, false)}${m.hora ? " · " + fmtHora(m.hora) : ""}</span>` : `<span class="chip wait">Data a combinar</span>`;
+  return `<article class="mod ${m.concluido ? "done" : ""} ${aberto ? "open" : ""}" data-mod="${m.id}">
+    <button class="mod-h" aria-expanded="${aberto}"><span class="num">${String(m.ordem).padStart(2, "0")}</span>
+      <span class="mod-t"><small>Encontro ${m.ordem}${m.concluido ? " · concluído" : ""}</small><h3>${esc(m.titulo)}</h3>${m.descricao ? `<p>${esc(m.descricao)}</p>` : ""}</span>
+      ${chip}<span class="chev">${svg(ICO.chev)}</span></button>
+    <div class="mod-b"><div><div class="mod-in">
+      <div class="info">
+        <div class="row">${svg(ICO.cal)}<div><b>Data</b><span class="cap">${m.data ? fmtData(m.data) : "A combinar"}</span></div></div>
+        <div class="row">${svg(ICO.clock)}<div><b>Horário</b><span>${m.hora ? fmtHora(m.hora) + " (horário de Brasília) · de 1h a 1h30" : "A combinar"}</span></div></div>
+        ${m.entrega ? `<div class="get">${svg(ICO.star)}<div><b>Você recebe</b>${esc(m.entrega)}</div></div>` : ""}
+        ${m.orientacoes ? `<div class="orient"><b>Orientações</b>${nl(m.orientacoes)}</div>` : ""}
+        ${(m.link || (m.data && m.hora)) && !m.concluido ? `<div class="acts">${m.link ? `<a class="btn btn-sm" href="${esc(m.link)}" target="_blank" rel="noopener">${svg(ICO.video)}Entrar no encontro</a>` : ""}${m.data && m.hora ? `<a class="btn btn-line btn-sm" href="${agendaLink(m)}" target="_blank" rel="noopener">${svg(ICO.cal)}Pôr na agenda</a>` : ""}</div>` : ""}
+      </div>
+      <div class="mats"><h4>Materiais e slides</h4>${listaMats(sec, "Os materiais deste encontro aparecem aqui. Normalmente eu libero logo depois do nosso encontro.")}</div>
+    </div></div></div>
+  </article>`;
+}
+
+function feedHTML() {
+  if (!S.notas.length) return `<p class="empty">Seus recados aparecem aqui. Pode usar à vontade: ideias, pedidos, dúvidas que surgirem entre um encontro e outro.</p>`;
+  return S.notas.map(n => `<div class="n ${n.autor}">${n.autor === "diana" ? '<span class="who">Diana</span>' : ""}${nl(n.texto)}<small>${fmtQuando(n.criado_em)}</small>${n.autor === "aluna" && !S.admin ? `<button class="del" data-del="${n.id}">apagar</button>` : ""}</div>`).join("");
+}
+
+function ligar() {
+  $$(".mod-h").forEach(b => b.onclick = () => { const m = b.closest(".mod"), on = !m.classList.contains("open"); m.classList.toggle("open", on); b.setAttribute("aria-expanded", on); });
+  $("#app").addEventListener("click", e => {
+    const v = e.target.closest("[data-ver]"), d = e.target.closest("[data-baixar]"), del = e.target.closest("[data-del]");
+    if (v) abrirMaterial(S.materiais.find(x => x.id === v.dataset.ver));
+    if (d) abrirMaterial(S.materiais.find(x => x.id === d.dataset.baixar), true);
+    if (del) apagarNota(del.dataset.del);
+  });
+  const bm = $("#brief-mais"); if (bm) bm.onclick = () => { const b = $("#brief"), on = b.classList.toggle("full"); bm.textContent = on ? "Recolher" : "Ver briefing completo"; };
+  const t = $("#nota-t"); t.oninput = () => $("#nota-c").textContent = `${t.value.length} / 5000`;
+  $("#nota").onsubmit = async e => {
+    e.preventDefault(); const texto = t.value.trim(); if (!texto) { t.focus(); return; }
+    if (S.admin) { toast("No modo de visualização os recados ficam só com a aluna."); return; }
+    const b = $("#nota button"); b.disabled = true;
+    const { data, error } = await sb.from("ms_notas").insert({ aluna_id: S.aluna.id, texto }).select().single();
+    b.disabled = false;
+    if (error) { toast("Não consegui salvar. Tente de novo."); return; }
+    S.notas.push(data); t.value = ""; t.oninput(); $("#feed").innerHTML = feedHTML(); toast("Recado salvo. A Diana já pode ver.");
+  };
+}
+
+async function apagarNota(id) {
+  if (!confirm("Apagar este recado?")) return;
+  const { error } = await sb.from("ms_notas").delete().eq("id", id);
+  if (error) { toast("Não consegui apagar."); return; }
+  S.notas = S.notas.filter(n => n.id !== id); $("#feed").innerHTML = feedHTML();
+}
+
+iniciar();
+</script>
+</body></html>

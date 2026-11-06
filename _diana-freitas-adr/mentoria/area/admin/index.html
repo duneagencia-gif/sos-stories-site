@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Painel · Mentoria Sublime</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B0A11">
+<link rel="icon" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../area.css">
+<style>
+body{background:var(--sand)}
+.shell{display:grid;grid-template-columns:290px 1fr;min-height:100svh}
+.side{position:sticky;top:0;height:100svh;overflow:auto;display:flex;flex-direction:column;padding:24px 16px 20px}
+.side .logo{width:92px;margin:0 8px 6px}
+.side .eyebrow{color:var(--goldl);font-size:10.5px;margin:0 8px 22px}
+.side h4{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#BFA698;font-weight:500;margin:20px 10px 8px}
+.nav{display:grid;gap:4px}
+.nav button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:10px 12px;border-radius:14px;border:0;background:none;cursor:pointer;color:#F2E4D6;font-size:14px;transition:background .2s}
+.nav button:hover{background:rgba(255,255,255,.05)}
+.nav button.on{background:rgba(226,192,142,.14);color:#fff}
+.nav .av{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:13px;font-weight:500;background:rgba(226,192,142,.16);color:var(--goldl)}
+.nav .nm{flex:1;min-width:0;line-height:1.3}
+.nav .nm small{display:block;font-size:11.5px;color:#BFA698}
+.nav .nm b{display:block;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav .dot{min-width:20px;height:20px;border-radius:10px;background:var(--goldg);color:var(--wine);font-size:11px;font-weight:600;display:grid;place-items:center;padding:0 6px}
+.nav svg{width:18px;height:18px;color:var(--goldl);flex:none}
+.side .new{margin:8px 0 0;width:100%}
+.side .out{margin-top:auto;padding-top:20px;display:flex;gap:14px;justify-content:center;font-size:12.5px}
+.side .out a,.side .out button{background:none;border:0;cursor:pointer;color:#BFA698;text-decoration:none}
+.side .out a:hover,.side .out button:hover{color:var(--goldl)}
+
+.main{padding:clamp(20px,3.4vw,40px);min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,2.6vw,28px)}
+.head{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.head .av{width:58px;height:58px;border-radius:50%;background:var(--wine3);color:var(--goldl);display:grid;place-items:center;font-size:20px;font-weight:500;flex:none}
+.head h1{font-weight:500;font-size:clamp(21px,2.6vw,26px);letter-spacing:-.01em;line-height:1.2}
+.head p{font-size:13.5px;color:var(--muted)}
+.head .acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.st{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.06em;padding:3px 10px;border-radius:999px;background:#E9F2E4;color:#3C6A2A;margin-left:6px;vertical-align:middle}
+.st.pausada{background:#F5E6E6;color:#8A3340}.st.concluida{background:var(--sand);color:var(--goldd)}
+.tabs{display:flex;gap:4px;margin:22px 0 18px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:none;cursor:pointer;padding:12px 16px;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;margin-bottom:-1px}
+.tabs button.on{color:var(--wine3);border-color:var(--gold);font-weight:500}
+.tabs .dot{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:var(--wine3);color:#fff;font-size:10.5px;margin-left:6px;padding:0 5px}
+.grid{display:grid;gap:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1.2fr .8fr .6fr;gap:14px}
+.medit{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,34px)}
+.medit h3{display:flex;align-items:center;gap:12px;font-weight:500;font-size:17px}
+.medit h3 .k{width:38px;height:38px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font-size:13px;color:var(--wine3);flex:none}
+.medit h3 .k.b{background:var(--goldg);border:0;color:var(--wine)}
+.fields{display:grid;gap:12px;align-content:start}
+.ck{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
+.ck input{width:20px;height:20px;accent-color:var(--wine3)}
+.save{display:flex;align-items:center;gap:12px}
+.save small{font-size:12.5px;color:var(--soft)}
+.mlist{display:grid;gap:8px}
+.mi{display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;padding:9px 10px;border-radius:14px;background:var(--ivory);border:1px solid var(--line)}
+.mi .ic{width:38px;height:38px;border-radius:12px;background:var(--paper);display:grid;place-items:center;color:var(--wine3);box-shadow:inset 0 0 0 1px var(--line)}
+.mi .ic svg{width:18px;height:18px}
+.mi b{display:block;font-size:14px;font-weight:500;line-height:1.3;overflow-wrap:anywhere}
+.mi small{font-size:11.5px;color:var(--soft)}
+.mi .tag{font-size:10.5px;background:var(--sand);color:var(--goldd);border-radius:999px;padding:1px 8px;margin-left:6px;font-weight:500}
+.mi .bt{display:flex;gap:2px}
+.mi .bt button{width:32px;height:32px;border:0;border-radius:50%;background:none;cursor:pointer;color:var(--muted);display:grid;place-items:center}
+.mi .bt button:hover{background:var(--sand);color:var(--wine3)}
+.mi .bt svg{width:16px;height:16px}
+.up{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.drop{display:block;margin-top:10px;border:1.5px dashed rgba(184,137,79,.5);border-radius:16px;padding:16px;text-align:center;font-size:13.5px;color:var(--muted);transition:background .2s,border-color .2s;cursor:pointer}
+.drop.over{background:#FBF3E8;border-color:var(--gold)}
+.drop b{color:var(--wine3)}
+.mh{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:500;margin-bottom:10px}
+.empty{font-size:13.5px;color:var(--soft);padding:14px;border:1px dashed rgba(43,10,17,.14);border-radius:14px;text-align:center}
+.prog{height:4px;border-radius:4px;background:var(--sand);overflow:hidden;margin-top:8px}
+.prog i{display:block;height:100%;width:0;background:var(--goldg);transition:width .2s}
+.feed{display:grid;gap:10px;margin-bottom:16px}
+.n{max-width:88%;padding:12px 16px;border-radius:18px;font-size:14.5px;line-height:1.55}
+.n small{display:block;font-size:11.5px;color:var(--soft);margin-top:4px}
+.n.aluna{justify-self:start;background:var(--ivory);border:1px solid var(--line);border-bottom-left-radius:6px}
+.n.diana{justify-self:end;background:var(--wine3);color:#F7EEE4;border-bottom-right-radius:6px}
+.n.diana small{color:#D9BFAF}
+.n.novo{box-shadow:0 0 0 2px var(--goldl)}
+.brief-t{min-height:340px;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:16px 18px}
+.kpi b{display:block;font-size:26px;font-weight:500;line-height:1.1;color:var(--wine3)}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.list{display:grid;gap:10px}
+.row-a{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:12px 14px;border-radius:18px;background:var(--paper);border:1px solid var(--line);cursor:pointer;text-align:left;width:100%;transition:border-color .2s}
+.row-a:hover{border-color:rgba(184,137,79,.5)}
+.row-a .av{width:44px;height:44px;border-radius:50%;background:var(--wine3);color:var(--goldl);display:grid;place-items:center;font-weight:500}
+.row-a b{display:block;font-weight:500;font-size:15px}
+.row-a small{font-size:12.5px;color:var(--muted)}
+.row-a .nx{font-size:12.5px;color:var(--wine3);text-align:right}
+h2.t{font-weight:500;font-size:clamp(21px,2.6vw,26px);letter-spacing:-.01em;margin-bottom:6px}
+p.s{font-size:14px;color:var(--muted);margin-bottom:20px}
+
+dialog{border:0;border-radius:26px;padding:0;width:min(520px,calc(100% - 28px));background:var(--paper);color:var(--ink);box-shadow:0 40px 80px rgba(0,0,0,.35);margin:auto}
+dialog::backdrop{background:rgba(31,7,12,.6);backdrop-filter:blur(3px)}
+.dlg{padding:26px clamp(20px,4vw,30px);display:grid;gap:14px}
+.dlg h3{font-weight:500;font-size:20px}
+.dlg .acts{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:6px}
+.pwrow{display:flex;gap:8px}
+.pwrow input{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
+.acesso{white-space:pre-wrap;background:var(--ivory);border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.55;border:1px solid var(--line)}
+.mob{display:none}
+.danger{color:#9B2C3B!important;box-shadow:inset 0 0 0 1px rgba(155,44,59,.35)!important;background:none!important}
+
+@media (max-width:980px){.medit,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){
+  .shell{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:min(300px,86vw);z-index:40;transform:translateX(-102%);transition:transform .3s;box-shadow:20px 0 40px rgba(0,0,0,.3)}
+  .side.on{transform:none}
+  .mob{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;position:sticky;top:0;z-index:30}
+  .mob img{width:80px}
+  .mob button{border:0;background:none;color:var(--goldl);cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13.5px}
+  .mob svg{width:22px;height:22px}
+  .g2{grid-template-columns:1fr}
+  .head .acts{margin-left:0;width:100%}
+}
+</style>
+</head>
+<body>
+<div id="carregando" class="wine loading"><i></i></div>
+<div id="login" class="wine" data-base="../../" hidden></div>
+<div id="estado" class="wine" hidden></div>
+<div id="app" hidden>
+  <div class="mob wine"><img src="../../logo-sublime.png" alt="Mentoria Sublime" width="754" height="247"><button id="menu" aria-label="Abrir menu"><span>Alunas</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+  <div class="shell">
+    <aside class="side wine" id="side"></aside>
+    <main class="main" id="main"></main>
+  </div>
+</div>
+<dialog id="dlg"><div class="dlg" id="dlg-in"></div></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="../comum.js"></script>
+<script>
+const I = {
+  plus: '<path d="M12 5v14M5 12h14"/>', up: '<path d="M12 16V5M7 9l5-5 5 5M5 20h14"/>', link: ICONES.link,
+  trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.7c1.8.7 3 2.4 3.5 5.3"/>',
+  box: '<path d="M3 7.5l9-4.5 9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>',
+  inbox: '<path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1 2h6l1-2h5"/>',
+  key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/>',
+  wa: '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/>'
+};
+let A = { alunas: [], unread: {}, briefings: [], vista: "inicio", aluna: null, tab: "encontros", mods: [], mats: [], notas: [] };
+
+function mostrar(id) { ["carregando", "login", "estado", "app"].forEach(x => $("#" + x).hidden = x !== id); }
+const ini = n => (n || "?").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+
+async function iniciar() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { montarLogin({ titulo: 'Painel da<br><em>Mentoria Sublime.</em>', sub: "Acesso da Diana", aoEntrar: iniciar }); mostrar("login"); return; }
+  if (!(await souAdmin())) {
+    $("#estado").innerHTML = `<div class="state" style="min-height:100svh;display:grid;place-items:center;text-align:center;padding:30px"><div><h1 style="font-weight:400;font-size:26px">Este painel é só da Diana.</h1><p style="color:#DCC6B6;margin:10px 0 22px">Você entrou com um login de aluna.</p><a class="btn btn-gold" href="../">Ir para a minha área</a> <button class="btn btn-ghost" onclick="sair()">Sair</button></div></div>`;
+    mostrar("estado"); return;
+  }
+  await carregarLista();
+  const q = new URLSearchParams(location.search).get("aluna");
+  mostrar("app");
+  if (q && A.alunas.some(a => a.id === q)) abrirAluna(q); else abrirInicio();
+}
+
+async function carregarLista() {
+  const [al, nt, br] = await Promise.all([
+    sb.from("ms_alunas").select("*").order("criado_em", { ascending: false }),
+    sb.from("ms_notas").select("aluna_id").eq("autor", "aluna").eq("lida", false),
+    sb.from("ms_briefings").select("*").is("aluna_id", null).order("criado_em", { ascending: false })
+  ]);
+  A.alunas = al.data || []; A.briefings = br.data || []; A.unread = {};
+  (nt.data || []).forEach(n => A.unread[n.aluna_id] = (A.unread[n.aluna_id] || 0) + 1);
+  renderSide();
+}
+
+function renderSide() {
+  $("#side").innerHTML = `
+    <img class="logo" src="../../logo-sublime.png" alt="Mentoria Sublime" width="754" height="247">
+    <span class="eyebrow">Painel da Diana</span>
+    <div class="nav">
+      <button data-v="inicio" class="${A.vista === "inicio" ? "on" : ""}">${svg(I.users)}<span class="nm"><b>Todas as alunas</b></span></button>
+      <button data-v="gerais" class="${A.vista === "gerais" ? "on" : ""}">${svg(I.box)}<span class="nm"><b>Materiais para todas</b></span></button>
+      <button data-v="briefings" class="${A.vista === "briefings" ? "on" : ""}">${svg(I.inbox)}<span class="nm"><b>Briefings recebidos</b></span>${A.briefings.length ? `<span class="dot">${A.briefings.length}</span>` : ""}</button>
+    </div>
+    <h4>Alunas</h4>
+    <div class="nav">${A.alunas.map(a => `<button data-a="${a.id}" class="${A.vista === "aluna" && A.aluna?.id === a.id ? "on" : ""}"><span class="av">${ini(a.nome)}</span><span class="nm"><b>${esc(a.nome)}</b><small>${a.status === "ativa" ? esc(a.instagram || a.email) : a.status}</small></span>${A.unread[a.id] ? `<span class="dot">${A.unread[a.id]}</span>` : ""}</button>`).join("") || `<p style="font-size:13px;color:#BFA698;padding:4px 10px">Nenhuma aluna ainda.</p>`}</div>
+    <button class="btn btn-gold btn-sm new" id="nova">${svg(I.plus)}Nova aluna</button>
+    <div class="out"><a href="../">Ver área da aluna</a><button onclick="sair()">Sair</button></div>`;
+  $$("#side [data-v]").forEach(b => b.onclick = () => { fecharMenu(); ({ inicio: abrirInicio, gerais: abrirGerais, briefings: abrirBriefings })[b.dataset.v](); });
+  $$("#side [data-a]").forEach(b => b.onclick = () => { fecharMenu(); abrirAluna(b.dataset.a); });
+  $("#nova").onclick = () => { fecharMenu(); dlgNova(); };
+}
+function fecharMenu() { $("#side").classList.remove("on"); }
+$("#menu").onclick = () => $("#side").classList.toggle("on");
+function setURL(id) { history.replaceState(null, "", id ? "?aluna=" + id : location.pathname); }
+
+/* ---------- início ---------- */
+async function abrirInicio() {
+  A.vista = "inicio"; A.aluna = null; setURL(); renderSide();
+  const { data: mods } = await sb.from("ms_modulos").select("aluna_id,ordem,titulo,data,hora,concluido,tipo").eq("tipo", "encontro").order("data");
+  const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+  const prox = {}; (mods || []).forEach(m => { if (!m.concluido && m.data && parseDate(m.data) >= hoje && !prox[m.aluna_id]) prox[m.aluna_id] = m; });
+  const semana = (mods || []).filter(m => !m.concluido && m.data && (parseDate(m.data) - hoje) / 864e5 <= 7 && parseDate(m.data) >= hoje).length;
+  const ativas = A.alunas.filter(a => a.status === "ativa").length, nl = Object.values(A.unread).reduce((s, n) => s + n, 0);
+  $("#main").innerHTML = `
+    <h2 class="t">Olá, Diana.</h2><p class="s">Aqui você cria os acessos, marca as datas dos encontros e sobe os materiais de cada aluna.</p>
+    <div class="kpis"><div class="kpi"><b>${ativas}</b><span>alunas ativas</span></div><div class="kpi"><b>${semana}</b><span>encontros nos próximos 7 dias</span></div><div class="kpi"><b>${nl}</b><span>recados novos</span></div><div class="kpi"><b>${A.briefings.length}</b><span>briefings sem aluna</span></div></div>
+    <div class="list">${A.alunas.map(a => { const p = prox[a.id]; return `<button class="row-a" data-a="${a.id}"><span class="av">${ini(a.nome)}</span><span><b>${esc(a.nome)}${a.status !== "ativa" ? `<span class="st ${a.status}">${a.status}</span>` : ""}</b><small>${esc(a.email)}${A.unread[a.id] ? ` · <b style="display:inline;color:var(--wine3);font-size:12.5px">${A.unread[a.id]} recado(s) novo(s)</b>` : ""}</small></span><span class="nx">${p ? `Encontro ${p.ordem}<br>${fmtData(p.data, false)}${p.hora ? " · " + fmtHora(p.hora) : ""}` : "<span style='color:var(--soft)'>sem data marcada</span>"}</span></button>`; }).join("") || `<div class="card" style="text-align:center"><p style="margin-bottom:14px;color:var(--muted)">Crie o primeiro acesso de aluna.</p><button class="btn" onclick="dlgNova()">${svg(I.plus)}Nova aluna</button></div>`}</div>`;
+  $$("#main [data-a]").forEach(b => b.onclick = () => abrirAluna(b.dataset.a));
+}
+
+/* ---------- aluna ---------- */
+async function abrirAluna(id, tab) {
+  A.vista = "aluna"; A.aluna = A.alunas.find(a => a.id === id); if (tab) A.tab = tab; setURL(id); renderSide();
+  $("#main").innerHTML = `<div class="loading" style="min-height:40vh"><i style="border-color:rgba(106,29,46,.15);border-top-color:var(--wine3)"></i></div>`;
+  const [m, mt, n] = await Promise.all([
+    sb.from("ms_modulos").select("*").eq("aluna_id", id).order("ordem"),
+    sb.from("ms_materiais").select("*").eq("aluna_id", id).order("criado_em"),
+    sb.from("ms_notas").select("*").eq("aluna_id", id).order("criado_em")
+  ]);
+  A.mods = m.data || []; A.mats = mt.data || []; A.notas = n.data || [];
+  renderAluna();
+}
+
+function renderAluna() {
+  const a = A.aluna, nr = A.unread[a.id] || 0;
+  const tabs = [["encontros", "Encontros"], ["presentes", "Presentes"], ["docs", "Briefing e contrato"], ["recados", "Recados" + (nr ? `<span class="dot">${nr}</span>` : "")], ["dados", "Dados e acesso"]];
+  $("#main").innerHTML = `
+    <div class="head"><span class="av">${ini(a.nome)}</span><div><h1>${esc(a.nome)}${a.status !== "ativa" ? `<span class="st ${a.status}">${a.status}</span>` : ""}</h1><p>${esc(a.email)}${a.instagram ? " · " + esc(a.instagram) : ""}${a.whatsapp ? " · " + esc(a.whatsapp) : ""}</p></div>
+      <div class="acts"><a class="btn btn-line btn-sm" href="../?aluna=${a.id}" target="_blank" rel="noopener">${svg(I.eye)}Ver como ela vê</a><button class="btn btn-sm" id="b-acesso">${svg(I.key)}Mensagem de acesso</button></div></div>
+    <nav class="tabs">${tabs.map(([k, l]) => `<button data-t="${k}" class="${A.tab === k ? "on" : ""}">${l}</button>`).join("")}</nav>
+    <div id="tab"></div>`;
+  $$(".tabs button").forEach(b => b.onclick = () => { A.tab = b.dataset.t; renderAluna(); });
+  $("#b-acesso").onclick = () => dlgAcesso(a, null);
+  ({ encontros: tabEncontros, presentes: tabPresentes, docs: tabDocs, recados: tabRecados, dados: tabDados })[A.tab]();
+}
+
+function editorModulo(m, alunaId) {
+  const sec = m.tipo === "bonus" ? "bonus" : "m" + m.ordem;
+  const bonus = m.tipo === "bonus";
+  return `<div class="card medit" data-m="${m.id}">
+    <div class="fields">
+      <h3><span class="k ${bonus ? "b" : ""}">${bonus ? "✦" : String(m.ordem).padStart(2, "0")}</span>${bonus ? "Presentes e bônus" : "Encontro " + m.ordem}</h3>
+      <label class="fl">Título<input name="titulo" value="${esc(m.titulo)}"></label>
+      <label class="fl">Descrição curta<textarea name="descricao" style="min-height:70px">${esc(m.descricao)}</textarea></label>
+      ${bonus ? "" : `
+      <div class="g3"><label class="fl">Data<input type="date" name="data" value="${m.data || ""}"></label><label class="fl">Horário<input type="time" name="hora" value="${(m.hora || "").slice(0, 5)}"></label><label class="ck" style="align-self:end;padding-bottom:12px"><input type="checkbox" name="concluido" ${m.concluido ? "checked" : ""}>Concluído</label></div>
+      <label class="fl">Link do encontro <small>Google Meet, Zoom…</small><input name="link" type="url" placeholder="https://meet.google.com/…" value="${esc(m.link)}"></label>
+      <label class="fl">O que ela recebe<input name="entrega" value="${esc(m.entrega)}"></label>
+      <label class="fl">Orientações e informações gerais<textarea name="orientacoes" placeholder="Ex.: traga o seu feed aberto no celular, separe 3 perfis que você admira…">${esc(m.orientacoes)}</textarea></label>`}
+      <div class="save"><button class="btn btn-sm" data-salvar>Salvar</button><small></small></div>
+    </div>
+    <div>${gerenciadorMats(sec, alunaId)}</div>
+  </div>`;
+}
+
+function gerenciadorMats(sec, alunaId) {
+  const mine = (alunaId ? A.mats : A.gerais).filter(x => x.secao === sec);
+  return `<p class="mh">${sec === "briefing" ? "Arquivos do briefing" : sec === "contrato" ? "Contrato" : "Materiais e slides"}</p>
+    <div class="mlist">${mine.map(x => `<div class="mi"><span class="ic">${svg(tipoIcone(x))}</span><span><b>${esc(x.titulo)}</b><small>${x.caminho ? fmtTam(x.tamanho) || "arquivo" : "link"} · ${fmtQuando(x.criado_em)}</small></span><span class="bt"><button data-ver="${x.id}" aria-label="Abrir">${svg(I.eye)}</button><button data-ren="${x.id}" aria-label="Renomear">${svg(I.edit)}</button><button data-rm="${x.id}" aria-label="Excluir">${svg(I.trash)}</button></span></div>`).join("") || `<p class="empty">Nada por aqui ainda.</p>`}</div>
+    <label class="drop" data-drop="${sec}"><input type="file" multiple hidden data-file="${sec}"><b>Escolher arquivos</b> ou arraste aqui<br><small>PDF, slides, imagens, vídeos… até 100 MB cada</small><div class="prog" hidden><i></i></div></label>
+    <div class="up"><button class="btn btn-line btn-sm" data-addlink="${sec}">${svg(I.link)}Adicionar link</button></div>`;
+}
+
+function ligarMats(root, alunaId, recarregar) {
+  const lista = () => alunaId ? A.mats : A.gerais;
+  $$("[data-ver]", root).forEach(b => b.onclick = () => abrirMaterial(lista().find(x => x.id === b.dataset.ver)));
+  $$("[data-rm]", root).forEach(b => b.onclick = async () => {
+    const x = lista().find(y => y.id === b.dataset.rm); if (!confirm(`Excluir "${x.titulo}"?`)) return;
+    if (x.caminho) await sb.storage.from("mentoria").remove([x.caminho]);
+    const { error } = await sb.from("ms_materiais").delete().eq("id", x.id);
+    if (error) return toast("Não consegui excluir.");
+    toast("Material excluído."); recarregar();
+  });
+  $$("[data-ren]", root).forEach(b => b.onclick = async () => {
+    const x = lista().find(y => y.id === b.dataset.ren); const t = prompt("Novo nome do material:", x.titulo); if (!t || !t.trim()) return;
+    const { error } = await sb.from("ms_materiais").update({ titulo: t.trim() }).eq("id", x.id); if (error) return toast("Não consegui renomear.");
+    recarregar();
+  });
+  $$("[data-addlink]", root).forEach(b => b.onclick = () => dlgLink(b.dataset.addlink, alunaId, recarregar));
+  $$("[data-file]", root).forEach(inp => inp.onchange = () => enviar([...inp.files], inp.dataset.file, alunaId, inp.closest(".drop"), recarregar));
+  $$("[data-drop]", root).forEach(d => {
+    d.ondragover = e => { e.preventDefault(); d.classList.add("over"); };
+    d.ondragleave = () => d.classList.remove("over");
+    d.ondrop = e => { e.preventDefault(); d.classList.remove("over"); enviar([...e.dataTransfer.files], d.dataset.drop, alunaId, d, recarregar); };
+  });
+}
+
+const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^\w.-]+/g, "-").replace(/-+/g, "-").slice(-80);
+async function enviar(files, sec, alunaId, drop, recarregar) {
+  if (!files.length) return;
+  const pg = $(".prog", drop), bar = $(".prog i", drop); pg.hidden = false;
+  let ok = 0;
+  for (const [i, f] of files.entries()) {
+    bar.style.width = Math.round(i / files.length * 100 + 10) + "%";
+    if (f.size > 104857600) { toast(`"${f.name}" passa de 100 MB.`); continue; }
+    const path = `${alunaId || "todas"}/${sec}/${Date.now()}-${slug(f.name)}`;
+    const { error } = await sb.storage.from("mentoria").upload(path, f, { contentType: f.type || "application/octet-stream", upsert: false });
+    if (error) { toast(`Não consegui enviar "${f.name}".`); continue; }
+    const { error: e2 } = await sb.from("ms_materiais").insert({ aluna_id: alunaId, secao: sec, titulo: f.name.replace(/\.[^.]+$/, ""), caminho: path, tipo: f.type, tamanho: f.size });
+    if (e2) { await sb.storage.from("mentoria").remove([path]); toast("Erro ao salvar o material."); continue; }
+    ok++;
+  }
+  bar.style.width = "100%";
+  if (ok) toast(ok === 1 ? "Material enviado." : `${ok} materiais enviados.`);
+  recarregar();
+}
+
+async function recarregarMats() { const { data } = await sb.from("ms_materiais").select("*").eq("aluna_id", A.aluna.id).order("criado_em"); A.mats = data || []; renderAluna(); }
+
+function ligarModulos(root) {
+  $$("[data-m]", root).forEach(card => {
+    $("[data-salvar]", card).onclick = async () => {
+      const g = n => card.querySelector(`[name=${n}]`);
+      const up = { titulo: g("titulo").value.trim() || "Sem título", descricao: g("descricao").value.trim() || null };
+      if (g("data")) Object.assign(up, { data: g("data").value || null, hora: g("hora").value || null, concluido: g("concluido").checked, link: g("link").value.trim() || null, entrega: g("entrega").value.trim() || null, orientacoes: g("orientacoes").value.trim() || null });
+      const s = $(".save small", card); s.textContent = "Salvando…";
+      const { error } = await sb.from("ms_modulos").update(up).eq("id", card.dataset.m);
+      if (error) { s.textContent = "Não salvou. Tente de novo."; return; }
+      Object.assign(A.mods.find(x => x.id === card.dataset.m), up);
+      s.textContent = "Salvo ✓"; setTimeout(() => s.textContent = "", 2500);
+    };
+  });
+}
+
+function tabEncontros() {
+  $("#tab").innerHTML = `<div class="grid">${A.mods.filter(m => m.tipo === "encontro").map(m => editorModulo(m, A.aluna.id)).join("")}</div>`;
+  ligarModulos($("#tab")); ligarMats($("#tab"), A.aluna.id, recarregarMats);
+}
+function tabPresentes() {
+  const b = A.mods.find(m => m.tipo === "bonus");
+  $("#tab").innerHTML = `<p class="s">Materiais complementares só desta aluna. Para algo que vale para todas, use <a href="#" id="ir-gerais" style="color:var(--wine3);font-weight:500">Materiais para todas</a>.</p><div class="grid">${b ? editorModulo(b, A.aluna.id) : ""}</div>`;
+  $("#ir-gerais").onclick = e => { e.preventDefault(); abrirGerais("bonus"); };
+  ligarModulos($("#tab")); ligarMats($("#tab"), A.aluna.id, recarregarMats);
+}
+function tabDocs() {
+  const a = A.aluna;
+  $("#tab").innerHTML = `<div class="medit"><div class="card fields"><h3>Briefing</h3><p style="font-size:13.5px;color:var(--muted)">Quando ela envia o briefing pelo site com o mesmo e-mail do login, ele aparece aqui sozinho. Você também pode colar ou editar.</p>
+      <textarea class="brief-t" id="brief">${esc(a.briefing)}</textarea><div class="save"><button class="btn btn-sm" id="s-brief">Salvar briefing</button><small></small></div>
+      <div style="margin-top:10px">${gerenciadorMats("briefing", a.id)}</div></div>
+    <div class="card">${gerenciadorMats("contrato", a.id)}<p style="font-size:12.5px;color:var(--soft);margin-top:12px">Suba o contrato assinado em PDF. Só esta aluna vê.</p></div></div>`;
+  $("#s-brief").onclick = async () => { const s = $("#s-brief + small"), v = $("#brief").value.trim() || null; s.textContent = "Salvando…"; const { error } = await sb.from("ms_alunas").update({ briefing: v }).eq("id", a.id); if (error) { s.textContent = "Não salvou."; return; } a.briefing = v; s.textContent = "Salvo ✓"; };
+  ligarMats($("#tab"), a.id, recarregarMats);
+}
+async function tabRecados() {
+  const a = A.aluna, novos = new Set(A.notas.filter(n => n.autor === "aluna" && !n.lida).map(n => n.id));
+  $("#tab").innerHTML = `<div class="card"><div class="feed">${A.notas.map(n => `<div class="n ${n.autor} ${novos.has(n.id) ? "novo" : ""}">${nl(n.texto)}<small>${n.autor === "diana" ? "Você · " : ""}${fmtQuando(n.criado_em)}</small></div>`).join("") || `<p class="empty">${esc(firstName(a.nome))} ainda não deixou recados.</p>`}</div>
+    <form id="resp" class="fields"><label class="fl">Responder no bloco de notas dela<textarea id="resp-t" placeholder="Sua resposta aparece na área dela"></textarea></label><div class="save"><button class="btn btn-sm">Enviar resposta</button>${a.whatsapp ? `<a class="lnk" target="_blank" rel="noopener" href="https://wa.me/55${a.whatsapp.replace(/\D/g, "").replace(/^55/, "")}">ou chamar no WhatsApp</a>` : ""}</div></form></div>`;
+  $("#resp").onsubmit = async e => {
+    e.preventDefault(); const t = $("#resp-t").value.trim(); if (!t) return;
+    const { data, error } = await sb.from("ms_notas").insert({ aluna_id: a.id, texto: t, autor: "diana", lida: true }).select().single();
+    if (error) return toast("Não consegui enviar.");
+    A.notas.push(data); tabRecados(); toast("Resposta enviada.");
+  };
+  if (novos.size) { await sb.from("ms_notas").update({ lida: true }).in("id", [...novos]); A.unread[a.id] = 0; renderSide(); $$(".tabs .dot").forEach(d => d.remove()); }
+}
+function tabDados() {
+  const a = A.aluna;
+  $("#tab").innerHTML = `<div class="medit"><form class="card fields" id="f-dados"><h3>Dados da aluna</h3>
+      <label class="fl">Nome<input name="nome" value="${esc(a.nome)}" required></label>
+      <div class="g2"><label class="fl">WhatsApp<input name="whatsapp" value="${esc(a.whatsapp)}"></label><label class="fl">Instagram<input name="instagram" value="${esc(a.instagram)}"></label></div>
+      <label class="fl">Recado de boas-vindas <small>aparece no topo da área dela</small><textarea name="mensagem">${esc(a.mensagem)}</textarea></label>
+      <label class="fl">Situação<select name="status"><option value="ativa">Ativa</option><option value="concluida">Concluiu a mentoria (continua acessando)</option><option value="pausada">Pausada (sem acesso)</option></select></label>
+      <label class="fl">Observações internas <small>só você vê</small><textarea name="observacoes">${esc(a.observacoes)}</textarea></label>
+      <div class="save"><button class="btn btn-sm">Salvar</button><small></small></div></form>
+    <div class="card fields"><h3>Acesso</h3><p style="font-size:14px;color:var(--muted)">Login: <b style="color:var(--ink)">${esc(a.email)}</b><br>Endereço: <a href="../" target="_blank" style="color:var(--wine3)">${AREA_URL.replace("https://", "")}</a></p>
+      <label class="fl">Nova senha<span class="pwrow"><input id="nsenha" value="${gerarSenha()}"><button type="button" class="btn btn-line btn-sm" id="gerar">Gerar</button></span></label>
+      <div class="save"><button class="btn btn-sm" id="trocar">${svg(I.key)}Trocar senha</button><small></small></div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:14px 0 4px">
+      <p style="font-size:13px;color:var(--muted)">Excluir apaga a aluna, os materiais só dela, recados e o login. Não dá para desfazer.</p>
+      <div><button class="btn btn-sm danger" id="excluir">${svg(I.trash)}Excluir aluna</button></div></div></div>`;
+  const f = $("#f-dados"); f.status.value = a.status;
+  f.onsubmit = async e => {
+    e.preventDefault(); const s = $(".save small", f);
+    const up = { nome: f.nome.value.trim() || a.nome, whatsapp: f.whatsapp.value.trim() || null, instagram: f.instagram.value.trim() || null, mensagem: f.mensagem.value.trim() || null, status: f.status.value, observacoes: f.observacoes.value.trim() || null };
+    s.textContent = "Salvando…"; const { error } = await sb.from("ms_alunas").update(up).eq("id", a.id);
+    if (error) { s.textContent = "Não salvou."; return; } Object.assign(a, up); s.textContent = "Salvo ✓"; renderSide();
+  };
+  $("#gerar").onclick = () => $("#nsenha").value = gerarSenha();
+  $("#trocar").onclick = async () => {
+    const senha = $("#nsenha").value.trim(), s = $("#trocar + small"); s.textContent = "Trocando…";
+    const r = await adminFn({ acao: "trocar_senha", aluna_id: a.id, senha });
+    if (r.error) { s.textContent = r.error; return; } s.textContent = "Senha trocada ✓"; dlgAcesso(a, senha);
+  };
+  $("#excluir").onclick = async () => {
+    if (prompt(`Para excluir, digite o primeiro nome dela: ${firstName(a.nome)}`)?.trim().toLowerCase() !== firstName(a.nome).toLowerCase()) return;
+    const r = await adminFn({ acao: "excluir_aluna", aluna_id: a.id }); if (r.error) return toast(r.error);
+    toast("Aluna excluída."); await carregarLista(); abrirInicio();
+  };
+}
+
+/* ---------- materiais para todas ---------- */
+async function abrirGerais(sec) {
+  A.vista = "gerais"; A.aluna = null; setURL(); renderSide(); A.secG = sec || A.secG || "bonus";
+  const { data } = await sb.from("ms_materiais").select("*").is("aluna_id", null).order("criado_em"); A.gerais = data || [];
+  const secs = [["bonus", "Presentes"], ["m1", "Encontro 1"], ["m2", "Encontro 2"], ["m3", "Encontro 3"], ["m4", "Encontro 4"]];
+  $("#main").innerHTML = `<h2 class="t">Materiais para todas</h2><p class="s">O que você sobe aqui aparece para todas as alunas, junto com os materiais de cada uma. Bom para slides que você usa sempre e presentes gerais.</p>
+    <nav class="tabs">${secs.map(([k, l]) => `<button data-s="${k}" class="${A.secG === k ? "on" : ""}">${l} <small style="color:var(--soft)">${A.gerais.filter(x => x.secao === k).length || ""}</small></button>`).join("")}</nav>
+    <div class="card" id="gm">${gerenciadorMats(A.secG, null)}</div>`;
+  $$(".tabs [data-s]").forEach(b => b.onclick = () => abrirGerais(b.dataset.s));
+  ligarMats($("#gm"), null, () => abrirGerais());
+}
+
+/* ---------- briefings recebidos ---------- */
+function abrirBriefings() {
+  A.vista = "briefings"; A.aluna = null; setURL(); renderSide();
+  $("#main").innerHTML = `<h2 class="t">Briefings recebidos</h2><p class="s">Briefings enviados pelo site que ainda não estão ligados a uma aluna. Ao criar o acesso com o mesmo e-mail, o briefing vai direto para a área dela.</p>
+    <div class="grid">${A.briefings.map(b => `<div class="card"><div class="head" style="margin-bottom:12px"><span class="av" style="width:46px;height:46px;font-size:16px">${ini(b.nome)}</span><div><h1 style="font-size:18px">${esc(b.nome || "Sem nome")}</h1><p>${esc(b.email || "sem e-mail")} · ${fmtQuando(b.criado_em)}</p></div><div class="acts"><button class="btn btn-sm" data-criar="${b.id}">${svg(I.plus)}Criar acesso</button></div></div>
+      <details><summary class="lnk" style="cursor:pointer">Ver respostas</summary><div class="acesso" style="margin-top:10px">${esc(b.texto)}</div></details></div>`).join("") || `<p class="empty">Nenhum briefing pendente.</p>`}</div>`;
+  $$("[data-criar]").forEach(btn => btn.onclick = () => dlgNova(A.briefings.find(b => b.id === btn.dataset.criar)));
+}
+
+/* ---------- diálogos ---------- */
+function gerarSenha() { const L = "abcdefghjkmnpqrstuvwxyz", N = "23456789", r = a => a[crypto.getRandomValues(new Uint32Array(1))[0] % a.length]; return "Sublime" + r(N) + r(N) + r(L) + r(L) + r(N); }
+function abrirDlg(html) { $("#dlg-in").innerHTML = html; $("#dlg").showModal(); $$("#dlg [data-fechar]").forEach(b => b.onclick = () => $("#dlg").close()); }
+
+async function adminFn(body) {
+  const { data: { session } } = await sb.auth.getSession();
+  try {
+    const r = await fetch(`${SB_URL}/functions/v1/ms-admin`, { method: "POST", headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: `Bearer ${session.access_token}` }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({})); return r.ok ? j : { error: j.error || "Algo deu errado. Tente de novo." };
+  } catch { return { error: "Sem conexão. Tente de novo." }; }
+}
+
+function dlgNova(pre) {
+  abrirDlg(`<form id="f-nova" class="dlg" style="padding:0;gap:14px"><h3>Nova aluna</h3>
+    <label class="fl">Nome completo<input name="nome" required value="${esc(pre?.nome)}"></label>
+    <label class="fl">E-mail (é o login dela)<input name="email" type="email" required value="${esc(pre?.email)}"></label>
+    <div class="g2"><label class="fl">WhatsApp<input name="whatsapp" value="${esc(pre?.whatsapp)}" placeholder="(71) 99999-9999"></label><label class="fl">Instagram<input name="instagram" value="${esc(pre?.instagram)}" placeholder="@perfil"></label></div>
+    <label class="fl">Senha <small>você cria e manda para ela</small><span class="pwrow"><input name="senha" required value="${gerarSenha()}"><button type="button" class="btn btn-line btn-sm" id="g2">Gerar</button></span></label>
+    <p class="err" hidden></p>
+    <div class="acts"><button type="button" class="btn btn-line btn-sm" data-fechar>Cancelar</button><button class="btn btn-sm">Criar acesso</button></div></form>`);
+  const f = $("#f-nova"); $("#g2").onclick = () => f.senha.value = gerarSenha();
+  f.onsubmit = async e => {
+    e.preventDefault(); const err = $(".err", f), b = $("button:not([type])", f);
+    const body = { acao: "criar_aluna", nome: f.nome.value.trim(), email: f.email.value.trim(), whatsapp: f.whatsapp.value.trim(), instagram: f.instagram.value.trim(), senha: f.senha.value.trim() };
+    if (!body.nome || !body.email) { err.textContent = "Preencha nome e e-mail."; err.hidden = false; return; }
+    b.disabled = true; b.textContent = "Criando…";
+    const r = await adminFn(body); b.disabled = false; b.textContent = "Criar acesso";
+    if (r.error) { err.textContent = r.error; err.hidden = false; return; }
+    await carregarLista(); await abrirAluna(r.aluna.id, "encontros"); dlgAcesso(r.aluna, body.senha);
+  };
+}
+
+function dlgAcesso(a, senha) {
+  const txt = `Oi, ${firstName(a.nome)}! ✨\n\nSua área da Mentoria Sublime já está pronta. Lá você encontra as datas dos nossos encontros, os materiais, os slides e um espaço para me deixar recados.\n\nAcesse: ${AREA_URL}\nE-mail: ${a.email}\nSenha: ${senha || "(a senha que te enviei)"}\n\nQualquer dificuldade para entrar, me chama aqui.`;
+  const tel = (a.whatsapp || "").replace(/\D/g, "").replace(/^55/, "");
+  abrirDlg(`<h3>${senha ? "Acesso pronto ✓" : "Mensagem de acesso"}</h3><p style="font-size:13.5px;color:var(--muted)">${senha ? "Copie e mande para ela. Por segurança, a senha não fica guardada no painel." : "Para incluir a senha, troque a senha em Dados e acesso."}</p>
+    <div class="acesso" id="txt">${esc(txt)}</div>
+    <div class="acts"><button class="btn btn-line btn-sm" data-fechar>Fechar</button><button class="btn btn-line btn-sm" id="cp">Copiar</button>${tel.length >= 10 ? `<a class="btn btn-sm" target="_blank" rel="noopener" href="https://wa.me/55${tel}?text=${encodeURIComponent(txt)}">Enviar no WhatsApp</a>` : ""}</div>`);
+  $("#cp").onclick = async e => { try { await navigator.clipboard.writeText(txt); e.target.textContent = "Copiado ✓"; } catch { e.target.textContent = "Não copiou"; } };
+}
+
+function dlgLink(sec, alunaId, recarregar) {
+  abrirDlg(`<form id="f-link" class="dlg" style="padding:0"><h3>Adicionar link</h3><p style="font-size:13.5px;color:var(--muted)">Canva, Google Drive, YouTube, gravação do encontro…</p>
+    <label class="fl">Nome<input name="titulo" required placeholder="Ex.: Slides do encontro 1"></label>
+    <label class="fl">Link<input name="url" type="url" required placeholder="https://"></label>
+    <div class="acts"><button type="button" class="btn btn-line btn-sm" data-fechar>Cancelar</button><button class="btn btn-sm">Adicionar</button></div></form>`);
+  $("#f-link").onsubmit = async e => {
+    e.preventDefault(); const f = e.target; let url = f.url.value.trim(); if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+    const { error } = await sb.from("ms_materiais").insert({ aluna_id: alunaId, secao: sec, titulo: f.titulo.value.trim(), url });
+    if (error) return toast("Não consegui salvar o link.");
+    $("#dlg").close(); toast("Link adicionado."); recarregar();
+  };
+}
+
+iniciar();
+</script>
+</body></html>

@@ -86,7 +86,7 @@ footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:34px 0;text-ali
       <div class="fl"><label for="whatsapp">WhatsApp *</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(71) 99999-9999" required></div>
     </div>
     <div class="row">
-      <div class="fl"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email"></div>
+      <div class="fl"><label for="email">E-mail *<small> é o login da sua área de aluna</small></label><input id="email" name="email" type="email" autocomplete="email" required></div>
       <div class="fl"><label for="instagram">Instagram do negócio *</label><input id="instagram" name="instagram" placeholder="@seuperfil" required></div>
     </div>
   </fieldset>
@@ -162,6 +162,14 @@ footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:34px 0;text-ali
 
 <script>
 const WHATSAPP = "5571991316292";
+// Também guarda o briefing na área de membros (Supabase, função ms_enviar_briefing)
+const SB_URL = "https://rppgpmddpuvcrbvljfms.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwcGdwbWRkcHV2Y3JidmxqZm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NzU5NzcsImV4cCI6MjEwNzI1MTk3N30.pnxIEPd3jWRyzzCPJ1gO_IknDTh1Nf4vvxODuc3VzF0";
+function salvarBriefing(texto) {
+  const v = n => (form.elements[n]?.value || "").trim();
+  fetch(SB_URL + "/rest/v1/rpc/ms_enviar_briefing", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
+    body: JSON.stringify({ p_nome: v("nome"), p_email: v("email"), p_whatsapp: v("whatsapp"), p_instagram: v("instagram"), p_texto: texto }) }).catch(() => {});
+}
 const form = document.querySelector("form");
 const req = [...form.querySelectorAll("[required]")];
 
@@ -199,10 +207,10 @@ function answers() {
 form.addEventListener("submit", e => {
   e.preventDefault();
   let first = null;
-  req.forEach(f => { const bad = !f.value.trim() || (f.name === "whatsapp" && f.value.replace(/\D/g, "").length < 10); f.classList.toggle("bad", bad); if (bad && !first) first = f; });
+  req.forEach(f => { const bad = !f.value.trim() || (f.name === "whatsapp" && f.value.replace(/\D/g, "").length < 10) || (f.name === "email" && !/^\S+@\S+\.\S+$/.test(f.value.trim())); f.classList.toggle("bad", bad); if (bad && !first) first = f; });
   form.querySelector(".err").hidden = !first;
   if (first) { first.focus(); first.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
-  const text = answers(), url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+  const text = answers(); salvarBriefing(text); const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
   const done = document.querySelector(".done");
   done.querySelector(".f-wa").href = url;
   done.querySelector(".f-copy").onclick = async ev => { try { await navigator.clipboard.writeText(text); ev.target.textContent = "Respostas copiadas"; } catch { ev.target.textContent = "Não foi possível copiar"; } };
