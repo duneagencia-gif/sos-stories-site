@@ -193,7 +193,7 @@ function answers() {
   const v = n => (form.elements[n]?.value || "").trim() || "-";
   const c = n => [...form.querySelectorAll(`.chips[data-name="${n}"] [aria-pressed="true"]`)].map(b => b.textContent).join(", ") || "-";
   return [
-    "*Briefing · Mentoria Sublime* ✨", "",
+    "Oi, Diana! ✨ Acabei de garantir minha vaga na *Mentoria Sublime* e já preenchi o meu briefing:", "", "*Briefing · Mentoria Sublime*", "",
     "*Sobre mim*", `Nome: ${v("nome")}`, `WhatsApp: ${v("whatsapp")}`, `E-mail: ${v("email")}`, `Instagram: ${v("instagram")}`, "",
     "*Negócio*", `O que faço e vendo: ${v("negocio")}`, `Tempo de negócio: ${c("tempo")}`, `Produto principal e preço: ${v("carro")}`, `Diferencial: ${v("diferencial")}`, "",
     "*Cliente*", `Cliente ideal: ${v("publico")}`, `Dúvidas e objeções: ${v("duvidas")}`, "",

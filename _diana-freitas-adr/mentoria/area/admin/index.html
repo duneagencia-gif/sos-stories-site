@@ -477,7 +477,7 @@ function renderFinanceiro() {
   const proxR = METAS_R.find(m => total < m), maxR = METAS_R[METAS_R.length - 1];
   const nomeMes = m => { const [y, mo] = m.split("-"); return new Date(+y, mo - 1, 1).toLocaleDateString("pt-BR", { month: "long", year: "numeric" }).replace(/^./, c => c.toUpperCase()); };
   $("#main").innerHTML = `
-    <h2 class="t">Financeiro e metas</h2><p class="s">Os pagamentos feitos pelo site entram aqui sozinhos e você recebe um e-mail a cada venda. Vendas por fora você registra no botão abaixo. <button class="lnk" id="testeMail">Testar o alerta por e-mail</button></p>
+    <h2 class="t">Financeiro e metas</h2><p class="s">Os pagamentos feitos pelo site entram aqui sozinhos. Vendas por fora você registra no botão abaixo.</p>
     <div class="metas">
       <div class="card meta">
         <div class="meta-h"><div><span class="mh">Meta de faturamento</span><b class="big">${brl(total)}</b><small>${proxR ? `Faltam ${brl(proxR - total)} para ${brlK(proxR)}` : "Todas as metas batidas! ✨"}</small></div>${proxR ? `<span class="pct">${Math.floor(total / proxR * 100)}%</span>` : `<span class="pct ok">${svg(I.check)}</span>`}</div>
@@ -499,7 +499,6 @@ function renderFinanceiro() {
     </div>`;
   $("#mesF").onchange = e => { A.mesF = e.target.value; renderFinanceiro(); };
   $("#novoPag").onclick = dlgPagamento;
-  $("#testeMail").onclick = async e => { e.target.disabled = true; const r = await adminFn({ acao: "testar_alerta" }); e.target.disabled = false; toast(r.error || "Enviado! Veja seu e-mail (na primeira vez, clique em Activate)."); };
   $("#csv").onclick = () => {
     const rows = [["Data", "Aluna", "E-mail", "Forma", "Parcelas", "Valor", "Líquido", "Situação", "Origem"], ...lista.map(p => [new Date(p.pago_em).toLocaleDateString("pt-BR"), p.nome, p.email, formaTxt(p), p.parcelas, String(p.valor).replace(".", ","), p.valor_liquido != null ? String(p.valor_liquido).replace(".", ",") : "", p.status, p.origem])];
     const csv = "\ufeff" + rows.map(r => r.map(c => `"${String(c ?? "").replace(/"/g, '""')}"`).join(";")).join("\n");
