@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bem-vinda à Mentoria Sublime</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B0A11">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#2B0A11;--wine3:#6A1D2E;--ivory:#FAF6F0;--paper:#FFFDF9;--muted:#6F5C57;--gold:#B8894F;--goldl:#E2C08E;
+--goldg:linear-gradient(92deg,#B07D45 0%,#E2BC84 45%,#F3DAAE 60%,#C59358 100%);--lined:rgba(226,192,142,.22);
+--grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .86  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,system-ui,sans-serif;font-weight:300;font-size:16px;line-height:1.7;color:#F7EEE4;background:var(--wine);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+.hero{position:relative;isolation:isolate;min-height:100svh;display:flex;flex-direction:column;background:var(--grain),radial-gradient(70% 50% at 50% 30%,#5A1826 0%,transparent 70%),linear-gradient(175deg,#2B0A11,#3A0E18 60%,#25080E)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:#E2C08E;opacity:.09;-webkit-mask:url(../arabesco.webp) center top/min(1000px,170%) auto no-repeat;mask:url(../arabesco.webp) center top/min(1000px,170%) auto no-repeat}
+.top{width:min(1040px,100% - 40px);margin:28px auto 0;display:flex;justify-content:center}
+.top img{width:112px}
+main{flex:1;width:min(640px,100% - 40px);margin:0 auto;padding:clamp(40px,8vw,80px) 0 70px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.seal{width:clamp(88px,10vw,112px);filter:drop-shadow(0 14px 22px rgba(0,0,0,.45));animation:f 7s ease-in-out infinite;margin-bottom:26px}
+@keyframes f{50%{transform:translateY(-5px) rotate(-3deg)}}
+.eyebrow{font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--goldl)}
+h1{font-weight:400;font-size:clamp(30px,5vw,46px);line-height:1.15;letter-spacing:-.02em;margin-top:14px}
+h1 span{display:block;white-space:nowrap}
+h1 em{font-style:normal;color:var(--goldl);font-weight:500}
+@media (max-width:600px){h1{font-size:min(34px,calc((100vw - 40px)/9.4))}}
+.lead{color:#DCC6B6;margin-top:18px;max-width:44ch;font-size:clamp(15.5px,1.6vw,17px)}
+.next{margin-top:40px;width:100%;text-align:left;border-top:1px solid var(--lined);list-style:none}
+.next li{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--lined);align-items:start}
+.next b{width:40px;height:40px;border-radius:50%;border:1px solid rgba(226,192,142,.6);display:grid;place-items:center;font-size:13px;font-weight:500;color:var(--goldl)}
+.next h3{font-size:16px;font-weight:500;color:#fff;line-height:1.4}
+.next p{font-size:14.5px;color:#CDB6A8;margin-top:4px;line-height:1.55}
+.next li:first-child h3{color:var(--goldl)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:14.5px;font-weight:500;letter-spacing:.04em;padding:17px 34px;border-radius:999px;text-decoration:none;background:var(--goldg);color:var(--wine);box-shadow:0 10px 30px rgba(184,137,79,.3);margin-top:36px;transition:transform .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn svg{width:16px;height:16px}
+.small{margin-top:18px;font-size:13px;color:#BFA698}
+.small a{color:var(--goldl)}
+.lace{height:46px;background:url(../renda.webp) repeat-x center/auto 100%;margin-bottom:-23px;position:relative;z-index:2;filter:drop-shadow(0 5px 6px rgba(43,10,17,.28))}
+footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:40px 0 30px;text-align:center}
+@media (max-width:600px){.btn{width:100%}}
+@media (prefers-reduced-motion:reduce){.seal{animation:none}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="top"><img src="../logo-sublime.png" alt="Mentoria Sublime" width="754" height="247"></div>
+  <main>
+    <img class="seal" src="../selo-sublime.webp" alt="" width="440" height="440">
+    <span class="eyebrow">Inscrição recebida</span>
+    <h1><span>Seja bem-vinda à</span> <span><em>Mentoria Sublime.</em></span></h1>
+    <p class="lead">Que alegria ter você aqui. Agora começa a construção de uma presença que mostra o valor do seu trabalho.</p>
+    <ol class="next">
+      <li><b>1</b><div><h3>Preencha o seu briefing</h3><p>Leva cerca de 10 minutos. Com ele eu preparo o seu Diagnóstico Aura antes do primeiro encontro.</p></div></li>
+      <li><b>2</b><div><h3>Eu te chamo no WhatsApp</h3><p>Para combinarmos a data e o horário do nosso primeiro encontro.</p></div></li>
+      <li><b>3</b><div><h3>Encontro 1: Essência da marca</h3><p>Seu público, seus diferenciais e o que o seu perfil precisa comunicar.</p></div></li>
+    </ol>
+    <a class="btn" href="../briefing/">Preencher meu briefing<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <p class="small">Alguma dúvida? <a href="https://wa.me/5571991316292" target="_blank" rel="noopener">Fale comigo no WhatsApp</a></p>
+  </main>
+</div>
+<footer>Diana Freitas · DUNE · © 2026</footer>
+</body></html>

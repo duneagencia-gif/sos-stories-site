@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pagamento · Mentoria Sublime</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B0A11">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#2B0A11;--wine2:#4C1421;--wine3:#6A1D2E;--ivory:#FAF6F0;--paper:#FFFDF9;--ink:#2B0A11;--muted:#6F5C57;--soft:#9A8781;--gold:#B8894F;--goldl:#E2C08E;--line:rgba(43,10,17,.1);--lined:rgba(226,192,142,.22);
+--grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .86  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font-family:Poppins,system-ui,sans-serif;font-weight:300;font-size:16px;line-height:1.7;color:var(--ink);background:var(--ivory);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+b{font-weight:500}
+.head{position:relative;isolation:isolate;color:#F7EEE4;padding:24px 20px 70px;background:var(--grain),radial-gradient(70% 60% at 50% 10%,#5A1826 0%,transparent 70%),linear-gradient(175deg,#2B0A11,#3A0E18 60%,#25080E)}
+.head::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:#E2C08E;opacity:.08;-webkit-mask:url(../arabesco.webp) right -160px top -80px/700px auto no-repeat;mask:url(../arabesco.webp) right -160px top -80px/700px auto no-repeat}
+.head .in{width:min(980px,100%);margin:0 auto}
+.nav{display:flex;align-items:center;justify-content:space-between}
+.nav img{width:104px}
+.nav a{font-size:13px;color:#DCC6B6;text-decoration:none;border-bottom:1px solid rgba(220,198,182,.35)}
+.head h1{font-weight:400;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1.15;margin-top:40px}
+.head p{color:#D9C5B7;margin-top:10px;font-size:15px}
+.lace{height:46px;background:url(../renda.webp) repeat-x center/auto 100%;margin:-23px 0;position:relative;z-index:3;filter:drop-shadow(0 5px 6px rgba(43,10,17,.28))}
+main{width:min(980px,100% - 40px);margin:0 auto;padding:48px 0 90px;display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:start}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(22px,3.4vw,32px)}
+.sum{position:sticky;top:20px;background:linear-gradient(165deg,#fff 0%,#FBF5EE 45%,#F1E3D3 100%)}
+.sum .logo{width:140px;margin:0 auto 18px}
+.t{font-size:11.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#8E5E33;text-align:center}
+.opts{display:grid;gap:10px;margin-top:16px}
+.opt{font:inherit;text-align:left;display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:12px;padding:15px 16px;border-radius:16px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ink);transition:border-color .25s,box-shadow .25s}
+.opt .rd{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(106,29,46,.35);display:grid;place-items:center}
+.opt .rd::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--wine3);transform:scale(0);transition:transform .25s}
+.opt[aria-checked="true"]{border-color:var(--wine3);box-shadow:0 0 0 1px var(--wine3)}
+.opt[aria-checked="true"] .rd::after{transform:scale(1)}
+.opt .nm{font-size:14.5px;font-weight:500;line-height:1.3}
+.opt .sub{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.opt .sub b{color:var(--wine3)}
+.opt .pr{font-size:21px;font-weight:500;letter-spacing:-.02em;white-space:nowrap}
+.opt .pr small{font-size:.55em;font-weight:400;color:var(--muted);margin-right:3px}
+.inc{list-style:none;margin-top:20px;border-top:1px solid rgba(142,94,51,.18)}
+.inc li{font-size:13.5px;padding:8px 0;border-bottom:1px solid rgba(142,94,51,.14);display:flex;gap:10px;align-items:center}
+.inc li:last-child{border-bottom:0}
+.inc li::before{content:"✦";color:var(--gold);font-size:11px}
+.pay h2{font-size:18px;font-weight:500;letter-spacing:-.01em}
+.pay .who{font-size:13.5px;color:var(--muted);margin-top:4px}
+#brick{margin-top:18px;min-height:120px}
+.wait{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px;padding:20px 0}
+.spin{width:22px;height:22px;border-radius:50%;border:2px solid rgba(106,29,46,.15);border-top-color:var(--wine3);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.msg{margin-top:14px;padding:14px 16px;border-radius:14px;font-size:14px;line-height:1.55}
+.msg.bad{background:#FDF3F3;color:#8E2433;border:1px solid rgba(180,64,79,.25)}
+.msg.info{background:#FBF3EC;color:var(--wine3);border:1px solid rgba(184,137,79,.3)}
+.pix{text-align:center}
+.pix img{width:220px;margin:16px auto;border-radius:14px;border:1px solid var(--line)}
+.pix textarea{width:100%;font:inherit;font-size:12.5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--ivory);resize:none;height:88px;color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:14px;font-weight:500;letter-spacing:.04em;padding:15px 28px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;background:var(--wine3);color:#FFF6EC;margin-top:12px}
+.secure{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:16px;font-size:12px;color:var(--soft)}
+.secure svg{width:14px;height:14px}
+footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:34px 0;text-align:center}
+@media (max-width:820px){main{grid-template-columns:1fr}.sum{position:static}}
+@media (max-width:600px){.btn{width:100%}}
+</style>
+</head>
+<body>
+<header class="head"><div class="in">
+  <div class="nav"><img src="../logo-sublime.png" alt="Mentoria Sublime" width="754" height="247"><a href="../#investimento">Voltar</a></div>
+  <h1>Garanta a sua vaga.</h1>
+  <p>Pagamento seguro, processado pelo Mercado Pago.</p>
+</div></header>
+<div class="lace" aria-hidden="true"></div>
+
+<main>
+  <aside class="card sum">
+    <img class="logo" src="../logo-sublime-dourado.png" alt="Mentoria Sublime" width="754" height="247">
+    <p class="t">Escolha como prefere pagar</p>
+    <div class="opts" role="radiogroup" aria-label="Forma de pagamento">
+      <button type="button" class="opt" role="radio" aria-checked="true" data-pay="parc"><span class="rd"></span><span class="nm">Parcelado<span class="sub">no cartão</span></span><span class="pr"><small>10x</small>R$ 200</span></button>
+      <button type="button" class="opt" role="radio" aria-checked="false" data-pay="vista"><span class="rd"></span><span class="nm">À vista<span class="sub"><b>Pix ou cartão · economize R$ 300</b></span></span><span class="pr">R$ 1.700</span></button>
+    </div>
+    <ul class="inc">
+      <li>4 encontros individuais de 1h a 1h30</li>
+      <li>Diagnóstico Aura</li>
+      <li>Identidade Visual Sublime</li>
+      <li>Kit de Conteúdo Personalizado</li>
+      <li>Ensaio com IA</li>
+      <li>Aura IA</li>
+      <li>Planner Sublime</li>
+      <li>Suporte pelo WhatsApp por 30 dias</li>
+    </ul>
+  </aside>
+
+  <section class="card pay" aria-live="polite">
+    <h2 id="pay-t">Pagamento</h2>
+    <p class="who" id="pay-s"></p>
+    <div id="brick"><div class="wait"><span class="spin"></span>Carregando o pagamento seguro…</div></div>
+    <div class="msg bad" id="err" hidden></div>
+    <div class="pix" id="pix" hidden>
+      <p class="msg info">Escaneie o QR Code ou copie o código Pix. Assim que o pagamento for confirmado, você vai para a próxima etapa automaticamente.</p>
+      <img id="pix-img" alt="QR Code do Pix">
+      <textarea id="pix-code" readonly aria-label="Código Pix copia e cola"></textarea>
+      <button class="btn" type="button" id="pix-copy">Copiar código Pix</button>
+      <div class="wait" style="justify-content:center"><span class="spin"></span>Aguardando a confirmação do Pix…</div>
+    </div>
+    <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 10V8a5 5 0 0 1 10 0v2"/><rect x="5" y="10" width="14" height="10" rx="2.5"/></svg>Seus dados de pagamento não passam pelo nosso site.</p>
+  </section>
+</main>
+<footer>Diana Freitas · DUNE · © 2026</footer>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+// Public Key de produção do Mercado Pago (pode ficar pública). O Access Token fica só na Vercel.
+const MP_PUBLIC_KEY = "APP_USR-f4780f8a-8eeb-4d68-ab29-77d06226ab78";
+const API = "/api/mentoria";
+const OBRIGADA = "../obrigada/";
+const WHATSAPP = "5571991316292";
+const PLANOS = {
+  parc: { amount: 2000, label: "Parcelado em até 10x de R$ 200 no cartão" },
+  vista: { amount: 1700, label: "À vista: R$ 1.700 no Pix ou no cartão" }
+};
+const ERROS = {
+  cc_rejected_insufficient_amount: "O cartão não tem limite suficiente. Tente outro cartão ou o Pix.",
+  cc_rejected_bad_filled_security_code: "O código de segurança do cartão está incorreto.",
+  cc_rejected_bad_filled_date: "A data de validade do cartão está incorreta.",
+  cc_rejected_bad_filled_other: "Confira os dados do cartão e tente de novo.",
+  cc_rejected_call_for_authorize: "O banco pediu autorização. Ligue para o seu banco e tente de novo.",
+  cc_rejected_card_disabled: "O cartão está desativado. Ative com o banco ou use outro.",
+  cc_rejected_duplicated_payment: "Esse pagamento já foi feito. Se precisar, fale comigo no WhatsApp.",
+  cc_rejected_high_risk: "O pagamento foi recusado por segurança. Tente outro cartão ou o Pix."
+};
+
+let plano = new URLSearchParams(location.search).get("plano") === "vista" ? "vista" : "parc";
+let controller = null, poll = null;
+const $ = id => document.getElementById(id);
+const opts = [...document.querySelectorAll(".opt")];
+
+function showErr(t) { $("err").textContent = t; $("err").hidden = !t; }
+
+async function mount() {
+  showErr("");
+  $("pay-s").textContent = PLANOS[plano].label;
+  opts.forEach(o => o.setAttribute("aria-checked", o.dataset.pay === plano));
+  if (controller) { try { await controller.unmount(); } catch (e) {} controller = null; }
+  if (!MP_PUBLIC_KEY || !window.MercadoPago) {
+    $("brick").innerHTML = "";
+    showErr("O pagamento online ainda está sendo configurado. Enquanto isso, fale comigo no WhatsApp para garantir a sua vaga.");
+    const a = document.createElement("a"); a.className = "btn"; a.target = "_blank"; a.rel = "noopener";
+    a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Olá, Diana! Quero garantir minha vaga na Mentoria Sublime ✨\nPagamento: " + PLANOS[plano].label)}`;
+    a.textContent = "Garantir pelo WhatsApp"; $("brick").appendChild(a);
+    return;
+  }
+  $("brick").innerHTML = "";
+  const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: "pt-BR" });
+  const vista = plano === "vista";
+  controller = await mp.bricks().create("payment", "brick", {
+    initialization: { amount: PLANOS[plano].amount },
+    customization: {
+      paymentMethods: vista ? { bankTransfer: ["pix"], creditCard: "all", debitCard: "all", maxInstallments: 1 } : { creditCard: "all", maxInstallments: 10 },
+      visual: { style: { theme: "default", customVariables: { baseColor: "#6A1D2E", borderRadiusMedium: "14px", borderRadiusLarge: "18px", fontSizeMedium: "15px" } } }
+    },
+    callbacks: {
+      onReady() {},
+      onError(e) { console.error(e); },
+      onSubmit: ({ formData }) => pay(formData)
+    }
+  });
+}
+
+async function pay(formData) {
+  showErr("");
+  try {
+    const r = await fetch(`${API}/pagar`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plano, formData }) });
+    const d = await r.json();
+    if (d.status === "approved") { location.href = OBRIGADA; return; }
+    if (d.pix && d.pix.code) { showPix(d); return; }
+    if (d.status === "in_process" || d.status === "pending") {
+      $("brick").innerHTML = '<p class="msg info">Seu pagamento está em análise pelo Mercado Pago. Você recebe a confirmação por e-mail, e eu te chamo no WhatsApp assim que ele for aprovado.</p>';
+      return;
+    }
+    showErr(ERROS[d.detail] || "Não foi possível concluir o pagamento. Confira os dados ou tente outra forma de pagamento.");
+    throw new Error("rejected");
+  } catch (e) {
+    if (!$("err").textContent) showErr("Não conseguimos falar com o Mercado Pago agora. Tente de novo em instantes.");
+    throw e;
+  }
+}
+
+function showPix(d) {
+  $("brick").hidden = true; document.querySelector(".sum .opts").style.pointerEvents = "none";
+  $("pix").hidden = false;
+  if (d.pix.img) $("pix-img").src = "data:image/png;base64," + d.pix.img; else $("pix-img").hidden = true;
+  $("pix-code").value = d.pix.code;
+  $("pix-copy").onclick = async e => { try { await navigator.clipboard.writeText(d.pix.code); e.target.textContent = "Código copiado"; } catch { $("pix-code").select(); } };
+  clearInterval(poll);
+  poll = setInterval(async () => {
+    try { const s = await (await fetch(`${API}/status?id=${d.id}`)).json(); if (s.status === "approved") { clearInterval(poll); location.href = OBRIGADA; } } catch (e) {}
+  }, 5000);
+}
+
+opts.forEach(o => o.addEventListener("click", () => { if (o.dataset.pay !== plano) { plano = o.dataset.pay; history.replaceState(null, "", `?plano=${plano}`); mount(); } }));
+mount();
+</script>
+</body></html>

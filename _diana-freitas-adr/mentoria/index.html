@@ -746,17 +746,13 @@ footer img{width:96px;opacity:.85}
 </footer>
 
 <script>
-// Links de pagamento: cole entre as aspas o link do parcelado e o do à vista.
-// Se houver um link só com as duas opções, cole o mesmo nos dois.
-const CHECKOUT = { parc: "", vista: "" };
+// Pagamento dentro do site: abre a página de pagamento com o plano escolhido.
 const WHATSAPP = "5571991316292";
 let payMode = "parc";
-
 const wa = t => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`;
 document.querySelectorAll("[data-buy]").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
-  const url = CHECKOUT[payMode] || CHECKOUT.parc || CHECKOUT.vista;
-  window.open(url || wa(`Olá, Diana! Quero garantir minha vaga na Mentoria Sublime ✨\nPagamento: ${payMode === "vista" ? "R$ 1.700 à vista" : "10x de R$ 200 no cartão"}`), "_blank", "noopener");
+  location.href = `pagamento/?plano=${payMode}`;
 }));
 
 // parcelado ou à vista
