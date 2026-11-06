@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mentoria Sublime · Diana Freitas</title>
+<link rel="canonical" href="https://dianafreitasadr.com.br/mentoria/">
+<meta name="description" content="Mentoria individual e online para mulheres empreendedoras construírem uma presença bonita, profissional e estratégica no Instagram.">
+<meta property="og:title" content="Mentoria Sublime · Diana Freitas">
+<meta property="og:description" content="Tenha orgulho da forma como seu negócio se apresenta no Instagram. 4 encontros individuais, apenas 4 vagas por mês.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2B0A11">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#2B0A11;--wine2:#4C1421;--wine3:#6A1D2E;
+  --ivory:#FAF6F0;--sand:#F2E9DF;--paper:#FFFDF9;
+  --ink:#2B0A11;--muted:#6F5C57;--soft:#9A8781;
+  --gold:#B8894F;--goldl:#E2C08E;
+  --goldg:linear-gradient(92deg,#B07D45 0%,#E2BC84 45%,#F3DAAE 60%,#C59358 100%);
+  --line:rgba(43,10,17,.1);--lined:rgba(226,192,142,.22);
+  --r:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:Poppins,system-ui,sans-serif;font-weight:300;font-size:16px;line-height:1.7;color:var(--ink);background:var(--ivory);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+b,strong{font-weight:500}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+section{padding-block:clamp(80px,11vw,136px)}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+h1,h2,h3{font-weight:500;letter-spacing:-.02em;line-height:1.18}
+h2{font-size:clamp(28px,3.4vw,40px);max-width:22ch}
+h3{font-size:18px;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,18px);color:var(--muted);max-width:52ch;margin-top:18px}
+em{font-style:normal;font-weight:inherit}
+.center{text-align:center}.center h2,.center .lead{margin-inline:auto}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:14px;font-weight:500;letter-spacing:.04em;padding:16px 32px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--goldg);color:var(--wine);box-shadow:0 10px 30px rgba(184,137,79,.28)}
+.btn-wine{background:var(--wine3);color:#FFF6EC;box-shadow:0 10px 28px rgba(106,29,46,.25)}
+.btn-wine:hover{background:var(--wine2)}
+.btn-line{background:none;color:var(--wine3);box-shadow:inset 0 0 0 1px rgba(106,29,46,.35)}
+.btn-line:hover{box-shadow:inset 0 0 0 1px var(--wine3)}
+.btn svg{width:16px;height:16px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* HERO */
+.hero{background:var(--grain),radial-gradient(120% 80% at 80% 10%,#4A1320 0%,transparent 60%),linear-gradient(170deg,#2B0A11 0%,#3A0E18 55%,#25080E 100%);color:#F7EEE4;padding-block:28px clamp(72px,9vw,112px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:1px;background:linear-gradient(90deg,transparent,var(--lined),transparent)}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top img{width:118px}
+.top a{font-size:13px;color:#DCC6B6;text-decoration:none;border-bottom:1px solid rgba(220,198,182,.35);padding-bottom:2px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,88px);align-items:center;margin-top:clamp(48px,7vw,88px)}
+.hero h1{font-size:min(46px,3.6vw)}
+.hero h1 .ig{display:inline-block;width:.86em;height:.86em;vertical-align:-.1em;margin:0 .16em 0 .04em}
+.hero h1 span{display:block;white-space:nowrap}
+@media (max-width:900px){.hero h1{font-size:min(46px,calc((100vw - 40px)/12.6))}}
+.hero h1 em{color:var(--goldl);font-weight:500}
+.eb2{line-height:1.9}
+.hero .lead{color:#D9C5B7}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:36px}
+.meta{display:flex;align-items:center;gap:10px;font-size:13px;color:#CDB6A8}
+.dot{width:7px;height:7px;border-radius:50%;background:#E2C08E;box-shadow:0 0 0 4px rgba(226,192,142,.15)}
+
+/* S do Sublime */
+.bigS{justify-self:center;position:relative;width:min(400px,100%);aspect-ratio:1;display:grid;place-items:center}
+.bigS .s{width:52%;height:auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,.35));opacity:0;transform:translateY(14px) scale(.97);transition:opacity 1.4s ease .2s,transform 1.6s cubic-bezier(.2,.7,.2,1) .2s}
+.bigS::before{content:"";position:absolute;inset:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(214,120,70,.55),rgba(190,90,55,.22) 55%,transparent 100%);filter:blur(8px);animation:aura 7s ease-in-out infinite}
+.bigS .orbit{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.bigS .orbit circle{fill:none;stroke:rgba(226,192,142,.4);stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.4s cubic-bezier(.6,.1,.2,1) .4s}
+.bigS .orbit .o2{stroke:rgba(226,192,142,.16);transition-delay:.8s}
+.bigS .star{fill:#F3DAAE;transform-origin:200px 200px;opacity:0;transition:opacity .8s 2s}
+.bigS.in .s{opacity:1;transform:none}
+.bigS.in .orbit circle{stroke-dashoffset:0}
+.bigS.in .star{opacity:1;animation:orb 24s linear 2s infinite}
+.bigS .tw{transform-box:fill-box;transform-origin:center;animation:tw 3.2s ease-in-out infinite}
+.bigS .t2{animation-delay:1.1s}.bigS .t3{animation-delay:2.1s}
+@keyframes tw{50%{opacity:.35;transform:scale(.6)}}
+@keyframes orb{to{transform:rotate(360deg)}}
+/* DOR */
+.pain-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,7vw,100px);align-items:center}
+.pains{list-style:none;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.pains li{padding:26px 22px 26px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;font-size:15.5px;line-height:1.55}
+.pains li:nth-child(odd){padding-right:28px;border-right:1px solid var(--line)}
+.pains li:nth-child(even){padding-left:28px}
+.pains span{color:var(--gold);font-size:12px;font-weight:500;letter-spacing:.08em;margin-top:3px}
+.note{margin-top:30px;font-size:clamp(16px,1.5vw,18px);line-height:1.6;color:var(--ink);max-width:44ch}
+.note em{color:var(--wine3);font-weight:400}
+
+/* AURA */
+.aura{position:relative;overflow:hidden;color:#FBF1E6;background:#C98E6B}
+.aura::before{content:"";position:absolute;inset:-20%;background:radial-gradient(closest-side,#B4532F 0%,#BE6A43 38%,#CF936F 68%,#E6C7A8 100%);animation:aura 9s ease-in-out infinite}
+@keyframes aura{50%{transform:scale(1.08);filter:saturate(1.08)}}
+.aura .wrap{position:relative}
+.aura .eyebrow{color:#FBE3C6}
+.aura-top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.emblem{width:min(440px,100%);justify-self:center}
+.emblem svg{width:100%;height:auto;overflow:visible;display:block}
+.emblem .arcs{fill:none;stroke:#FBF1E6;stroke-width:5;stroke-linecap:round;stroke-dasharray:100 20;stroke-dashoffset:50}
+.emblem .arcs2{fill:none;stroke:rgba(251,241,230,.55);stroke-width:2;stroke-linecap:round;stroke-dasharray:70 50}
+.emblem .lbl{font-family:Poppins,sans-serif;font-size:17px;font-weight:500;letter-spacing:.3em;fill:#FBF1E6}
+.emblem .g1,.emblem .g2,.emblem .lbls,.emblem .logo,.emblem .glint{transform-box:view-box;transform-origin:200px 200px}
+.emblem .g1{opacity:0;transform:rotate(-50deg) scale(.92);transition:opacity 1.2s ease,transform 2s cubic-bezier(.2,.7,.2,1)}
+.emblem .g2{opacity:0;transition:opacity 1.4s ease .6s}
+.emblem .lbls{opacity:0;transition:opacity 1s ease 1.4s}
+.emblem .logo{opacity:0;transform:scale(.9);transition:opacity 1.2s ease .5s,transform 1.6s cubic-bezier(.2,.7,.2,1) .5s}
+.emblem .glint{opacity:0}
+.emblem.in .g1{opacity:1;transform:none}
+.emblem.in .g2{opacity:1;animation:spin 40s linear 2s infinite}
+.emblem.in .lbls,.emblem.in .logo{opacity:1;transform:none}
+.emblem.in .glint{animation:glint 4.5s ease-in-out 2.2s infinite}
+@keyframes spin{to{transform:rotate(-360deg)}}
+@keyframes glint{0%,100%{opacity:0;transform:scale(.4) rotate(0)}12%{opacity:1;transform:scale(1) rotate(20deg)}30%{opacity:0;transform:scale(.5) rotate(40deg)}}
+.manifesto{font-size:clamp(19px,2vw,24px);line-height:1.5;font-weight:300;max-width:30ch}
+.manifesto b{font-weight:600}
+.manifesto p+p{margin-top:22px}
+.manifesto .aura-w{font-weight:500;letter-spacing:.02em;border-bottom:1px solid rgba(251,241,230,.6)}
+.manifesto-2{margin-top:30px;padding-top:26px;border-top:1px solid rgba(251,241,230,.3);font-size:16px;line-height:1.7;color:#FBE9D8;max-width:44ch}
+.manifesto-2 b{font-weight:500;color:#fff}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,28px);margin-top:clamp(56px,7vw,88px)}
+.pillar{padding:30px 28px 32px;border-radius:var(--r);background:rgba(255,246,236,.12);border:1px solid rgba(255,240,225,.32);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .3s,transform .3s}
+.pillar:hover{background:rgba(255,246,236,.2);transform:translateY(-2px)}
+.pillar .n{font-size:12px;color:#FBE3C6;font-weight:500;letter-spacing:.14em}
+.pillar h3{font-size:22px;margin:10px 0 6px;color:#fff}
+.pillar .tag{font-weight:500;color:#FFF3E6;font-size:15px;line-height:1.5}
+.pillar p:last-child{color:#FBE9D8;font-size:14.5px;margin-top:12px;line-height:1.65}
+.pillars .pillar:nth-child(2){transition-delay:.12s}.pillars .pillar:nth-child(3){transition-delay:.24s}
+.formula{margin-top:40px;font-size:15px;color:#FBE9D8;text-align:center}
+.formula b{color:#fff;font-weight:500}
+/* ENCONTROS */
+.how-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
+.facts{display:flex;gap:clamp(22px,4vw,48px);flex-wrap:wrap}
+.facts div{font-size:13px;color:var(--muted);line-height:1.4}
+.facts b{display:block;font-size:26px;font-weight:400;color:var(--wine3);letter-spacing:-.02em}
+.timeline{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:64px;position:relative;counter-reset:s}
+.timeline::before{content:"";position:absolute;top:21px;left:22px;right:22px;height:1px;background:linear-gradient(90deg,var(--gold),rgba(184,137,79,.15))}
+.timeline li{position:relative;padding-right:10px}
+.timeline .k{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--ivory);border:1px solid var(--gold);color:var(--wine3);font-size:14px;font-weight:500;position:relative}
+.timeline .enc{display:block;margin-top:22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);font-weight:500}
+.timeline h3{margin:6px 0 8px}
+.timeline .get{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--wine3);font-weight:400}
+.timeline p{font-size:14.5px;color:var(--muted);line-height:1.6}
+
+/* ENTREGAS */
+.gifts-sec{background:var(--sand)}
+.gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.gift{position:relative;overflow:hidden;background:var(--grain),linear-gradient(155deg,#5A1826 0%,#3A0E18 55%,#2B0A11 100%);color:#F7EEE4;border-radius:var(--r);padding:30px 28px;display:flex;flex-direction:column;gap:12px;box-shadow:0 18px 40px rgba(43,10,17,.18);transition:transform .3s,box-shadow .3s}
+.gift::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(140deg,rgba(226,192,142,.55),rgba(226,192,142,.05) 45%,rgba(226,192,142,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.gift:hover{transform:translateY(-3px);box-shadow:0 26px 50px rgba(43,10,17,.26)}
+.gift .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(226,192,142,.1);border:1px solid rgba(226,192,142,.45);color:#E2C08E}
+.gift .ic svg{width:22px;height:22px}
+.gift-wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:22px;background:linear-gradient(100deg,#6A1D2E 0%,#4C1421 50%,#2B0A11 100%)}
+.gift-wide .ic{flex:none}
+.gift-wide h3{margin:0 0 8px;line-height:1.3}
+.gift-wide p,.gift-wide h3{text-wrap:balance}
+@media (max-width:600px){.gift-wide p br{display:none}}
+.gift h3{font-size:16.5px;margin-top:6px;color:#EBCB98}
+.gift p{font-size:14.5px;color:#DCC6B6;line-height:1.6}
+
+/* MENTORA */
+.mentor{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,96px);align-items:center}
+.mentor figure{border-radius:28px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(43,10,17,.12)}
+.mentor figure img{width:100%;height:100%;object-fit:cover;object-position:58% 50%}
+.mentor p{color:var(--muted);margin-top:18px;max-width:48ch}
+.hello{display:flex;align-items:flex-end;gap:12px;font-weight:300;white-space:nowrap}
+.hello .sig-big{display:block;width:min(200px,42%);height:auto;margin:0 0 -.32em}
+@media (max-width:600px){.hello{font-size:26px;gap:8px}.hello .sig-big{width:142px}}
+.sign img{display:block;width:170px;height:auto;margin-bottom:6px}
+.sign{margin-top:28px;font-size:14px;color:var(--wine3);font-weight:500;letter-spacing:.02em}
+.sign span{display:block;font-weight:300;color:var(--soft);font-size:13px}
+
+/* INVESTIMENTO */
+.invest{background:var(--grain),radial-gradient(60% 34% at 50% 58%,rgba(74,19,32,.85) 0%,transparent 100%),linear-gradient(180deg,#2B0A11,#3A0E18 60%,#25080E);color:#F7EEE4}
+.inv-head h2{margin-inline:auto;max-width:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);max-width:760px;margin:44px auto 0;border-block:1px solid var(--lined);text-align:center}
+.stats div{padding:24px 12px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.stats div+div{border-left:1px solid var(--lined)}
+.stats b{font-size:38px;font-weight:400;line-height:1;background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stats span{font-size:13.5px;color:#D9C5B7;line-height:1.45}
+.offer{display:grid;grid-template-columns:.95fr 1.05fr;max-width:960px;margin:52px auto 0;background:linear-gradient(165deg,#FFFFFF 0%,#FBF5EE 45%,#F1E3D3 100%);color:var(--ink);border-radius:32px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.35)}
+.offer-l{background:none;border-right:1px solid rgba(142,94,51,.16);padding:clamp(28px,4vw,44px)}
+.offer-l .logo{width:150px;margin:0 auto 22px}
+.offer-l .t{text-align:center;font-size:11.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#8E5E33}
+.inc{list-style:none;margin-top:16px;display:grid;gap:0}
+.inc li{display:flex;gap:12px;align-items:center;font-size:14.5px;color:var(--ink);padding:11px 0;border-bottom:1px solid rgba(142,94,51,.18)}
+.inc li:last-child{border-bottom:0}
+.inc li::before{content:"";flex:none;width:18px;height:18px;border-radius:50%;background:var(--wine3);-webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 8.2l2.6 2.6L12 5.4" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>') center/100% no-repeat;mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 8.2l2.6 2.6L12 5.4" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>') center/100% no-repeat}
+.offer-r{padding:clamp(28px,4vw,44px);display:flex;flex-direction:column}
+.offer-r .t{font-size:11.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.opts{display:grid;gap:12px;margin-top:16px}
+.opt{font:inherit;text-align:left;display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:14px;padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:border-color .25s,background .25s,box-shadow .25s;color:var(--ink)}
+.opt .rd{width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(106,29,46,.35);display:grid;place-items:center}
+.opt .rd::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--wine3);transform:scale(0);transition:transform .25s}
+.opt[aria-checked="true"]{border-color:var(--wine3);background:#FBF3EC;box-shadow:0 0 0 1px var(--wine3)}
+.opt[aria-checked="true"] .rd{border-color:var(--wine3)}
+.opt[aria-checked="true"] .rd::after{transform:scale(1)}
+.opt .nm{font-size:15px;font-weight:500;line-height:1.3}
+.opt .sub{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:2px}
+.opt .sub b{color:var(--wine3);font-weight:500}
+.opt .pr{font-size:clamp(22px,2.4vw,27px);font-weight:500;letter-spacing:-.02em;color:var(--wine);white-space:nowrap}
+.opt .pr small{font-size:.55em;font-weight:400;color:var(--muted);margin-right:3px}
+.offer-r .btn{width:100%;margin-top:22px}
+.secure{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:12px;font-size:12px;color:var(--soft)}
+.secure svg{width:14px;height:14px}
+.offer-r{justify-content:center}
+.talk{margin-top:28px;padding-top:22px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);text-align:center}
+.offer-r .secure{margin-bottom:22px}
+.talk{line-height:1.9}
+.talk a{color:var(--wine3);font-weight:500;text-decoration:none;border-bottom:1px solid rgba(106,29,46,.35)}
+.talk a:hover{border-color:var(--wine3)}
+
+/* APLICAÇÃO */
+.apply-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,6vw,88px);align-items:start}
+.steps{list-style:none;margin-top:32px;display:grid;gap:18px}
+.env{position:relative;margin-top:44px;width:min(320px,100%);filter:drop-shadow(0 22px 26px rgba(43,10,17,.18))}
+.env>img{width:100%}
+.env figcaption{position:absolute;left:23%;right:22%;top:17%;height:30%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.env figcaption img{width:78%}
+.env figcaption span{font-size:clamp(9px,1vw,11px);letter-spacing:.22em;text-transform:uppercase;color:#8E5E33;font-weight:500}
+@media (max-width:900px){.env{width:min(280px,74%);margin:36px auto 8px}}
+.steps li{display:flex;gap:16px;font-size:15px;color:var(--muted);line-height:1.55}
+.steps b{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font-size:12px;color:var(--wine3)}
+form{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(24px,4vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.fl{display:flex;flex-direction:column;gap:8px}
+.fl.full{grid-column:1/-1}
+.fl label,.fl .lbl{font-size:13px;font-weight:500;color:var(--ink)}
+input,textarea{font:inherit;font-weight:400;font-size:15px;color:var(--ink);background:var(--ivory);border:1px solid var(--line);border-radius:14px;padding:13px 16px;width:100%;transition:border-color .2s,background .2s}
+textarea{min-height:104px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--gold);background:#fff}
+.bad{border-color:#B4404F!important;background:#FDF3F3!important}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:13.5px;font-weight:400;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);cursor:pointer;transition:all .2s}
+.chips button[aria-pressed="true"]{background:var(--wine3);border-color:var(--wine3);color:#FFF6EC}
+.chips.bad{border:0!important;background:none!important}
+.chips.bad button{border-color:#B4404F}
+.f-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-top:6px}
+.f-foot p{font-size:12.5px;color:var(--soft);max-width:34ch;line-height:1.5}
+.f-err{grid-column:1/-1;font-size:13px;color:#9B2C3B}
+.done{grid-column:1/-1;text-align:center;padding:20px 0}
+.done h3{font-size:24px}
+.done p{color:var(--muted);margin:10px auto 0;max-width:42ch}
+.done .btn{margin-top:22px}
+
+/* FAQ */
+.faq-sec{background:var(--paper);border-top:1px solid var(--line)}
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,6vw,88px)}
+details{border-bottom:1px solid var(--line)}
+details:first-child{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;font-size:16px;font-weight:400;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";position:absolute;right:6px;top:50%;width:10px;height:10px;border-right:1px solid var(--gold);border-bottom:1px solid var(--gold);transform:translateY(-70%) rotate(45deg);transition:transform .3s}
+details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+details p{padding:0 40px 24px 0;color:var(--muted);font-size:15px}
+
+/* FINAL + FOOTER */
+.final{background:var(--grain),linear-gradient(175deg,#2B0A11,#3A0E18);color:#F7EEE4;text-align:center}
+.final h2{margin-inline:auto;max-width:none}
+.final h2.two span{display:block;white-space:nowrap}
+.final h2.two{font-size:clamp(34px,4.6vw,56px);line-height:1.12}
+.lace .seal{position:absolute;left:50%;top:50%;width:clamp(76px,7vw,96px);height:auto;margin:calc(clamp(76px,7vw,96px) / -2) 0 0 calc(clamp(76px,7vw,96px) / -2);filter:drop-shadow(0 12px 18px rgba(0,0,0,.45));animation:sealf 7s ease-in-out infinite}
+.final{padding-top:clamp(100px,12vw,150px)}
+.final h2.two,.final h2.two em{font-weight:300}
+.final h2.two em{font-weight:400}
+.final h2.two .caps{display:inline;letter-spacing:.06em}
+@keyframes sealf{50%{transform:translateY(-5px) rotate(-3deg)}}
+@media (max-width:600px){.final h2.two{font-size:min(38px,calc((100vw - 40px)/8.6))}}
+.final h2 em{color:var(--goldl)}
+.hero h1 em,.final h2 em{font-style:normal}
+.final .btn{margin-top:36px}
+footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:34px 0}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+footer img{width:96px;opacity:.85}
+
+/* reveal */
+.rv{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.pre{opacity:0;transform:translateY(18px)}
+
+
+/* TEXTURAS */
+:root{--grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .86  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.flor{position:relative;isolation:isolate}
+.flor::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--fc,#E2C08E);opacity:var(--fo,.1);-webkit-mask:url(arabesco.webp) var(--fp,right top)/var(--fs,640px) auto var(--fr,no-repeat);mask:url(arabesco.webp) var(--fp,right top)/var(--fs,640px) auto var(--fr,no-repeat)}
+.lace{position:relative;z-index:6;height:var(--lh,64px);margin:calc(var(--lh,64px) / -2) 0;background:url(renda.webp) repeat-x center/auto 100%;pointer-events:none;filter:drop-shadow(0 5px 6px rgba(43,10,17,.28))}
+@media (max-width:600px){.lace{--lh:46px}}
+.ribbon{position:absolute;left:0;right:0;top:0;height:16px;background:url(tecido.jpg) 0 0/100px auto repeat;box-shadow:inset 0 1px 0 rgba(226,192,142,.7),inset 0 -1px 0 rgba(226,192,142,.7),0 6px 18px rgba(0,0,0,.25)}
+.ribbon.bot{top:auto;bottom:0;z-index:3}
+.aura{position:relative}
+.frame{position:relative}
+.frame-wrap{outline:1px solid rgba(184,137,79,.6);outline-offset:12px}
+.frame::before{content:"";position:absolute;inset:-14px 14px 14px -14px;border:1px solid rgba(184,137,79,.7);border-radius:34px;pointer-events:none}
+
+/* VITRINE (perfil) */
+.vitrine{position:relative;overflow:hidden;color:#F7EEE4;background:var(--grain),radial-gradient(80% 70% at 85% 40%,#5A1826 0%,transparent 70%),linear-gradient(170deg,#2B0A11,#3A0E18 60%,#25080E)}
+.vitrine{--fp:left -140px bottom -120px;--fs:720px;--fo:.09}
+.vit-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(48px,7vw,104px);align-items:center}
+.vitrine h2.vit-t{max-width:none;font-size:min(38px,3.2vw)}
+.vit-t span{display:block;white-space:nowrap}
+.vitrine .hl{color:#fff;font-weight:500}
+@media (max-width:900px){.vitrine h2.vit-t{font-size:min(38px,calc((100vw - 40px)/13.6))}}
+.bubble{display:inline-block;margin-top:26px;padding:10px 20px;border-radius:999px 999px 999px 6px;background:linear-gradient(100deg,#9C6A36 0%,#C99A5F 45%,#E0B97F 60%,#A87440 100%);color:#fff;text-shadow:0 1px 2px rgba(80,40,10,.35);font-weight:500;font-size:clamp(15px,1.5vw,17px);box-shadow:0 14px 30px rgba(0,0,0,.25)}
+.vitrine .lead{color:#D9C5B7;max-width:44ch}
+.vitrine{padding-bottom:16px}
+.vit-grid>div:first-child{padding-bottom:clamp(64px,9vw,120px)}
+.vit-ph{width:min(470px,100%);justify-self:center;align-self:end;position:relative}
+.vit-ph::before{content:"";position:absolute;left:-6%;right:-6%;top:6%;bottom:0;background:radial-gradient(closest-side at 50% 55%,rgba(226,160,120,.32),rgba(150,50,60,.18) 55%,transparent 100%);z-index:-1}
+.vit-ph img{position:relative;width:100%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.35))}
+.vit-ph img.shd{position:absolute;left:0;bottom:0;filter:brightness(0) blur(18px);opacity:.62;transform:translate(9%,1%) scale(1.05);transform-origin:50% 100%}
+.vit-ph img,.how-ph img,.gift-img img{width:100%;height:100%;object-fit:cover}
+.vit-ph .pic{border-radius:30px 30px 0 0;overflow:hidden;aspect-ratio:4/5;-webkit-mask:linear-gradient(#000 50%,rgba(0,0,0,.6) 72%,transparent 97%),linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);-webkit-mask-composite:source-in;mask:linear-gradient(#000 50%,rgba(0,0,0,.6) 72%,transparent 97%) intersect,linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.vitrine .frame::before{border-color:rgba(226,192,142,.55)}
+
+/* COMO FUNCIONA com foto */
+.how-top{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(48px,7vw,104px);align-items:center}
+.how-ph{position:relative;width:min(380px,100%);justify-self:start;margin:0 0 28px 28px}
+.how-ph::before{content:"";position:absolute;inset:28px -28px -28px 28px;border-radius:26px;background:url(tecido.jpg) 0 0/110px auto repeat;box-shadow:inset 0 0 0 1px rgba(184,137,79,.5)}
+.how-ph .pic{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(43,10,17,.18)}
+.how-ph img{object-position:40% 45%}
+.how-txt .facts{margin-top:36px}
+
+/* ENTREGAS com foto */
+.gifts-sec{--fc:#6A1D2E;--fo:.06;--fp:right -160px top -80px;--fs:760px}
+.gifts{grid-template-columns:1.08fr 1fr 1fr}
+.gift-img{grid-row:span 3;border-radius:var(--r);overflow:hidden;position:relative;min-height:100%;box-shadow:0 18px 40px rgba(43,10,17,.2)}
+.gift-img img{position:absolute;inset:0;object-position:50% 38%}
+.gift-img::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(226,192,142,.45)}
+
+/* PORTAS + CHAVE */
+.portal{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(600px,58vw,720px);display:grid;place-items:center;text-align:center;color:#F7EEE4;padding-block:0;perspective:1800px;background:radial-gradient(closest-side at 50% 46%,rgba(246,223,180,.5),rgba(214,150,90,.22) 42%,rgba(43,10,17,0) 80%),var(--grain),linear-gradient(#1F070C,#2B0A11)}
+.portal{--fo:.12;--fp:center;--fs:min(1100px,160%)}
+.portal-in{position:relative;z-index:5;padding-block:90px;opacity:0;transform:translateY(16px) scale(.98);transition:opacity 1.4s ease 1.2s,transform 1.6s cubic-bezier(.2,.7,.2,1) 1.2s}
+.portal h2{margin-inline:auto;max-width:none;font-size:clamp(26px,3.4vw,40px)}
+.portal p{color:#E5D3C4;margin:18px auto 0;max-width:40ch}
+.portal .btn{margin-top:34px}
+.key{display:block;width:min(400px,78%);height:auto;margin:0 auto 34px;overflow:visible;filter:drop-shadow(0 14px 26px rgba(0,0,0,.45))}
+.key .kg{transform-box:fill-box;transform-origin:center;animation:keyf 6s ease-in-out infinite}
+.key .kspark{transform-box:fill-box;transform-origin:center;animation:tw 3.2s ease-in-out infinite}
+@keyframes keyf{50%{transform:translateY(-6px) rotate(-1.5deg)}}
+.door{position:absolute;top:0;bottom:0;width:50%;z-index:3;overflow:hidden;transition:transform 2.6s cubic-bezier(.65,0,.25,1) .25s,filter 2.6s ease .25s;box-shadow:0 0 40px rgba(0,0,0,.5)}
+.door i{position:absolute;top:0;bottom:0;width:200%;background:url(portas.jpg) center 42%/cover no-repeat}
+.door.l{left:0;transform-origin:left center}.door.l i{left:0}
+.door.r{right:0;transform-origin:right center}.door.r i{right:0}
+.portal::after{content:"";position:absolute;z-index:4;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:linear-gradient(transparent,rgba(255,226,170,.95) 30%,rgba(255,226,170,.95) 70%,transparent);box-shadow:0 0 18px 4px rgba(255,200,120,.55);transition:opacity .8s ease .2s;animation:crack 2.4s ease-in-out infinite}
+@keyframes crack{50%{opacity:.55}}
+.portal.in .door.l{transform:rotateY(84deg);filter:brightness(.6)}
+.portal.in .door.r{transform:rotateY(-84deg);filter:brightness(.6)}
+.portal.in::after{opacity:0;animation:none}
+.portal.in .portal-in{opacity:1;transform:none}
+.portal .eyebrow{color:var(--goldl)}
+.portal .sub2{max-width:none}
+.portal .sub2 span{display:block;white-space:nowrap}
+@media (max-width:600px){.portal .sub2{font-size:min(15.5px,calc((100vw - 40px)/23.5))}}
+.portal .fade{position:absolute;left:0;right:0;bottom:0;height:42%;z-index:4;pointer-events:none;background:var(--grain),linear-gradient(rgba(43,10,17,0),rgba(43,10,17,.8) 55%,#2B0A11);-webkit-mask:linear-gradient(transparent,#000 45%);mask:linear-gradient(transparent,#000 45%)}
+.portal{padding-bottom:40px}
+
+/* fundos com textura */
+.hero{--fp:right -180px top -140px;--fs:820px;--fo:.08}
+.invest{--fp:left -200px top 40px;--fs:760px;--fo:.06}
+.final{--fp:center 30%;--fs:min(1200px,170%);--fo:.08;position:relative}
+.hero,.invest,.final,.vitrine,.portal{isolation:isolate}
+
+@media (max-width:900px){
+  .vit-grid,.how-top{grid-template-columns:1fr}
+  .vit-ph{width:min(400px,92%);margin-top:0}
+  .vit-grid>div:first-child{padding-bottom:8px}
+  .how-ph{width:min(320px,80%);justify-self:center;margin:0 28px 40px 0}
+  .gifts{grid-template-columns:1fr 1fr}
+  .gift-img{grid-row:auto;grid-column:1/-1;aspect-ratio:16/11;min-height:0}
+  .hero{--fs:560px;--fp:right -200px top -60px}
+}
+@media (max-width:600px){
+  .gifts{grid-template-columns:1fr}
+  .gift-img{aspect-ratio:4/4.4}
+  .portal{min-height:620px}
+  .portal-in{padding-block:70px}
+  .portal h2 br{display:none}
+  .portal h2{font-size:25px;max-width:none;text-wrap:balance}
+  .portal.in .door{opacity:.45}
+  .key{width:min(300px,80%);margin-bottom:26px}
+  .frame::before{inset:-10px 10px 10px -10px}
+  .vitrine{--fs:520px}
+}
+@media (prefers-reduced-motion:reduce){.door,.portal::after{display:none}.portal-in{opacity:1;transform:none;transition:none}.key *{animation:none!important}}
+
+@media (max-width:900px){
+  .hero-grid,.pain-grid,.mentor,.inv-grid,.apply-grid,.faq-grid{grid-template-columns:1fr}
+  .bigS{width:min(300px,78%);margin-top:4px}
+  .pillars,.gifts{grid-template-columns:1fr 1fr}
+  .offer{grid-template-columns:1fr;max-width:560px}
+  .aura-top{grid-template-columns:1fr}
+  .emblem{width:min(360px,92%)}
+  .pillars .pillar:last-child{grid-column:1/-1}
+  .timeline{grid-template-columns:1fr 1fr;row-gap:44px}
+  .timeline::before{display:none}
+  .mentor figure{aspect-ratio:5/4}
+}
+@media (max-width:600px){
+  body{font-size:15.5px}
+  .wrap{width:calc(100% - 40px)}
+  .pains{grid-template-columns:1fr}
+  .pains li,.pains li:nth-child(odd),.pains li:nth-child(even){padding:20px 0;border-right:0}
+  .pillars,.gifts{grid-template-columns:1fr}
+  .pillars .pillar:last-child{grid-column:auto}
+  .timeline{grid-template-columns:1fr;row-gap:0}
+  .timeline::before{display:block;top:22px;bottom:90px;left:21px;right:auto;width:1px;height:auto;background:linear-gradient(180deg,var(--gold),rgba(184,137,79,.15))}
+  .timeline li{display:grid;grid-template-columns:44px 1fr;column-gap:20px;padding-bottom:30px}
+  .timeline .enc{margin-top:4px;grid-column:2}
+  .timeline h3{margin:2px 0 4px;grid-column:2}
+  .timeline p{grid-column:2}
+  .timeline .k{grid-row:1/span 2}
+  form{grid-template-columns:1fr}
+  .f-foot .btn{width:100%}
+  .hero-cta .btn{width:100%}
+  .top img{width:100px}
+  .stats div{padding:18px 6px}
+  .stats b{font-size:30px}
+  .stats span{font-size:12px}
+  .offer{grid-template-columns:1fr}
+  .offer-l{border-right:0;border-bottom:1px solid rgba(142,94,51,.16)}
+  .opt{padding:16px;gap:12px}
+  .gift-wide{flex-direction:column;align-items:flex-start}
+  .facts b{font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv,.btn,.pillar,.bigS *,.emblem *,.aura::before,.bigS::before{transition:none!important;animation:none!important}.rv.pre{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero flor">
+  <div class="wrap">
+    <div class="top">
+      <img src="logo-sublime.png" alt="Mentoria Sublime" width="754" height="247">
+      <a href="#investimento">Investimento</a>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow eb2">Mentoria individual para<br>mulheres empreendedoras</span>
+        <h1><span>Tenha orgulho da forma</span><span>como seu negócio se</span><span>apresenta <em>no Instagram.</em></span></h1>
+        <p class="lead">Construa uma presença digital bonita, profissional e estratégica, com conteúdos que valorizam seu trabalho, mesmo que esteja começando do zero.</p>
+        <div class="hero-cta">
+          <a class="btn btn-gold" href="#investimento">Quero minha vaga</a>
+        </div>
+      </div>
+      <div class="bigS" aria-hidden="true">
+        <svg class="orbit" viewBox="0 0 400 400"><circle cx="200" cy="200" r="196" pathLength="1"/><circle class="o2" cx="200" cy="200" r="170" pathLength="1"/><g class="star"><g class="tw"><path d="M200 0l3.2 8.8 8.8 3.2-8.8 3.2-3.2 8.8-3.2-8.8-8.8-3.2 8.8-3.2z"/></g><g transform="rotate(120 200 200)"><g class="tw t2"><path d="M200 24l2.9 8 8 2.9-8 2.9-2.9 8-2.9-8-8-2.9 8-2.9z"/></g></g><g transform="rotate(235 200 200)"><g class="tw t3"><path d="M200 -6l3.4 9.4 9.4 3.4-9.4 3.4-3.4 9.4-3.4-9.4-9.4-3.4 9.4-3.4z"/></g></g></g></svg>
+        <svg class="s" viewBox="36 33 594 838"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6DFB4"/><stop offset=".45" stop-color="#E0B377"/><stop offset="1" stop-color="#B07D45"/></linearGradient></defs><path fill="url(#sg)" d="M383.6 865.2C426.6 858.4 456.8 847.9 494.0 826.7C513.9 815.3 525.7 806.1 546.3 785.7C561.6 770.5 569.7 760.2 584.7 737.0C599.8 713.6 616.6 670.4 620.9 644.0C621.4 641.0 622.3 635.8 622.9 632.5C624.6 622.9 627.0 596.2 627.0 586.5C627.0 576.2 624.5 545.4 622.9 536.5C622.3 533.2 621.2 526.8 620.5 522.3C619.8 517.8 618.9 513.7 618.6 513.1C618.3 512.6 617.4 509.1 616.6 505.3C613.2 488.8 605.7 465.1 596.4 441.9C590.8 427.5 584.8 413.8 583.0 411.0C582.4 410.2 581.5 408.4 580.9 407.0C575.8 394.8 556.7 360.4 541.6 336.5C538.8 332.0 536.0 327.5 535.3 326.5C525.0 308.9 511.3 286.9 497.3 265.2C488.0 250.9 477.2 231.2 467.0 210.5C450.5 176.7 448.3 171.2 442.9 150.5C440.9 142.9 440.5 139.0 440.5 126.0C440.5 111.8 440.7 109.9 443.2 103.0C447.5 90.8 450.5 85.6 458.4 77.1C471.6 63.0 487.0 56.6 507.5 56.5C520.4 56.5 528.0 58.0 537.6 62.6C540.4 63.9 543.0 65.0 543.3 65.0C544.5 65.0 556.4 73.5 561.2 77.9C572.1 87.6 580.0 101.1 580.0 109.8C580.0 116.6 581.9 118.1 585.4 114.0C586.8 112.2 588.0 110.4 588.0 109.9C588.0 109.3 589.0 106.8 590.2 104.2C592.2 100.1 592.5 97.8 592.5 87.0C592.5 75.2 592.3 74.2 589.8 69.9C583.5 59.2 570.0 48.5 556.1 43.1C545.8 39.1 537.7 37.8 524.0 37.8C500.1 37.7 481.7 44.2 460.6 60.0C437.0 77.7 426.2 92.9 418.5 119.5C411.4 144.0 412.8 185.6 421.6 216.0C426.8 233.9 433.3 252.9 437.5 262.5C438.3 264.1 440.3 268.9 442.1 273.0C445.1 280.2 447.5 285.5 455.8 303.5C457.8 307.9 467.1 326.6 476.3 345.0C485.6 363.4 496.3 384.6 500.0 392.0C506.5 404.9 513.7 419.9 518.5 430.5C519.8 433.2 522.7 439.6 525.0 444.5C527.3 449.4 530.8 456.9 532.7 461.0C534.6 465.1 537.0 470.4 538.1 472.7C539.2 475.1 541.0 479.1 542.2 481.7C543.4 484.4 544.7 487.3 545.1 488.2C545.6 489.1 547.9 494.9 550.3 501.2C565.5 540.1 577.7 586.6 580.2 614.5C581.3 627.5 580.7 660.1 579.1 669.0C574.8 692.5 570.7 707.2 563.8 723.4C553.2 748.3 542.9 763.7 523.0 784.4C491.4 817.3 447.2 838.0 393.0 845.5C350.9 851.2 299.4 840.5 248.5 815.5C208.3 795.7 174.1 764.2 144.0 719.3C103.3 658.3 91.3 582.3 111.5 512.5C128.2 454.9 169.5 411.2 225.0 392.7C247.5 385.2 264.1 382.9 286.5 384.1C315.0 385.6 341.6 394.4 363.9 409.5C372.4 415.3 386.4 428.5 390.5 434.8C392.8 438.3 393.8 439.0 395.9 438.8C399.6 438.4 399.5 436.2 395.8 430.5C391.8 424.3 374.6 407.0 366.5 400.9C339.5 380.7 303.6 369.0 268.7 369.0C260.0 369.0 224.7 372.5 223.1 373.4C222.7 373.7 218.3 374.8 213.4 375.9C177.2 383.9 139.7 404.1 112.1 430.4C85.4 456.0 64.0 492.9 51.3 535.0C47.6 547.4 44.1 564.4 40.9 585.5C39.5 594.7 40.4 621.3 42.4 631.5C43.3 635.9 45.0 644.5 46.1 650.5C47.2 656.5 49.1 664.6 50.2 668.5C53.5 680.3 57.0 691.3 58.4 695.0C59.2 696.9 61.1 701.6 62.6 705.5C69.2 722.8 82.8 746.9 95.2 763.3C122.8 799.9 152.6 823.3 196.5 842.7C220.1 853.1 251.5 861.8 279.0 865.4C285.3 866.3 291.9 867.2 293.5 867.4C295.1 867.6 313.1 867.7 333.5 867.5C365.1 867.3 372.4 867.0 383.6 865.2Z"/></svg>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="lace" aria-hidden="true"></div>
+
+<!-- IDENTIFICAÇÃO -->
+<section>
+  <div class="wrap pain-grid">
+    <div class="rv">
+      <span class="eyebrow">Talvez você se identifique</span>
+      <h2>Você é ótima no que faz. Mas, no Instagram, tudo parece mais difícil.</h2>
+    </div>
+    <div class="rv">
+      <ul class="pains">
+        <li><span>01</span>Não sabe o que postar nem por onde começar.</li>
+        <li><span>02</span>Perde horas tentando criar uma arte bonita.</li>
+        <li><span>03</span>Sente que o perfil não mostra a qualidade do seu trabalho.</li>
+        <li><span>04</span>Não consegue manter uma frequência de publicações.</li>
+        <li><span>05</span>Quer usar IA, mas não sabe como aplicar no seu negócio.</li>
+        <li><span>06</span>Não quer um feed com cara de IA, igual ao de todo mundo.</li>
+      </ul>
+      <p class="note">Não falta capacidade. Falta <em>direcionamento, organização e as ferramentas certas.</em> É isso que construímos juntas na Sublime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VITRINE -->
+<section class="vitrine flor">
+  <div class="ribbon" aria-hidden="true"></div>
+  <div class="wrap vit-grid">
+    <div class="rv">
+      <span class="eyebrow">A primeira impressão</span>
+      <h2 class="vit-t"><span>Hoje, uma possível cliente</span><span>entrou no seu perfil.</span></h2>
+      <span class="bubble">O que ela encontrou lá?</span>
+      <p class="lead">Em poucos segundos, ela já sente se a sua marca é <b class="hl">profissional, confiável e do nível do seu trabalho.</b> É essa primeira impressão que vamos construir juntas.</p>
+    </div>
+    <div class="vit-ph rv"><img class="shd" src="diana-perfil-recorte.webp" alt="" aria-hidden="true" width="860" height="1123" loading="lazy"><img src="diana-perfil-recorte.webp" alt="Diana Freitas segurando um cartão com o perfil dela no Instagram" width="860" height="1123" loading="lazy"></div>
+  </div>
+  <div class="ribbon bot" aria-hidden="true"></div>
+</section>
+
+<!-- MÉTODO AURA -->
+<section class="aura" id="aura">
+  <div class="wrap">
+    <div class="aura-top">
+      <div class="emblem" role="img" aria-label="Método Aura: Estética, Intenção e Estratégia">
+        <svg viewBox="-20 -20 440 440">
+          <defs><path id="lblpath" d="M200,10 a190,190 0 1,1 0,380 a190,190 0 1,1 0,-380"/>
+            <radialGradient id="gl"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#FFE6B0"/><stop offset="1" stop-color="#FFB45A" stop-opacity="0"/></radialGradient></defs>
+          <g class="g1"><circle class="arcs" cx="200" cy="200" r="168" pathLength="360" transform="rotate(0 200 200)"/></g>
+          <g class="g2"><circle class="arcs2" cx="200" cy="200" r="148" pathLength="360"/></g>
+          <g class="lbls">
+            <text class="lbl"><textPath href="#lblpath" startOffset="91.7%" text-anchor="middle">ESTÉTICA</textPath></text>
+            <text class="lbl"><textPath href="#lblpath" startOffset="25%" text-anchor="middle">INTENÇÃO</textPath></text>
+            <text class="lbl"><textPath href="#lblpath" startOffset="58.3%" text-anchor="middle">ESTRATÉGIA</textPath></text>
+          </g>
+          <svg class="logo" x="80" y="140" width="240" height="120" viewBox="90 87 2099 1049"><path fill="#FBF1E6" fill-rule="evenodd" d="M1202.0 1130.0C1210.0 1129.4 1217.8 1128.5 1219.5 1128.0C1221.2 1127.5 1225.9 1126.6 1230.0 1126.1C1248.6 1123.8 1268.2 1120.9 1276.0 1119.1C1280.7 1118.0 1286.1 1116.8 1288.0 1116.4C1289.9 1116.1 1292.0 1115.3 1292.7 1114.8C1293.3 1114.3 1297.5 1113.2 1301.9 1112.5C1306.4 1111.7 1312.8 1110.1 1316.2 1109.0C1319.6 1107.9 1323.1 1107.0 1323.9 1107.0C1324.8 1107.0 1326.4 1106.4 1327.5 1105.7C1329.7 1104.3 1336.7 1101.5 1347.0 1098.0C1359.7 1093.7 1399.3 1073.4 1409.0 1066.3C1410.3 1065.3 1412.2 1064.2 1413.2 1063.8C1414.2 1063.4 1417.8 1061.1 1421.1 1058.8C1424.5 1056.4 1428.4 1053.7 1429.8 1052.8C1433.0 1050.7 1440.0 1044.6 1450.2 1035.0C1458.5 1027.2 1468.7 1014.8 1473.1 1007.0C1474.5 1004.5 1477.3 999.6 1479.4 996.2C1481.4 992.7 1483.7 987.0 1484.5 983.7C1485.3 980.3 1486.7 975.0 1487.6 972.0C1490.0 963.6 1489.8 947.2 1487.2 938.8C1486.0 935.1 1484.2 930.3 1483.1 928.1C1481.9 925.9 1481.0 923.6 1481.0 923.0C1481.0 922.5 1478.3 919.3 1475.0 915.9C1467.8 908.6 1456.6 901.7 1443.8 896.5C1435.0 893.0 1433.7 892.7 1418.0 891.8C1397.3 890.6 1382.3 891.9 1368.5 896.0C1358.6 899.0 1339.0 907.8 1335.9 910.6C1334.9 911.5 1332.7 912.9 1330.8 913.8C1328.1 915.2 1324.4 919.8 1325.3 920.7C1325.8 921.1 1339.4 919.2 1343.5 918.1C1354.6 915.2 1374.0 918.4 1383.7 924.9C1392.4 930.6 1398.3 936.8 1401.8 943.5C1407.9 955.3 1408.3 957.2 1408.3 969.8C1408.3 983.1 1407.4 987.4 1402.4 1000.3C1395.1 1019.1 1383.6 1035.7 1368.4 1049.8C1364.0 1053.7 1359.4 1058.1 1358.0 1059.3C1356.6 1060.6 1354.4 1062.3 1353.0 1063.0C1351.6 1063.7 1348.8 1065.6 1346.8 1067.2C1340.2 1072.3 1326.7 1079.6 1298.5 1093.0C1293.0 1095.7 1287.2 1098.1 1285.5 1098.4C1283.8 1098.8 1276.2 1101.0 1268.5 1103.5C1253.4 1108.2 1242.1 1110.7 1229.5 1112.0C1225.1 1112.5 1218.3 1113.6 1214.5 1114.5C1203.8 1117.1 1161.5 1117.7 1145.0 1115.5C1138.1 1114.6 1126.7 1113.3 1119.5 1112.5C1100.9 1110.5 1085.5 1108.1 1077.8 1105.9C1074.2 1104.8 1070.4 1104.0 1069.3 1104.0C1068.3 1104.0 1064.3 1103.1 1060.5 1102.1C1056.7 1101.0 1048.8 1099.2 1043.1 1098.1C1037.4 1096.9 1028.8 1094.5 1024.1 1092.6C1019.4 1090.7 1011.2 1087.8 1006.0 1086.2C1000.8 1084.5 994.2 1082.4 991.5 1081.5C988.8 1080.6 984.5 1079.0 982.0 1078.0C979.5 1076.9 976.4 1075.8 975.0 1075.4C971.1 1074.3 929.2 1053.4 922.4 1049.1C919.1 1047.0 912.8 1043.4 908.4 1041.0C904.1 1038.6 899.8 1035.8 899.0 1034.9C898.2 1034.0 895.1 1031.9 892.3 1030.2C889.4 1028.4 883.6 1024.4 879.4 1021.3C875.2 1018.1 870.2 1014.5 868.3 1013.2C866.4 1011.9 864.6 1010.2 864.3 1009.4C864.0 1008.6 862.5 1007.3 860.9 1006.4C856.6 1004.2 834.0 984.2 825.8 975.3C821.8 971.0 817.5 966.6 816.3 965.5C811.0 960.6 784.2 928.2 782.1 924.2C781.4 922.7 780.2 921.0 779.4 920.4C777.7 919.0 757.0 888.1 757.0 886.9C757.0 886.4 756.2 885.2 755.1 884.1C753.4 882.4 747.9 873.0 744.3 865.5C743.5 863.9 742.2 861.4 741.4 860.0C738.0 854.5 721.2 819.3 720.6 816.6C720.2 815.0 719.0 812.5 717.9 811.2C716.9 809.8 716.0 808.1 716.0 807.4C716.0 806.6 715.1 804.3 714.0 802.3C712.9 800.2 712.0 797.8 712.0 797.0C712.0 796.2 710.8 793.3 709.4 790.7C708.0 788.0 705.7 782.4 704.3 778.2C702.9 774.0 699.9 766.2 697.8 761.0C688.6 739.1 681.1 720.1 679.1 713.5C677.8 709.6 675.7 703.8 674.4 700.5C673.1 697.2 669.6 687.5 666.6 678.8C663.6 670.2 660.5 661.9 659.7 660.3C658.9 658.8 657.7 655.1 657.1 652.2C656.5 649.3 654.9 644.8 653.6 642.2C652.3 639.6 650.1 634.1 648.7 630.0C647.3 625.9 645.0 619.4 643.5 615.5C642.1 611.6 639.8 604.9 638.4 600.5C637.0 596.1 635.1 590.2 634.1 587.5C633.1 584.8 631.6 580.2 630.6 577.5C629.7 574.8 626.2 565.1 622.8 556.0C616.8 539.6 615.8 536.6 609.3 517.5C605.0 504.8 592.8 468.0 589.4 457.5C588.0 453.1 585.2 445.4 583.2 440.5C581.3 435.6 578.4 427.0 576.8 421.5C575.2 416.0 572.8 408.6 571.4 405.1C570.0 401.6 567.3 393.7 565.5 387.6C563.7 381.5 561.0 373.4 559.5 369.5C558.0 365.6 556.4 360.7 555.8 358.5C555.2 356.3 554.2 352.9 553.5 351.0C552.9 349.1 551.5 345.2 550.6 342.5C549.6 339.8 547.7 334.6 546.4 331.1C545.1 327.5 543.5 322.1 542.8 319.1C542.2 316.0 541.1 312.6 540.5 311.5C539.8 310.4 537.4 303.6 535.1 296.5C532.8 289.4 526.9 271.4 521.9 256.5C517.0 241.7 512.1 226.6 511.1 223.0C507.8 211.5 506.2 206.7 502.0 195.0C499.7 188.7 496.3 178.2 494.5 171.8C492.7 165.4 490.7 159.2 490.1 158.1C489.5 157.0 487.5 151.0 485.6 144.8C483.7 138.6 480.1 127.7 477.5 120.5C475.0 113.3 472.3 105.2 471.5 102.3C469.9 95.8 469.4 95.0 466.9 95.0C464.3 95.0 451.1 102.5 439.9 110.2C428.8 118.0 419.4 124.0 418.5 124.0C418.1 124.0 414.7 126.0 411.0 128.5C407.3 131.0 403.8 133.0 403.3 133.0C402.7 133.0 401.5 133.9 400.4 135.1C399.4 136.3 397.1 138.0 395.3 138.9C385.4 144.0 364.0 156.2 363.4 157.1C363.1 157.6 360.4 159.2 357.4 160.5C351.1 163.3 350.1 165.6 352.5 172.1C353.4 174.5 355.4 180.2 357.0 184.7C358.6 189.3 360.6 194.0 361.4 195.2C362.2 196.5 363.1 199.1 363.5 201.0C363.9 202.9 364.8 205.4 365.4 206.5C366.1 207.6 367.7 211.9 368.9 216.0C371.7 225.3 372.1 226.5 375.9 236.5C380.3 247.7 381.5 256.5 380.0 264.9C378.8 271.1 371.0 294.9 365.6 308.5C364.3 311.8 361.6 319.4 359.6 325.5C357.7 331.6 354.3 340.6 352.1 345.5C349.8 350.4 348.0 355.3 348.0 356.3C348.0 358.1 343.0 371.3 340.3 376.5C339.5 378.1 337.7 382.6 336.5 386.5C335.2 390.4 333.2 396.0 332.0 399.0C330.8 402.0 329.1 406.5 328.3 409.0C327.5 411.5 326.0 415.7 324.9 418.4C323.9 421.1 323.0 424.0 323.0 424.8C323.0 425.6 321.7 429.0 320.1 432.4C316.8 439.4 310.0 457.4 310.0 459.0C310.0 459.6 308.8 462.7 307.4 465.8C305.9 468.9 303.3 475.6 301.5 480.5C299.7 485.4 296.6 493.5 294.6 498.3C292.6 503.1 291.0 507.7 291.0 508.5C291.0 509.3 290.1 511.9 289.1 514.2C288.1 516.6 286.2 521.2 285.0 524.5C283.8 527.8 282.0 532.3 281.0 534.5C280.1 536.7 279.0 539.9 278.7 541.7C278.3 543.5 276.0 549.4 273.6 554.7C271.1 560.1 268.1 567.7 266.9 571.5C265.7 575.4 263.6 580.8 262.2 583.5C259.9 588.1 257.3 595.1 247.4 623.3C245.5 628.7 243.3 634.1 242.5 635.3C241.7 636.5 241.0 638.3 241.0 639.3C241.0 640.3 239.9 643.0 238.6 645.3C237.2 647.6 234.6 653.8 232.7 659.0C230.8 664.2 227.8 671.9 226.0 676.0C224.3 680.1 222.0 685.8 221.1 688.5C220.1 691.2 218.5 694.9 217.7 696.5C216.8 698.1 214.6 702.9 212.7 707.0C210.7 711.1 207.2 718.8 204.7 724.0C202.3 729.2 199.9 734.6 199.5 736.0C199.1 737.4 197.6 740.2 196.4 742.2C195.1 744.3 194.0 746.3 193.9 746.7C193.9 747.6 185.4 761.3 177.9 772.6C168.2 787.3 153.4 803.4 141.5 812.1C137.1 815.3 132.2 818.9 130.5 820.2C126.2 823.6 111.5 831.7 107.2 833.1C102.0 834.8 96.0 837.9 96.0 838.9C96.0 839.4 97.2 840.0 98.8 840.3C102.7 841.1 248.3 841.2 250.3 840.4C252.8 839.5 252.4 837.5 249.3 835.4C244.5 832.3 231.7 819.8 226.7 813.3C220.6 805.5 215.4 791.5 214.5 780.3C213.8 772.2 215.9 750.9 217.9 745.7C218.5 744.2 219.8 738.8 220.9 733.7C222.9 723.6 228.8 704.5 235.5 685.5C237.9 678.9 240.7 670.8 241.9 667.5C243.0 664.2 245.3 657.7 247.0 653.0C248.7 648.3 250.7 642.5 251.5 640.0C254.5 630.4 256.3 625.2 260.1 616.0C264.1 606.2 268.0 594.6 268.0 592.6C268.0 591.9 269.7 587.8 271.8 583.4C274.0 579.1 277.1 571.0 278.9 565.5C280.6 560.0 283.7 552.1 285.8 548.0L289.5 540.5L387.8 540.7C467.7 540.8 486.4 541.1 487.7 542.2C489.7 543.8 493.0 551.1 498.0 565.0C500.1 570.8 503.3 579.3 505.0 584.0C506.8 588.7 509.1 595.0 510.2 598.0C511.2 601.0 512.8 604.9 513.5 606.5C515.2 610.1 524.0 634.4 524.0 635.6C524.0 636.1 525.2 638.8 526.5 641.5C527.9 644.2 529.0 647.1 529.0 647.7C529.0 648.4 531.3 654.2 534.1 660.7C536.9 667.2 540.3 675.9 541.7 680.0C543.1 684.1 546.0 691.3 548.0 696.0C550.1 700.7 552.8 707.6 554.0 711.5C555.2 715.4 557.3 721.0 558.5 724.0C559.8 727.0 562.0 732.9 563.4 737.0C565.9 744.4 567.6 748.8 571.0 756.5C575.8 767.3 577.0 770.3 577.0 771.4C577.0 773.2 602.0 823.7 608.6 835.1C611.0 839.3 613.0 843.2 613.0 843.8C613.0 844.3 614.5 846.6 616.2 848.9C618.0 851.1 622.2 857.5 625.5 863.0C628.8 868.6 632.6 874.6 634.0 876.5C635.4 878.4 637.5 881.4 638.8 883.2C644.6 891.7 666.5 920.1 675.1 930.2C684.8 941.6 725.5 982.7 730.2 985.8C731.6 986.7 736.7 990.9 741.5 995.0C746.3 999.1 751.2 1003.2 752.4 1004.0C753.6 1004.8 759.7 1009.3 766.0 1014.0C777.0 1022.2 782.4 1025.8 788.1 1029.0C789.6 1029.8 793.4 1032.3 796.6 1034.5C802.3 1038.3 812.7 1044.4 830.0 1054.0C843.3 1061.4 846.1 1062.8 852.5 1065.6C855.8 1067.0 862.1 1069.9 866.5 1072.0C870.9 1074.1 875.6 1076.1 877.0 1076.5C878.4 1076.9 882.9 1078.8 887.0 1080.7C891.1 1082.6 898.5 1085.5 903.5 1087.2C908.4 1088.9 914.5 1091.3 917.0 1092.5C921.4 1094.7 925.4 1096.0 949.0 1103.5C965.9 1108.9 973.9 1111.1 979.5 1112.0C982.2 1112.4 991.0 1114.4 999.0 1116.3C1013.9 1120.0 1029.1 1122.8 1048.5 1125.5C1054.5 1126.4 1061.3 1127.6 1063.5 1128.1C1065.6 1128.7 1073.1 1129.5 1080.0 1129.9C1099.1 1131.1 1185.6 1131.1 1202.0 1130.0ZM1809.5 849.5C1820.5 848.2 1833.0 846.1 1837.3 845.0C1846.4 842.6 1865.9 833.4 1871.6 828.9C1873.7 827.2 1876.8 825.2 1878.5 824.5C1880.8 823.5 1894.9 811.8 1899.2 807.3C1902.7 803.6 1914.4 788.9 1921.7 779.0C1926.9 772.0 1929.0 771.0 1930.2 775.0C1930.5 776.4 1932.0 781.5 1933.4 786.5C1934.9 791.5 1936.0 796.2 1936.0 797.0C1936.0 797.8 1936.9 800.2 1938.0 802.3C1939.2 804.4 1941.0 808.5 1942.0 811.4C1943.6 815.5 1945.9 818.5 1953.3 825.6C1964.8 836.6 1969.4 839.4 1982.8 843.7C1997.2 848.2 2002.8 849.0 2022.6 849.0C2040.6 849.0 2052.0 847.6 2062.6 844.1C2072.6 840.8 2079.6 838.2 2081.6 837.2C2082.6 836.7 2086.0 835.1 2089.0 833.6C2096.8 829.9 2110.9 820.8 2115.4 816.6C2117.4 814.6 2119.7 813.0 2120.4 813.0C2122.0 813.0 2146.7 788.2 2149.4 783.8C2150.6 782.0 2153.5 777.8 2155.9 774.5C2163.7 764.2 2174.2 744.3 2176.4 735.7C2177.2 732.8 2178.7 727.8 2179.8 724.5C2181.0 720.8 2182.3 713.0 2183.0 704.2C2184.7 682.8 2183.0 664.5 2178.4 654.0C2176.0 648.7 2175.2 647.1 2169.7 637.0C2168.3 634.5 2164.4 629.5 2160.9 625.8C2155.9 620.7 2153.5 618.9 2150.0 617.9C2144.2 616.4 2134.3 617.9 2130.0 621.0C2125.6 624.1 2121.0 632.6 2121.0 637.5C2121.0 643.9 2126.9 653.4 2138.8 665.8C2146.1 673.4 2155.5 687.3 2158.2 694.2C2160.8 701.2 2161.6 718.3 2159.7 729.5C2158.0 739.3 2150.0 758.8 2144.1 767.3C2142.4 769.8 2141.0 772.3 2141.0 772.8C2141.0 774.0 2132.2 784.7 2126.0 790.9C2118.9 798.1 2113.2 802.0 2103.0 806.9C2093.9 811.3 2093.1 811.4 2085.1 811.3C2077.4 811.2 2076.4 810.9 2071.4 807.6C2065.8 803.8 2062.3 798.5 2060.1 790.4C2059.3 787.6 2059.0 742.1 2059.0 637.9C2059.0 466.3 2058.9 465.2 2052.4 445.5C2050.0 438.3 2047.1 430.7 2046.0 428.5C2044.9 426.4 2044.0 423.8 2044.0 422.8C2044.0 421.8 2042.9 420.3 2041.6 419.5C2040.2 418.6 2038.7 416.6 2038.1 415.0C2036.5 410.2 2012.8 384.0 2010.1 384.0C2009.6 384.0 2008.4 383.0 2007.6 381.8C2006.7 380.5 2004.5 378.6 2002.6 377.5C1995.3 373.2 1984.3 366.6 1980.9 364.3C1979.0 363.1 1976.8 362.0 1976.0 362.0C1975.3 362.0 1973.7 361.1 1972.6 360.1C1971.4 359.0 1966.0 356.7 1960.5 355.0C1955.0 353.3 1948.2 351.0 1945.5 350.0C1936.1 346.6 1930.5 345.2 1922.0 344.1C1917.3 343.6 1909.0 342.5 1903.5 341.8C1880.9 338.9 1839.1 341.0 1817.5 346.1C1791.8 352.2 1765.6 364.2 1748.5 377.8C1742.7 382.4 1738.0 386.6 1738.0 387.2C1738.0 387.7 1736.7 389.5 1735.0 391.0C1731.6 394.2 1725.6 404.1 1720.5 414.9C1714.4 427.7 1714.1 446.6 1719.6 464.0C1721.8 471.0 1722.6 472.4 1727.3 476.4C1734.1 482.2 1736.4 483.0 1746.5 483.0C1756.4 483.0 1759.2 482.1 1764.3 477.2C1771.1 470.7 1771.2 469.9 1772.2 444.0C1772.9 426.2 1773.6 418.6 1775.1 412.5C1777.2 404.0 1785.7 386.2 1789.6 382.0C1800.7 370.1 1810.6 362.3 1821.5 356.8C1828.1 353.4 1845.2 349.9 1854.8 349.8C1860.0 349.8 1865.4 350.6 1870.6 352.0C1878.6 354.2 1892.0 360.5 1892.0 362.1C1892.0 362.6 1893.7 363.8 1895.8 364.9C1897.9 366.0 1900.2 368.0 1901.0 369.4C1901.7 370.8 1902.7 372.0 1903.1 372.0C1904.4 372.0 1912.2 382.9 1915.8 389.8C1924.0 405.5 1931.0 429.0 1931.0 440.7C1930.9 454.3 1922.3 476.1 1914.3 482.7C1912.0 484.6 1909.8 487.0 1909.5 488.1C1909.1 489.2 1907.4 490.7 1905.7 491.5C1903.9 492.3 1900.6 494.5 1898.3 496.2C1896.0 498.0 1892.0 500.8 1889.3 502.4C1886.7 504.0 1882.2 506.8 1879.5 508.5C1873.7 512.2 1869.9 514.3 1865.0 516.5C1861.4 518.1 1860.8 518.4 1855.5 521.3C1848.9 524.9 1824.9 536.0 1823.7 536.0C1823.0 536.0 1818.2 537.5 1813.0 539.4C1807.8 541.3 1801.9 543.3 1800.0 544.0C1798.1 544.7 1794.9 545.9 1793.0 546.7C1791.1 547.6 1785.5 549.5 1780.5 551.0C1775.5 552.6 1766.5 555.9 1760.5 558.4C1754.5 560.9 1749.1 563.0 1748.7 563.0C1748.2 563.0 1741.3 566.2 1733.2 570.2C1718.6 577.3 1705.8 585.3 1699.0 591.5C1697.1 593.3 1693.8 595.9 1691.7 597.2C1683.3 602.8 1661.7 629.3 1657.6 639.0C1656.8 640.9 1655.2 643.8 1653.9 645.4C1651.5 648.5 1644.3 666.8 1642.8 674.0C1642.3 676.5 1641.2 681.2 1640.5 684.5C1637.3 698.3 1636.9 703.0 1637.2 723.5C1637.5 740.5 1637.9 745.6 1639.4 750.5C1645.3 769.4 1647.3 775.6 1648.0 776.5C1648.4 777.0 1649.5 779.5 1650.4 782.0C1653.2 789.2 1669.0 812.0 1673.3 815.0C1674.5 815.8 1676.6 817.5 1678.0 818.8C1686.3 826.2 1694.9 831.9 1705.8 837.2C1720.1 844.1 1731.0 847.1 1750.5 849.1C1756.0 849.7 1763.0 850.5 1766.0 850.9C1776.1 852.4 1789.4 851.9 1809.5 849.5ZM972.7 846.0C993.9 842.9 1012.3 835.8 1026.1 825.3C1042.9 812.4 1048.8 806.1 1060.8 788.2C1064.3 783.2 1067.7 779.0 1068.4 779.0C1070.5 779.0 1070.8 782.6 1071.0 810.0C1071.1 837.9 1071.5 840.0 1076.5 841.0C1078.2 841.4 1117.3 841.6 1163.5 841.6C1240.6 841.5 1247.5 841.4 1247.8 839.9C1248.0 838.7 1246.1 837.0 1241.8 834.4C1234.7 830.1 1223.2 820.0 1221.1 816.1C1220.3 814.7 1218.3 811.9 1216.6 810.0C1213.6 806.7 1211.7 802.1 1206.2 785.0C1204.3 779.2 1203.9 774.7 1203.0 743.5C1202.5 724.2 1201.9 628.1 1201.7 529.8C1201.5 387.9 1201.2 350.8 1200.2 349.8C1199.2 348.8 1180.7 348.4 1114.7 348.2C1068.4 348.1 1029.0 348.2 1027.2 348.5C1022.9 349.3 1023.1 351.7 1027.6 353.6C1031.8 355.3 1041.2 362.8 1045.7 367.9C1056.7 380.4 1057.9 382.1 1062.9 394.1C1066.4 402.3 1068.7 409.4 1069.6 415.0C1071.6 427.4 1071.6 732.6 1069.6 744.2C1068.3 751.5 1066.1 758.2 1061.9 767.8C1060.9 770.1 1060.0 772.5 1060.0 773.0C1060.0 775.6 1046.5 793.5 1038.5 801.5C1030.5 809.6 1018.1 818.8 1009.5 823.3C1007.8 824.1 1001.1 825.7 994.5 826.9C983.2 828.8 981.9 828.8 972.1 827.4C960.7 825.8 950.8 822.1 944.8 817.1C942.8 815.4 940.0 813.5 938.6 812.9C937.2 812.2 936.0 811.3 936.0 810.9C936.0 810.5 934.3 808.1 932.1 805.6C927.2 800.0 921.6 790.7 920.0 785.5C919.3 783.3 917.7 779.9 916.4 778.0C915.1 776.1 913.4 771.1 912.5 767.0C911.6 762.9 910.4 757.7 909.8 755.5C908.2 749.0 907.2 623.4 907.7 482.0C908.0 393.7 907.8 351.0 907.1 350.0C906.2 348.7 895.4 348.5 820.1 348.5C730.2 348.5 728.2 348.6 734.6 352.6C742.0 357.1 748.0 361.4 748.0 362.2C748.0 362.6 749.7 364.1 751.9 365.5C754.0 366.9 756.3 369.3 756.9 370.7C757.6 372.1 759.3 374.5 760.7 375.9C767.2 382.5 770.8 390.4 776.6 411.5L779.4 421.5L779.4 575.0C779.5 718.7 779.6 729.1 781.3 738.5C783.6 751.2 786.7 762.4 789.2 767.4C790.3 769.5 791.8 773.0 792.5 775.1C794.0 779.1 797.8 785.1 806.5 797.1C813.8 807.1 828.6 820.9 838.4 826.6C847.8 832.3 865.4 840.0 868.7 840.0C870.0 840.0 872.7 840.7 874.8 841.6C882.7 845.0 909.1 847.3 946.0 847.8C955.1 847.9 963.9 847.3 972.7 846.0ZM1500.8 840.2C1504.7 839.1 1503.8 837.8 1496.5 834.1C1492.6 832.1 1487.2 828.9 1484.5 826.9C1481.7 824.9 1478.1 822.5 1476.4 821.7C1474.7 820.8 1472.7 818.7 1472.0 817.0C1471.3 815.4 1469.6 813.4 1468.3 812.7C1463.7 810.4 1455.3 791.2 1452.6 776.9C1450.3 764.1 1450.2 529.7 1452.5 504.1C1453.4 494.6 1454.8 485.1 1455.6 483.1C1456.4 481.1 1458.0 475.8 1459.1 471.5C1460.2 467.1 1461.7 461.2 1462.4 458.5C1463.1 455.8 1465.5 449.7 1467.7 445.0C1469.9 440.3 1472.1 435.4 1472.5 434.0C1472.9 432.6 1474.3 430.2 1475.6 428.7C1476.9 427.1 1478.0 425.2 1478.0 424.3C1478.0 422.7 1480.6 419.5 1494.6 403.5C1507.6 388.6 1512.2 385.1 1530.5 376.2C1538.7 372.1 1541.8 371.2 1547.8 370.7C1563.4 369.4 1579.4 378.2 1585.9 391.5C1587.8 395.5 1588.4 398.6 1588.7 407.0C1589.1 417.1 1589.0 417.7 1586.3 422.6C1580.5 433.0 1579.4 434.6 1574.8 439.0C1572.1 441.5 1570.0 444.2 1570.0 445.1C1570.0 447.1 1572.7 449.5 1576.0 450.5C1577.4 450.9 1580.1 452.1 1582.0 453.3C1584.6 454.8 1588.7 455.6 1598.0 456.5C1617.4 458.3 1626.8 456.7 1646.3 448.1C1651.9 445.7 1662.2 436.3 1665.5 430.5C1670.9 421.2 1673.2 404.0 1670.6 391.5C1668.5 381.6 1664.7 375.1 1655.6 365.9C1649.9 360.1 1646.8 358.0 1637.5 353.5C1629.8 349.7 1625.0 348.0 1622.4 348.0C1620.2 348.0 1617.2 347.3 1615.5 346.4C1610.8 343.8 1588.3 343.3 1578.3 345.4C1543.4 353.0 1519.6 364.3 1500.2 382.4C1496.0 386.3 1491.1 390.8 1489.2 392.5C1487.4 394.1 1484.5 397.7 1482.8 400.5C1481.1 403.2 1478.4 407.3 1476.6 409.5C1473.9 413.0 1469.1 422.1 1462.1 437.0C1458.6 444.7 1456.1 448.0 1454.1 448.0C1453.0 448.0 1452.0 447.1 1451.7 445.8C1451.4 444.5 1451.1 422.6 1451.0 397.0C1451.0 366.9 1450.6 350.2 1449.9 349.5C1448.9 348.5 1280.7 347.5 1276.2 348.5C1273.4 349.2 1273.3 351.6 1276.1 353.1C1280.4 355.4 1287.7 361.5 1297.0 370.5C1308.6 381.8 1310.7 384.3 1313.0 389.5C1319.2 403.5 1319.6 405.6 1322.0 431.5C1322.5 437.0 1322.9 515.6 1322.9 606.2C1323.0 749.2 1322.8 771.7 1321.5 777.2C1319.4 786.2 1316.1 796.6 1313.4 803.1C1312.1 806.2 1311.0 809.2 1311.0 809.7C1311.0 810.1 1306.7 815.2 1301.4 820.8C1294.5 828.2 1290.3 831.7 1286.5 833.5C1280.4 836.4 1278.9 838.6 1282.3 840.0C1284.8 841.0 1497.2 841.2 1500.8 840.2ZM1827.4 799.6C1819.5 797.8 1803.0 788.7 1796.1 782.4C1787.8 774.8 1776.5 758.8 1771.8 748.2C1768.1 739.6 1764.1 723.6 1762.4 710.5C1760.9 699.3 1760.8 695.1 1761.8 680.5C1762.4 671.1 1763.3 662.1 1763.9 660.5C1764.4 658.9 1766.5 651.9 1768.5 645.0C1770.6 638.1 1773.2 630.5 1774.5 628.0C1778.5 619.9 1787.1 605.0 1792.1 597.4C1795.7 592.0 1816.8 571.9 1826.0 565.2C1830.1 562.1 1837.7 556.5 1842.9 552.6C1848.0 548.7 1856.2 542.6 1861.0 539.0C1865.8 535.4 1874.1 529.0 1879.4 524.7C1884.7 520.4 1891.2 515.6 1893.7 514.0C1896.3 512.3 1899.6 509.7 1901.0 508.2C1902.5 506.7 1904.9 504.7 1906.6 503.8C1908.2 502.8 1911.5 500.5 1914.0 498.5C1922.4 492.0 1928.2 489.6 1929.3 492.3C1930.4 495.1 1930.1 721.6 1929.0 731.0C1925.7 759.1 1911.5 780.1 1888.0 791.3C1871.2 799.4 1867.6 800.2 1849.5 800.6C1838.3 800.9 1831.7 800.5 1827.4 799.6ZM293.0 532.5C292.0 531.3 291.9 530.2 292.8 527.7C298.0 512.0 305.4 491.3 306.1 490.4C306.6 489.8 308.6 484.9 310.5 479.4C312.4 474.0 314.9 467.5 315.9 465.0C317.0 462.5 318.5 458.5 319.3 456.0C320.1 453.5 322.0 448.4 323.5 444.5C325.0 440.6 327.1 434.6 328.2 431.0C329.3 427.4 330.6 424.1 331.0 423.5C331.5 422.9 332.6 419.8 333.5 416.5C334.5 413.2 336.1 408.7 337.0 406.5C340.6 398.5 347.0 381.3 347.0 379.9C347.0 379.1 348.6 374.9 350.6 370.5C352.5 366.1 355.7 357.8 357.6 352.1C359.6 346.4 361.7 340.8 362.5 339.6C363.2 338.4 364.2 335.7 364.6 333.5C365.0 331.3 366.4 327.3 367.6 324.5C368.9 321.8 370.0 318.6 370.0 317.6C370.0 316.5 371.5 312.4 373.4 308.4C375.3 304.5 377.3 299.5 377.9 297.3C379.6 291.2 385.9 276.7 387.2 275.8C389.9 274.1 390.4 274.8 395.5 289.5C399.2 299.9 402.9 309.9 403.8 311.7C404.4 312.7 406.1 317.6 407.8 322.5C413.6 339.7 420.8 359.6 424.0 367.0C425.8 371.1 428.0 377.2 428.9 380.5C429.9 383.8 431.6 388.3 432.7 390.5C433.9 392.7 435.3 396.5 436.0 399.0C437.1 403.5 439.0 408.6 444.1 421.6C445.7 425.5 448.4 433.0 450.1 438.1C451.8 443.3 454.5 450.2 456.1 453.5C457.7 456.8 460.3 463.6 461.9 468.5C463.5 473.4 465.8 479.8 467.0 482.5C468.2 485.2 470.4 491.1 471.9 495.5C475.3 505.4 481.6 522.4 483.6 526.9C486.7 533.9 492.9 533.5 388.1 533.8C304.2 534.0 294.1 533.9 293.0 532.5ZM1415.7 232.1C1426.5 226.5 1438.0 216.6 1440.5 210.7C1441.3 208.9 1442.6 206.8 1443.4 206.1C1446.1 203.9 1450.2 189.2 1450.7 180.0C1451.3 169.5 1449.4 160.6 1444.5 151.3C1435.9 134.9 1428.9 128.4 1411.5 120.8C1405.4 118.1 1403.0 117.7 1393.3 117.3C1383.1 116.8 1381.3 117.0 1373.5 119.5C1368.4 121.2 1364.5 123.0 1364.0 124.0C1363.4 125.0 1361.5 126.3 1359.7 126.9C1351.9 129.5 1338.3 146.5 1334.7 158.1C1332.5 165.4 1332.4 186.3 1334.6 195.9C1336.4 204.1 1341.2 211.9 1349.8 220.6C1356.2 227.1 1362.1 230.9 1371.0 234.1C1380.3 237.5 1383.1 237.9 1394.7 237.5L1405.8 237.2L1415.7 232.1ZM1834.4 232.6C1848.3 226.0 1863.9 210.3 1865.6 201.1C1866.0 199.1 1866.9 196.1 1867.6 194.5C1871.2 185.8 1870.1 166.2 1865.3 154.5C1860.5 142.8 1849.4 129.5 1841.0 125.6C1839.1 124.7 1835.2 122.7 1832.5 121.3C1818.4 113.9 1794.8 115.9 1779.5 125.8C1772.3 130.4 1766.1 136.1 1765.1 139.2C1764.5 140.8 1762.7 143.7 1761.0 145.6C1759.3 147.5 1756.5 152.1 1754.8 155.8C1751.8 162.1 1751.6 163.3 1751.2 176.6L1750.8 190.8L1754.4 199.0C1760.9 213.7 1770.1 223.6 1784.6 231.5C1794.8 237.0 1800.2 238.0 1814.4 237.4C1824.7 237.0 1825.8 236.7 1834.4 232.6ZM1043.8 235.6C1046.9 234.6 1046.7 231.2 1043.4 230.0C1042.0 229.4 1026.8 229.0 1007.6 229.0C983.1 229.0 974.1 228.7 973.2 227.8C972.3 226.9 972.0 220.7 972.0 206.0C972.0 186.2 972.1 185.2 974.1 183.4C976.1 181.6 977.8 181.5 1002.2 181.8C1016.5 182.0 1029.5 181.8 1031.0 181.5C1034.9 180.7 1035.7 178.0 1032.9 175.7C1030.9 174.1 1028.6 173.9 1012.6 174.0C976.5 174.2 976.2 174.2 973.9 171.9C971.9 169.9 971.9 169.0 972.2 149.5C972.4 132.3 972.8 128.8 974.1 127.5C975.5 126.0 979.8 125.8 1008.6 125.7L1041.5 125.5L1041.8 123.3C1042.0 122.0 1041.4 120.8 1040.3 120.2C1039.2 119.6 1023.5 119.3 1000.7 119.5C966.4 119.8 962.7 120.0 960.9 121.6C959.1 123.2 959.0 125.4 959.0 178.0C959.0 220.1 959.3 233.0 960.2 234.3C960.9 235.2 963.3 236.0 965.5 236.2C973.8 236.8 1041.6 236.3 1043.8 235.6ZM1202.7 234.4C1203.6 233.1 1203.9 220.5 1203.9 180.8C1203.9 142.6 1204.2 128.4 1205.1 127.4C1206.0 126.3 1209.9 126.0 1223.6 126.0C1238.5 126.0 1241.1 125.8 1242.5 124.3C1244.1 122.7 1244.1 122.5 1242.2 120.9C1240.2 119.4 1236.2 119.3 1196.5 119.6C1172.5 119.8 1152.0 120.2 1150.9 120.5C1148.4 121.3 1148.5 123.6 1150.9 125.0C1152.0 125.6 1159.6 126.0 1168.4 126.0L1183.9 126.0L1186.0 128.7C1188.1 131.4 1188.1 131.7 1187.9 182.8C1187.8 211.7 1188.1 234.5 1188.6 235.0C1191.2 237.4 1200.8 237.0 1202.7 234.4ZM745.4 234.1C746.9 232.4 747.1 228.7 746.9 192.9C746.9 171.2 747.1 152.7 747.5 151.8C747.9 150.8 748.7 150.0 749.4 150.0C750.5 150.0 759.0 165.5 759.0 167.5C759.0 167.9 762.4 175.2 766.5 183.6C770.6 192.0 774.0 199.1 774.0 199.3C774.0 201.1 790.3 233.0 792.0 234.5C793.6 236.0 794.6 236.2 796.7 235.4C799.5 234.4 806.5 220.5 823.5 182.5C832.6 161.9 838.3 150.7 839.7 150.3C841.6 149.6 841.9 154.5 842.1 193.5C842.1 216.1 842.6 233.3 843.2 234.3C844.0 235.8 845.2 236.0 851.3 235.8L858.5 235.5L858.7 180.5C859.0 121.1 859.0 121.4 853.7 119.6C850.5 118.4 843.1 120.6 841.9 123.0C837.3 132.5 830.0 148.2 829.0 151.0C828.3 152.9 825.9 158.3 823.7 163.0C821.5 167.7 819.2 173.1 818.5 175.0C817.8 176.9 815.0 182.8 812.3 188.1C809.6 193.3 807.0 198.9 806.6 200.6C806.2 202.2 804.5 205.9 802.9 208.8C798.7 216.0 796.8 215.8 794.0 207.6C792.9 204.1 790.7 199.3 789.1 196.8C787.6 194.4 785.5 190.2 784.6 187.4C782.9 182.3 779.7 175.5 776.2 169.8C775.1 168.0 773.9 165.4 773.5 164.0C773.1 162.6 769.3 154.3 765.0 145.5C760.7 136.7 756.9 128.3 756.5 126.8C755.4 122.6 752.5 120.7 746.5 120.2C741.3 119.8 741.0 119.9 740.0 122.4C739.4 124.2 739.0 144.7 739.0 179.0C739.0 226.6 739.2 233.0 740.6 234.4C742.6 236.5 743.3 236.4 745.4 234.1ZM1609.8 232.1C1621.4 228.1 1624.1 226.5 1632.2 218.8C1640.5 210.8 1644.0 205.4 1646.5 196.4C1650.8 180.7 1650.7 173.9 1646.0 158.0C1644.5 153.1 1642.3 149.0 1638.0 143.4C1631.6 134.9 1626.7 130.7 1618.0 126.1C1607.7 120.7 1601.9 119.8 1576.8 119.8C1564.3 119.8 1553.6 120.1 1553.0 120.5C1551.5 121.5 1551.6 233.2 1553.2 234.8C1554.1 235.7 1560.6 236.0 1576.5 236.0L1598.6 236.0L1609.8 232.1ZM1381.0 229.7C1372.9 227.8 1364.6 223.6 1363.2 220.6C1362.6 219.2 1361.6 218.0 1361.1 218.0C1360.6 218.0 1359.1 216.3 1357.9 214.2C1356.7 212.2 1354.7 209.3 1353.5 207.8C1351.2 205.1 1347.7 192.7 1346.5 183.2C1345.2 173.7 1349.1 152.9 1353.0 148.5C1354.0 147.4 1355.5 145.0 1356.5 143.1C1359.3 137.6 1365.7 131.4 1371.8 128.4C1377.2 125.6 1378.2 125.5 1391.0 125.5C1404.1 125.5 1404.7 125.6 1410.0 128.5C1421.3 134.7 1428.5 145.3 1434.9 165.1C1436.4 169.7 1435.5 190.6 1433.7 193.4C1432.8 194.7 1431.5 198.1 1430.7 201.1C1429.9 204.1 1427.9 208.7 1426.2 211.3C1422.0 218.0 1412.3 226.1 1406.0 228.3C1399.3 230.7 1388.0 231.3 1381.0 229.7ZM1799.7 229.5C1792.7 228.3 1790.5 227.0 1781.2 219.1C1771.6 210.9 1767.1 198.0 1766.8 177.6C1766.7 167.7 1767.1 164.2 1768.8 158.5C1772.7 145.8 1781.3 134.0 1791.0 128.2C1795.3 125.6 1796.1 125.5 1810.0 125.5L1824.5 125.5L1830.3 129.3C1838.2 134.6 1842.2 138.7 1846.9 146.7C1852.0 155.5 1854.4 166.0 1853.7 177.3C1853.1 189.1 1851.0 202.0 1849.2 205.5C1847.3 209.3 1840.1 219.1 1838.1 220.8C1831.2 226.4 1827.1 228.5 1820.6 229.6C1812.0 231.2 1808.5 231.1 1799.7 229.5ZM1574.7 229.1C1569.5 228.6 1567.5 228.0 1566.4 226.6C1565.3 225.0 1565.1 216.8 1565.3 178.0C1565.5 136.4 1565.7 131.1 1567.2 128.9C1568.7 126.5 1569.5 126.3 1579.7 125.6C1598.2 124.5 1607.7 127.6 1618.9 138.5C1627.7 146.9 1631.6 154.5 1633.1 165.8C1634.3 174.9 1633.8 188.5 1632.0 197.0C1629.6 208.4 1619.4 220.3 1607.9 225.4C1603.1 227.5 1587.4 230.3 1583.0 229.8C1582.2 229.8 1578.4 229.4 1574.7 229.1ZM1009.9 104.0C1014.6 97.8 1015.1 93.7 1011.3 93.2C1008.9 92.8 1004.2 98.9 1002.1 105.0C1001.1 108.0 1001.2 108.7 1002.7 109.7C1004.6 111.2 1004.5 111.3 1009.9 104.0Z"/></svg>
+          <g class="glint"><circle cx="312" cy="232" r="26" fill="url(#gl)" opacity=".85"/><path d="M312 212l3 17 17 3-17 3-3 17-3-17-17-3 17-3z" fill="#FFF8EC"/></g>
+        </svg>
+      </div>
+      <div class="rv">
+        <span class="eyebrow">O método por trás da Sublime</span>
+        <div class="manifesto">
+          <p>Sabe aquela sensação de entrar no perfil de alguém e já <b>sentir que é profissional, confiável, diferente</b>, mesmo antes de ler qualquer legenda?</p>
+          <p>É isso que eu chamo de <span class="aura-w">Aura</span>. Uma presença que fala por você antes de você abrir a boca.</p>
+        </div>
+        <p class="manifesto-2">Criei o <b>Método Aura</b> para ajudar mulheres empreendedoras a construírem essa presença. Uma comunicação que reflete o valor que elas realmente entregam, de forma elegante e estratégica.</p>
+      </div>
+    </div>
+    <div class="pillars">
+      <article class="pillar rv" data-k="0">
+        <span class="n">01</span>
+        <h3>Estética</h3>
+        <p class="tag">Uma imagem que representa o seu valor.</p>
+        <p>Cores, tipografia e elementos visuais que traduzem a personalidade da sua marca e despertam interesse.</p>
+      </article>
+      <article class="pillar rv" data-k="1">
+        <span class="n">02</span>
+        <h3>Intenção</h3>
+        <p class="tag">Cada detalhe comunica alguma coisa.</p>
+        <p>Da biografia aos conteúdos, vamos construir uma presença em que cada escolha tenha um propósito.</p>
+      </article>
+      <article class="pillar rv" data-k="2">
+        <span class="n">03</span>
+        <h3>Estratégia</h3>
+        <p class="tag">Uma comunicação que vai além da aparência.</p>
+        <p>Conteúdos e posicionamento pensados para gerar conexão, transmitir autoridade e criar oportunidades para o seu negócio.</p>
+      </article>
+    </div>
+    <p class="formula rv"><b>Estética + Intenção + Estratégia</b> = uma presença digital com identidade e propósito.</p>
+  </div>
+  <div class="ribbon bot" aria-hidden="true"></div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <div class="wrap">
+    <div class="how-top">
+      <div class="how-ph rv"><div class="pic"><img src="celular-feed.jpg" alt="Mulher olhando o feed do Instagram no celular" width="820" height="1230" loading="lazy"></div></div>
+      <div class="how-txt rv">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Quatro encontros pensados para a realidade do seu negócio.</h2>
+        <div class="facts">
+          <div><b>1h a 1h30</b>cada um</div>
+          <div><b>1:1</b>individual e online</div>
+        </div>
+      </div>
+    </div>
+    <ol class="timeline">
+      <li class="rv"><span class="k">01</span><small class="enc">Encontro 1</small><h3>Essência da marca</h3><p>Seu público, seus diferenciais e o que o seu perfil precisa comunicar.</p><p class="get">Você recebe o Diagnóstico Aura</p></li>
+      <li class="rv"><span class="k">02</span><small class="enc">Encontro 2</small><h3>Estética que valoriza</h3><p>Cores, tipografia e direção visual para o seu Instagram.</p><p class="get">Você recebe a Identidade Visual Sublime e o Kit de Conteúdo</p></li>
+      <li class="rv"><span class="k">03</span><small class="enc">Encontro 3</small><h3>Conteúdo com intenção</h3><p>Pilares, ideias, roteiros e legendas, com a IA como aliada e sem cara de IA.</p><p class="get">Você recebe a Aura IA e o Ensaio com IA</p></li>
+      <li class="rv"><span class="k">04</span><small class="enc">Encontro 4</small><h3>Estratégia e rotina</h3><p>Planejamento e uma rotina possível para seguir com autonomia.</p><p class="get">Você recebe o Planner Sublime</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ENTREGAS -->
+<section class="gifts-sec flor">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">O que você recebe</span>
+      <h2>Tudo para colocar o aprendizado em prática.</h2>
+    </div>
+    <div class="gifts">
+      <figure class="gift-img rv"><img src="notebook-sublime.jpg" alt="Notebook com a marca Mentoria Sublime na tela" width="820" height="1230" loading="lazy"></figure>
+      <div class="gift rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M8.5 11h5M11 8.5v5"/></svg></span><h3>Diagnóstico Aura</h3><p>Uma análise personalizada do seu perfil, com as oportunidades de melhoria e o direcionamento estratégico.</p></div>
+      <div class="gift rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.3-1.2-1.6-1.2-2.8 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.4 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/></svg></span><h3>Identidade Visual Sublime</h3><p>Paleta, tipografia e direção visual exclusivas para o seu Instagram.</p></div>
+      <div class="gift rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3.5" y="3.5" width="11" height="13" rx="2"/><path d="M9.5 20.5h9a2 2 0 0 0 2-2v-9"/></svg></span><h3>Kit de Conteúdo Personalizado</h3><p>Modelos de carrossel, arte única e capas de Reels feitos para o seu perfil.</p></div>
+      <div class="gift rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 16l5-4.5 4 3.5 3-2.5 6 5"/><path d="M16.5 7.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/></svg></span><h3>Ensaio com IA</h3><p>Um ensaio fotográfico profissional criado com IA, mas sem aquela cara de IA que todo mundo já reconhece.</p></div>
+      <div class="gift rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5z"/><path d="M12 7.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z"/></svg></span><h3>Aura IA</h3><p>Sua assistente de conteúdo, configurada para a sua marca, para criar ideias, roteiros e legendas.</p></div>
+      <div class="gift rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h3M8 17h6"/></svg></span><h3>Planner Sublime</h3><p>Seu dashboard para organizar ideias, publicações e etapas de produção.</p></div>
+    <div class="gift gift-wide rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-1.8-.9-.8.8c-1-.4-1.9-1.3-2.3-2.3l.8-.8-.9-1.8z"/></svg></span><div><h3>Suporte pelo WhatsApp<br>durante 30 dias</h3><p>Ficou com alguma dúvida entre um encontro e outro? <br>Você fala direto comigo pelo WhatsApp por 30 dias.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTORA -->
+<section>
+  <div class="wrap mentor">
+    <figure class="rv frame-wrap"><img src="mentoria.jpg" alt="Diana Freitas trabalhando no notebook" width="900" height="675" loading="lazy"></figure>
+    <div class="rv">
+      <span class="eyebrow">Quem vai te acompanhar</span>
+      <h2 class="hello">Prazer, eu sou<img class="sig-big" src="assinatura-dourada.png" alt="Diana Freitas" width="1400" height="365" loading="lazy"></h2>
+      <p>Sou designer, empreendedora e fundadora da DUNE, agência de identidade visual e comunicação de marcas.</p>
+      <p>Nos meus projetos, vi muitas empreendedoras excelentes no que fazem, mas sem saber como mostrar isso no digital. Criei a Sublime para compartilhar o que aplico no meu trabalho e ajudar você a construir uma presença que represente o seu negócio, com autonomia.</p>
+      
+    </div>
+  </div>
+</section>
+
+<!-- PORTAS -->
+<section class="portal flor" aria-labelledby="portal-t">
+  <div class="portal-in wrap">
+    <svg class="key" viewBox="0 0 520 150" aria-hidden="true">
+          <defs><linearGradient id="kg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8E3BC"/><stop offset=".45" stop-color="#E2B97E"/><stop offset=".55" stop-color="#C8955A"/><stop offset="1" stop-color="#9C6A36"/></linearGradient>
+          <linearGradient id="kg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6DFB4"/><stop offset="1" stop-color="#B07D45"/></linearGradient></defs>
+          <g class="kg">
+            <circle cx="75" cy="75" r="56" fill="none" stroke="url(#kg)" stroke-width="11"/>
+            <circle cx="75" cy="75" r="44" fill="none" stroke="#E2C08E" stroke-opacity=".45" stroke-width="1"/>
+            <svg x="53" y="43" width="44" height="64" viewBox="36 33 594 838"><path fill="url(#kg2)" d="M383.6 865.2C426.6 858.4 456.8 847.9 494.0 826.7C513.9 815.3 525.7 806.1 546.3 785.7C561.6 770.5 569.7 760.2 584.7 737.0C599.8 713.6 616.6 670.4 620.9 644.0C621.4 641.0 622.3 635.8 622.9 632.5C624.6 622.9 627.0 596.2 627.0 586.5C627.0 576.2 624.5 545.4 622.9 536.5C622.3 533.2 621.2 526.8 620.5 522.3C619.8 517.8 618.9 513.7 618.6 513.1C618.3 512.6 617.4 509.1 616.6 505.3C613.2 488.8 605.7 465.1 596.4 441.9C590.8 427.5 584.8 413.8 583.0 411.0C582.4 410.2 581.5 408.4 580.9 407.0C575.8 394.8 556.7 360.4 541.6 336.5C538.8 332.0 536.0 327.5 535.3 326.5C525.0 308.9 511.3 286.9 497.3 265.2C488.0 250.9 477.2 231.2 467.0 210.5C450.5 176.7 448.3 171.2 442.9 150.5C440.9 142.9 440.5 139.0 440.5 126.0C440.5 111.8 440.7 109.9 443.2 103.0C447.5 90.8 450.5 85.6 458.4 77.1C471.6 63.0 487.0 56.6 507.5 56.5C520.4 56.5 528.0 58.0 537.6 62.6C540.4 63.9 543.0 65.0 543.3 65.0C544.5 65.0 556.4 73.5 561.2 77.9C572.1 87.6 580.0 101.1 580.0 109.8C580.0 116.6 581.9 118.1 585.4 114.0C586.8 112.2 588.0 110.4 588.0 109.9C588.0 109.3 589.0 106.8 590.2 104.2C592.2 100.1 592.5 97.8 592.5 87.0C592.5 75.2 592.3 74.2 589.8 69.9C583.5 59.2 570.0 48.5 556.1 43.1C545.8 39.1 537.7 37.8 524.0 37.8C500.1 37.7 481.7 44.2 460.6 60.0C437.0 77.7 426.2 92.9 418.5 119.5C411.4 144.0 412.8 185.6 421.6 216.0C426.8 233.9 433.3 252.9 437.5 262.5C438.3 264.1 440.3 268.9 442.1 273.0C445.1 280.2 447.5 285.5 455.8 303.5C457.8 307.9 467.1 326.6 476.3 345.0C485.6 363.4 496.3 384.6 500.0 392.0C506.5 404.9 513.7 419.9 518.5 430.5C519.8 433.2 522.7 439.6 525.0 444.5C527.3 449.4 530.8 456.9 532.7 461.0C534.6 465.1 537.0 470.4 538.1 472.7C539.2 475.1 541.0 479.1 542.2 481.7C543.4 484.4 544.7 487.3 545.1 488.2C545.6 489.1 547.9 494.9 550.3 501.2C565.5 540.1 577.7 586.6 580.2 614.5C581.3 627.5 580.7 660.1 579.1 669.0C574.8 692.5 570.7 707.2 563.8 723.4C553.2 748.3 542.9 763.7 523.0 784.4C491.4 817.3 447.2 838.0 393.0 845.5C350.9 851.2 299.4 840.5 248.5 815.5C208.3 795.7 174.1 764.2 144.0 719.3C103.3 658.3 91.3 582.3 111.5 512.5C128.2 454.9 169.5 411.2 225.0 392.7C247.5 385.2 264.1 382.9 286.5 384.1C315.0 385.6 341.6 394.4 363.9 409.5C372.4 415.3 386.4 428.5 390.5 434.8C392.8 438.3 393.8 439.0 395.9 438.8C399.6 438.4 399.5 436.2 395.8 430.5C391.8 424.3 374.6 407.0 366.5 400.9C339.5 380.7 303.6 369.0 268.7 369.0C260.0 369.0 224.7 372.5 223.1 373.4C222.7 373.7 218.3 374.8 213.4 375.9C177.2 383.9 139.7 404.1 112.1 430.4C85.4 456.0 64.0 492.9 51.3 535.0C47.6 547.4 44.1 564.4 40.9 585.5C39.5 594.7 40.4 621.3 42.4 631.5C43.3 635.9 45.0 644.5 46.1 650.5C47.2 656.5 49.1 664.6 50.2 668.5C53.5 680.3 57.0 691.3 58.4 695.0C59.2 696.9 61.1 701.6 62.6 705.5C69.2 722.8 82.8 746.9 95.2 763.3C122.8 799.9 152.6 823.3 196.5 842.7C220.1 853.1 251.5 861.8 279.0 865.4C285.3 866.3 291.9 867.2 293.5 867.4C295.1 867.6 313.1 867.7 333.5 867.5C365.1 867.3 372.4 867.0 383.6 865.2Z"/></svg>
+            <rect x="128" y="68" width="352" height="14" rx="7" fill="url(#kg)"/>
+            <rect x="140" y="61" width="12" height="28" rx="4" fill="url(#kg)"/>
+            <rect x="160" y="64" width="7" height="22" rx="3" fill="url(#kg)"/>
+            <path d="M420 80h60v40h-14v-16h-10v16h-14v-24h-10v12h-12z" fill="url(#kg)"/>
+            <g class="kspark"><path d="M118 22l3.4 9.6 9.6 3.4-9.6 3.4-3.4 9.6-3.4-9.6-9.6-3.4 9.6-3.4z" fill="#FFF3DC"/></g>
+          </g>
+        </svg>
+    <span class="eyebrow">A chave da sua marca</span>
+    <h2 id="portal-t">A chave para uma presença <br>que encanta já está com você.</h2>
+    <p class="sub2"><span>Ela está na sua essência. Na Sublime,</span> <span>eu te ajudo a abrir essas portas.</span></p>
+    <a class="btn btn-gold" href="#investimento">Abrir as portas</a>
+  </div>
+  <div class="fade" aria-hidden="true"></div><div class="door l" aria-hidden="true"><i></i></div><div class="door r" aria-hidden="true"><i></i></div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section class="invest flor" id="investimento">
+  <div class="wrap">
+    <div class="inv-head center rv">
+      <span class="eyebrow">Investimento</span>
+      <h2>Você não precisa<br>descobrir tudo sozinha.</h2>
+    </div>
+    <div class="stats rv">
+      <div><b>4</b><span>encontros<br>individuais</span></div>
+      <div><b>30</b><span>dias de suporte<br>pelo WhatsApp</span></div>
+      <div><b>4</b><span>vagas<br>por mês</span></div>
+    </div>
+    <div class="offer rv">
+      <div class="offer-l">
+        <img class="logo" src="logo-sublime-dourado.png" alt="Mentoria Sublime" width="754" height="247" loading="lazy">
+        <p class="t">O que está incluso</p>
+        <ul class="inc">
+          <li>4 encontros individuais de 1h a 1h30</li>
+          <li>Diagnóstico Aura</li>
+          <li>Identidade Visual Sublime</li>
+          <li>Kit de Conteúdo Personalizado</li>
+          <li>Ensaio com IA</li>
+          <li>Aura IA</li>
+          <li>Planner Sublime</li>
+          <li>Suporte pelo WhatsApp por 30 dias</li>
+        </ul>
+      </div>
+      <div class="offer-r">
+        <p class="t">Escolha como prefere pagar</p>
+        <div class="opts" role="radiogroup" aria-label="Forma de pagamento">
+          <button type="button" class="opt" role="radio" aria-checked="true" data-pay="parc"><span class="rd"></span><span class="nm">Parcelado<span class="sub">no cartão</span></span><span class="pr"><small>10x</small>R$ 200</span></button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-pay="vista"><span class="rd"></span><span class="nm">À vista<span class="sub"><b>Economize R$ 300</b></span></span><span class="pr">R$ 1.700</span></button>
+        </div>
+        <a class="btn btn-wine" href="#" data-buy>Garantir minha vaga</a>
+        <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 10V8a5 5 0 0 1 10 0v2"/><rect x="5" y="10" width="14" height="10" rx="2.5"/></svg>Pagamento seguro</p>
+        <p class="talk">Prefere conversar antes?<br><a href="#aplicacao">Envie sua aplicação</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="lace" aria-hidden="true"></div>
+<!-- APLICAÇÃO -->
+<section id="aplicacao">
+  <div class="wrap apply-grid">
+    <div class="rv">
+      <span class="eyebrow">Aplicação</span>
+      <h2>Prefere conversar<br>antes de fechar?</h2>
+      <p class="lead">Conte um pouco sobre você e o seu negócio. Leva menos de 2 minutos.</p>
+      <ol class="steps">
+        <li><b>1</b>Você envia a aplicação.</li>
+        <li><b>2</b>Eu leio com atenção e te chamo no WhatsApp.</li>
+        <li><b>3</b>Conversamos e, se fizer sentido, garantimos a sua vaga.</li>
+      </ol>
+      <figure class="env"><img src="envelope-renda.webp" alt="" width="700" height="767" loading="lazy"><figcaption><img src="logo-sublime-dourado.png" alt="" width="754" height="247" loading="lazy"><span>Sua aplicação</span></figcaption></figure>
+    </div>
+    <form class="rv" novalidate>
+      <div class="fl"><label for="nome">Seu nome</label><input id="nome" name="nome" autocomplete="name" required></div>
+      <div class="fl"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(71) 99999-9999" required></div>
+      <div class="fl full"><label for="instagram">Instagram do negócio</label><input id="instagram" name="instagram" placeholder="@seuperfil" required></div>
+      <div class="fl full"><span class="lbl" id="l-mom">Em que momento está o seu Instagram?</span>
+        <div class="chips" data-name="momento" role="group" aria-labelledby="l-mom">
+          <button type="button" aria-pressed="false">Começando do zero</button>
+          <button type="button" aria-pressed="false">Quero melhorar o que tenho</button>
+          <button type="button" aria-pressed="false">Quero ir além</button>
+        </div>
+      </div>
+      <div class="fl full"><label for="incomoda">O que mais te incomoda no seu perfil atualmente?</label><textarea id="incomoda" name="incomoda" placeholder="Conte em poucas palavras"></textarea></div>
+      <div class="fl full"><label for="expectativa">O que você deseja com a Mentoria Sublime?</label><textarea id="expectativa" name="expectativa" placeholder="Conte em poucas palavras"></textarea></div>
+      <p class="f-err" role="alert" hidden>Preencha os campos destacados.</p>
+      <div class="f-foot">
+        <p>Suas respostas chegam direto no meu WhatsApp.</p>
+        <button class="btn btn-wine" type="submit">Enviar aplicação</button>
+      </div>
+      <div class="done" hidden>
+        <h3>Aplicação pronta ✦</h3>
+        <p>Abrimos o WhatsApp com as suas respostas. É só tocar em enviar. Se não abriu, <a class="f-wa" href="#" target="_blank" rel="noopener">toque aqui</a>.</p>
+        <a class="btn btn-line" href="#investimento">Ver formas de pagamento</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-sec">
+  <div class="wrap faq-grid">
+    <div class="rv">
+      <span class="eyebrow">Dúvidas</span>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="rv">
+      <details><summary>Preciso já ter um perfil no Instagram?</summary><p>Não. A Sublime funciona para quem está começando do zero e para quem quer melhorar um perfil que já existe.</p></details>
+      <details><summary>Vou ter suporte fora dos encontros?</summary><p>Sim. Durante 30 dias você tem suporte direto comigo pelo WhatsApp para tirar dúvidas.</p></details>
+      <details><summary>Como funcionam os encontros?</summary><p>São 4 encontros individuais e online, de 1h a 1h30 cada, com orientação estratégica e aplicação prática no seu perfil.</p></details>
+      <details><summary>As imagens vão ficar com cara de IA?</summary><p>Não. Você aprende a usar referências, luz e enquadramento para criar imagens com a identidade da sua marca, diferentes do que todo mundo está gerando.</p></details>
+      <details><summary>Preciso entender de inteligência artificial?</summary><p>Não. Você aprende a usar a IA para facilitar sua rotina e recebe um agente personalizado como apoio.</p></details>
+      <details><summary>Posso parcelar?</summary><p>Sim. São 10x de R$ 200 no cartão ou R$ 1.700 à vista, conforme as condições da plataforma de pagamento.</p></details>
+      <details><summary>A mentoria garante mais clientes?</summary><p>Não existe garantia de resultados comerciais. A Sublime trabalha posicionamento, apresentação, comunicação e organização, fatores que contribuem para uma presença digital mais estratégica.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<div class="lace up" aria-hidden="true"><img class="seal" src="selo-sublime.webp" alt="" width="440" height="440" loading="lazy"></div>
+<section class="final flor">
+  <div class="wrap rv">
+    <h2 class="two"><span>Sua marca merece</span> <span><em>ser <span class="caps">SUBLIME</span>.</em></span></h2>
+    <a class="btn btn-gold" href="#investimento">Quero minha vaga</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="logo-sublime.png" alt="Mentoria Sublime" width="754" height="247" loading="lazy">
+    <span>Diana Freitas · DUNE · © 2026</span>
+  </div>
+</footer>
+
+<script>
+// Links de pagamento: cole entre as aspas o link do parcelado e o do à vista.
+// Se houver um link só com as duas opções, cole o mesmo nos dois.
+const CHECKOUT = { parc: "", vista: "" };
+const WHATSAPP = "5571991316292";
+let payMode = "parc";
+
+const wa = t => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`;
+document.querySelectorAll("[data-buy]").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  const url = CHECKOUT[payMode] || CHECKOUT.parc || CHECKOUT.vista;
+  window.open(url || wa(`Olá, Diana! Quero garantir minha vaga na Mentoria Sublime ✨\nPagamento: ${payMode === "vista" ? "R$ 1.700 à vista" : "10x de R$ 200 no cartão"}`), "_blank", "noopener");
+}));
+
+// parcelado ou à vista
+const opts = [...document.querySelectorAll(".opt")];
+opts.forEach(b => b.addEventListener("click", () => {
+  payMode = b.dataset.pay;
+  opts.forEach(x => x.setAttribute("aria-checked", x === b));
+}));
+
+// Método Aura: os arcos se formam em volta do logo
+const emblem = document.querySelector(".emblem");
+if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) emblem.classList.add("in");
+else { const aio = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { emblem.classList.add("in"); aio.disconnect(); } }, { threshold: .35 }); aio.observe(emblem); }
+
+// formulário de aplicação
+const form = document.querySelector("form");
+form.querySelectorAll(".chips button").forEach(b => b.addEventListener("click", () => {
+  b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  b.parentElement.classList.remove("bad");
+}));
+form.querySelectorAll("input,textarea").forEach(i => i.addEventListener("input", () => i.classList.remove("bad")));
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const v = n => form.elements[n].value.trim();
+  const mom = form.querySelector('.chips button[aria-pressed="true"]');
+  let ok = true;
+  ["nome", "instagram"].forEach(n => { const bad = !v(n); form.elements[n].classList.toggle("bad", bad); if (bad) ok = false; });
+  const wBad = v("whatsapp").replace(/\D/g, "").length < 10; form.elements.whatsapp.classList.toggle("bad", wBad); if (wBad) ok = false;
+  form.querySelector(".chips").classList.toggle("bad", !mom); if (!mom) ok = false;
+  form.querySelector(".f-err").hidden = ok;
+  if (!ok) return;
+  const url = wa(["Olá, Diana! Quero aplicar para a Mentoria Sublime ✨", "",
+    `Nome: ${v("nome")}`, `WhatsApp: ${v("whatsapp")}`, `Instagram: ${v("instagram")}`,
+    `Momento do perfil: ${mom.textContent}`, `O que mais me incomoda no perfil: ${v("incomoda") || "-"}`, `O que desejo com a Mentoria Sublime: ${v("expectativa") || "-"}`].join("\n"));
+  form.querySelector(".f-wa").href = url;
+  [...form.children].forEach(el => el.hidden = !el.classList.contains("done"));
+  window.open(url, "_blank", "noopener");
+});
+
+// portas se abrindo
+const portal = document.querySelector(".portal");
+if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) portal.classList.add("in");
+else { const pio = new IntersectionObserver(es => es.forEach(e => { if (e.intersectionRatio >= .45) portal.classList.add("in"); else if (!e.isIntersecting) portal.classList.remove("in"); }), { threshold: [0, .45] }); pio.observe(portal); }
+
+// conteúdo surgindo na rolagem
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const bigS = document.querySelector(".bigS");
+requestAnimationFrame(() => setTimeout(() => bigS.classList.add("in"), reduce ? 0 : 80));
+if (!reduce && "IntersectionObserver" in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove("pre"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".rv").forEach(el => { if (el.getBoundingClientRect().top > innerHeight) { el.classList.add("pre"); io.observe(el); } });
+}
+</script>
+</body></html>
