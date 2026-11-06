@@ -173,7 +173,7 @@ async function mount() {
 async function pay(formData) {
   showErr("");
   try {
-    const r = await fetch(`${API}/pagar`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plano, formData }) });
+    const r = await fetch(`${API}/pagar/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plano, formData }) });
     const d = await r.json();
     if (d.status === "approved") { location.href = OBRIGADA; return; }
     if (d.pix && d.pix.code) { showPix(d); return; }
@@ -197,7 +197,7 @@ function showPix(d) {
   $("pix-copy").onclick = async e => { try { await navigator.clipboard.writeText(d.pix.code); e.target.textContent = "Código copiado"; } catch { $("pix-code").select(); } };
   clearInterval(poll);
   poll = setInterval(async () => {
-    try { const s = await (await fetch(`${API}/status?id=${d.id}`)).json(); if (s.status === "approved") { clearInterval(poll); location.href = OBRIGADA; } } catch (e) {}
+    try { const s = await (await fetch(`${API}/status/?id=${d.id}`)).json(); if (s.status === "approved") { clearInterval(poll); location.href = OBRIGADA; } } catch (e) {}
   }, 5000);
 }
 
