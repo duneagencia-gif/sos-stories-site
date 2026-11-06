@@ -108,7 +108,40 @@ dialog::backdrop{background:rgba(31,7,12,.6);backdrop-filter:blur(3px)}
 .mob{display:none}
 .danger{color:#9B2C3B!important;box-shadow:inset 0 0 0 1px rgba(155,44,59,.35)!important;background:none!important}
 
-@media (max-width:980px){.medit,.g3{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+.semlogin{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:18px;background:linear-gradient(120deg,#F6EDE2,#FBF5EE);border-color:rgba(184,137,79,.35)}
+.semlogin p{font-size:13.5px;color:var(--muted)}
+.metas{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.meta-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.meta .big{display:block;font-size:clamp(26px,3vw,32px);font-weight:500;letter-spacing:-.02em;color:var(--wine3);line-height:1.15;margin-top:2px}
+.meta-h small{font-size:13px;color:var(--muted)}
+.pct{flex:none;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:500;color:var(--wine3);box-shadow:inset 0 0 0 1px rgba(184,137,79,.5)}
+.pct.ok{background:var(--goldg);color:var(--wine);box-shadow:none}.pct svg{width:22px;height:22px}
+.trk{position:relative;height:8px;border-radius:8px;background:var(--sand);margin:34px 8px 34px}
+.trk>i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--goldg);transition:width .6s}
+.ms{position:absolute;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
+.ms em{width:22px;height:22px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 2px rgba(184,137,79,.5);display:grid;place-items:center;color:var(--wine)}
+.ms.ok em{background:var(--wine3);box-shadow:0 0 0 3px rgba(226,192,142,.5);color:var(--goldl)}
+.ms em svg{width:12px;height:12px}
+.ms small{position:absolute;top:28px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11.5px;color:var(--soft)}
+.ms.ok small{color:var(--wine3);font-weight:500}
+.ms:last-of-type small{left:auto;right:-6px;transform:none}
+.dots{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:20px}
+.dots i{aspect-ratio:1;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-style:normal;font-size:9.5px;color:var(--soft);font-weight:500}
+.dots i.on{background:var(--goldg);color:var(--wine);box-shadow:0 3px 8px rgba(184,137,79,.3)}
+.dots i.dez{box-shadow:inset 0 0 0 1.5px rgba(106,29,46,.35)}
+.dots i.on.dez{background:var(--wine3);color:var(--goldl);box-shadow:none}
+.rel-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.rel-f{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rel-f select{width:auto;padding:9px 14px;font-size:13.5px}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+td small{display:block;font-size:12px;color:var(--soft)}
+td.v{font-weight:500;white-space:nowrap}
+tr.off td{opacity:.55}
+tfoot td{font-weight:500;border:0;padding-top:16px}
+@media (max-width:980px){.medit,.g3,.metas{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){
   .shell{grid-template-columns:1fr}
   .side{position:fixed;inset:0 auto 0 0;width:min(300px,86vw);z-index:40;transform:translateX(-102%);transition:transform .3s;box-shadow:20px 0 40px rgba(0,0,0,.3)}
@@ -146,7 +179,10 @@ const I = {
   box: '<path d="M3 7.5l9-4.5 9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>',
   inbox: '<path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1 2h6l1-2h5"/>',
   key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/>',
-  wa: '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/>'
+  wa: '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/>',
+  money: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  dl: '<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>'
 };
 let A = { alunas: [], unread: {}, briefings: [], vista: "inicio", aluna: null, tab: "encontros", mods: [], mats: [], notas: [] };
 
@@ -184,13 +220,14 @@ function renderSide() {
     <div class="nav">
       <button data-v="inicio" class="${A.vista === "inicio" ? "on" : ""}">${svg(I.users)}<span class="nm"><b>Todas as alunas</b></span></button>
       <button data-v="gerais" class="${A.vista === "gerais" ? "on" : ""}">${svg(I.box)}<span class="nm"><b>Materiais para todas</b></span></button>
+      <button data-v="financeiro" class="${A.vista === "financeiro" ? "on" : ""}">${svg(I.money)}<span class="nm"><b>Financeiro e metas</b></span></button>
       <button data-v="briefings" class="${A.vista === "briefings" ? "on" : ""}">${svg(I.inbox)}<span class="nm"><b>Briefings recebidos</b></span>${A.briefings.length ? `<span class="dot">${A.briefings.length}</span>` : ""}</button>
     </div>
     <h4>Alunas</h4>
-    <div class="nav">${A.alunas.map(a => `<button data-a="${a.id}" class="${A.vista === "aluna" && A.aluna?.id === a.id ? "on" : ""}"><span class="av">${ini(a.nome)}</span><span class="nm"><b>${esc(a.nome)}</b><small>${a.status === "ativa" ? esc(a.instagram || a.email) : a.status}</small></span>${A.unread[a.id] ? `<span class="dot">${A.unread[a.id]}</span>` : ""}</button>`).join("") || `<p style="font-size:13px;color:#BFA698;padding:4px 10px">Nenhuma aluna ainda.</p>`}</div>
+    <div class="nav">${A.alunas.map(a => `<button data-a="${a.id}" class="${A.vista === "aluna" && A.aluna?.id === a.id ? "on" : ""}"><span class="av">${ini(a.nome)}</span><span class="nm"><b>${esc(a.nome)}</b><small>${!a.user_id ? "sem login ainda" : a.status === "ativa" ? esc(a.instagram || a.email) : a.status}</small></span>${A.unread[a.id] ? `<span class="dot">${A.unread[a.id]}</span>` : !a.user_id ? `<span class="dot">!</span>` : ""}</button>`).join("") || `<p style="font-size:13px;color:#BFA698;padding:4px 10px">Nenhuma aluna ainda.</p>`}</div>
     <button class="btn btn-gold btn-sm new" id="nova">${svg(I.plus)}Nova aluna</button>
     <div class="out"><a href="../">Ver área da aluna</a><button onclick="sair()">Sair</button></div>`;
-  $$("#side [data-v]").forEach(b => b.onclick = () => { fecharMenu(); ({ inicio: abrirInicio, gerais: abrirGerais, briefings: abrirBriefings })[b.dataset.v](); });
+  $$("#side [data-v]").forEach(b => b.onclick = () => { fecharMenu(); ({ inicio: abrirInicio, gerais: abrirGerais, briefings: abrirBriefings, financeiro: abrirFinanceiro })[b.dataset.v](); });
   $$("#side [data-a]").forEach(b => b.onclick = () => { fecharMenu(); abrirAluna(b.dataset.a); });
   $("#nova").onclick = () => { fecharMenu(); dlgNova(); };
 }
@@ -232,8 +269,10 @@ function renderAluna() {
   $("#main").innerHTML = `
     <div class="head"><span class="av">${ini(a.nome)}</span><div><h1>${esc(a.nome)}${a.status !== "ativa" ? `<span class="st ${a.status}">${a.status}</span>` : ""}</h1><p>${esc(a.email)}${a.instagram ? " · " + esc(a.instagram) : ""}${a.whatsapp ? " · " + esc(a.whatsapp) : ""}</p></div>
       <div class="acts"><a class="btn btn-line btn-sm" href="../?aluna=${a.id}" target="_blank" rel="noopener">${svg(I.eye)}Ver como ela vê</a><button class="btn btn-sm" id="b-acesso">${svg(I.key)}Mensagem de acesso</button></div></div>
+    ${!a.user_id ? `<div class="card semlogin"><div><b>${esc(firstName(a.nome))} ${a.origem === "site" ? "pagou pelo site" : "está cadastrada"} e ainda não tem login.</b><p>Crie a senha e mande para ela entrar na área.</p></div><button class="btn btn-gold btn-sm" id="b-login">${svg(I.key)}Criar login</button></div>` : ""}
     <nav class="tabs">${tabs.map(([k, l]) => `<button data-t="${k}" class="${A.tab === k ? "on" : ""}">${l}</button>`).join("")}</nav>
     <div id="tab"></div>`;
+  if ($("#b-login")) $("#b-login").onclick = () => dlgCriarLogin(a);
   $$(".tabs button").forEach(b => b.onclick = () => { A.tab = b.dataset.t; renderAluna(); });
   $("#b-acesso").onclick = () => dlgAcesso(a, null);
   ({ encontros: tabEncontros, presentes: tabPresentes, docs: tabDocs, recados: tabRecados, dados: tabDados })[A.tab]();
@@ -381,7 +420,9 @@ function tabDados() {
     if (error) { s.textContent = "Não salvou."; return; } Object.assign(a, up); s.textContent = "Salvo ✓"; renderSide();
   };
   $("#gerar").onclick = () => $("#nsenha").value = gerarSenha();
+  if (!a.user_id) { $("#trocar").textContent = "Criar login com esta senha"; }
   $("#trocar").onclick = async () => {
+    if (!a.user_id) { const senha = $("#nsenha").value.trim(), r = await adminFn({ acao: "criar_login", aluna_id: a.id, senha }); if (r.error) return toast(r.error); Object.assign(a, r.aluna); renderSide(); renderAluna(); dlgAcesso(a, senha); return; }
     const senha = $("#nsenha").value.trim(), s = $("#trocar + small"); s.textContent = "Trocando…";
     const r = await adminFn({ acao: "trocar_senha", aluna_id: a.id, senha });
     if (r.error) { s.textContent = r.error; return; } s.textContent = "Senha trocada ✓"; dlgAcesso(a, senha);
@@ -412,6 +453,98 @@ function abrirBriefings() {
     <div class="grid">${A.briefings.map(b => `<div class="card"><div class="head" style="margin-bottom:12px"><span class="av" style="width:46px;height:46px;font-size:16px">${ini(b.nome)}</span><div><h1 style="font-size:18px">${esc(b.nome || "Sem nome")}</h1><p>${esc(b.email || "sem e-mail")} · ${fmtQuando(b.criado_em)}</p></div><div class="acts"><button class="btn btn-sm" data-criar="${b.id}">${svg(I.plus)}Criar acesso</button></div></div>
       <details><summary class="lnk" style="cursor:pointer">Ver respostas</summary><div class="acesso" style="margin-top:10px">${esc(b.texto)}</div></details></div>`).join("") || `<p class="empty">Nenhum briefing pendente.</p>`}</div>`;
   $$("[data-criar]").forEach(btn => btn.onclick = () => dlgNova(A.briefings.find(b => b.id === btn.dataset.criar)));
+}
+
+/* ---------- financeiro e metas ---------- */
+const METAS_R = [10000, 20000, 30000, 50000], META_A = 50;
+const brl = n => (+n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const brlK = n => n >= 1000 ? "R$ " + (n / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " mil" : brl(n);
+const formaTxt = p => p.forma === "pix" ? "Pix" : p.forma === "cartao" ? `Cartão${p.parcelas > 1 ? " " + p.parcelas + "x" : " à vista"}` : ({ boleto: "Boleto", transferencia: "Transferência", outro: "Outro" })[p.forma] || p.forma;
+async function abrirFinanceiro() {
+  A.vista = "financeiro"; A.aluna = null; setURL(); renderSide();
+  const { data } = await sb.from("ms_pagamentos").select("*").order("pago_em", { ascending: false });
+  A.pags = data || []; renderFinanceiro();
+}
+function renderFinanceiro() {
+  const ok = A.pags.filter(p => p.status === "aprovado");
+  const total = ok.reduce((s, p) => s + +p.valor, 0);
+  const alunasN = A.alunas.filter(a => !a.teste).length;
+  const meses = [...new Set(A.pags.map(p => p.pago_em.slice(0, 7)))].sort().reverse();
+  const mesAtual = new Date().toISOString().slice(0, 7);
+  if (!A.mesF) A.mesF = "todos";
+  const lista = A.pags.filter(p => A.mesF === "todos" || p.pago_em.slice(0, 7) === A.mesF);
+  const doMes = ok.filter(p => p.pago_em.slice(0, 7) === mesAtual).reduce((s, p) => s + +p.valor, 0);
+  const proxR = METAS_R.find(m => total < m), maxR = METAS_R[METAS_R.length - 1];
+  const nomeMes = m => { const [y, mo] = m.split("-"); return new Date(+y, mo - 1, 1).toLocaleDateString("pt-BR", { month: "long", year: "numeric" }).replace(/^./, c => c.toUpperCase()); };
+  $("#main").innerHTML = `
+    <h2 class="t">Financeiro e metas</h2><p class="s">Os pagamentos feitos pelo site entram aqui sozinhos e você recebe um e-mail a cada venda. Vendas por fora você registra no botão abaixo. <button class="lnk" id="testeMail">Testar o alerta por e-mail</button></p>
+    <div class="metas">
+      <div class="card meta">
+        <div class="meta-h"><div><span class="mh">Meta de faturamento</span><b class="big">${brl(total)}</b><small>${proxR ? `Faltam ${brl(proxR - total)} para ${brlK(proxR)}` : "Todas as metas batidas! ✨"}</small></div>${proxR ? `<span class="pct">${Math.floor(total / proxR * 100)}%</span>` : `<span class="pct ok">${svg(I.check)}</span>`}</div>
+        <div class="trk"><i style="width:${Math.min(100, total / maxR * 100)}%"></i>${METAS_R.map(m => `<span class="ms ${total >= m ? "ok" : ""}" style="left:${m / maxR * 100}%"><em>${total >= m ? svg(I.check) : ""}</em><small>${brlK(m)}</small></span>`).join("")}</div>
+      </div>
+      <div class="card meta">
+        <div class="meta-h"><div><span class="mh">Meta de alunas</span><b class="big">${alunasN} <span style="font-size:15px;color:var(--soft);font-weight:400">de ${META_A}</span></b><small>${alunasN >= META_A ? "Meta de 50 alunas batida! ✨" : `Faltam ${META_A - alunasN} alunas`}</small></div><span class="pct ${alunasN >= META_A ? "ok" : ""}">${alunasN >= META_A ? svg(I.check) : Math.floor(alunasN / META_A * 100) + "%"}</span></div>
+        <div class="dots">${Array.from({ length: META_A }, (_, i) => `<i class="${i < alunasN ? "on" : ""} ${(i + 1) % 10 === 0 ? "dez" : ""}" title="Aluna ${i + 1}">${(i + 1) % 10 === 0 ? i + 1 : ""}</i>`).join("")}</div>
+      </div>
+    </div>
+    <div class="kpis"><div class="kpi"><b>${brl(doMes)}</b><span>faturado em ${nomeMes(mesAtual).split(" ")[0].toLowerCase()}</span></div><div class="kpi"><b>${ok.length}</b><span>vendas aprovadas</span></div><div class="kpi"><b>${brl(ok.length ? total / ok.length : 0)}</b><span>ticket médio</span></div><div class="kpi"><b>${ok.filter(p => p.forma === "pix").length} · ${ok.filter(p => p.forma === "cartao").length}</b><span>Pix · cartão</span></div></div>
+    <div class="card">
+      <div class="rel-h"><h3 style="font-weight:500;font-size:17px">Relatório de pagamentos</h3>
+        <div class="rel-f"><select id="mesF"><option value="todos">Todos os meses</option>${meses.map(m => `<option value="${m}" ${A.mesF === m ? "selected" : ""}>${nomeMes(m)}</option>`).join("")}</select>
+        <button class="btn btn-line btn-sm" id="csv">${svg(I.dl)}Planilha</button><button class="btn btn-sm" id="novoPag">${svg(I.plus)}Registrar pagamento</button></div></div>
+      <div class="tbl"><table><thead><tr><th>Data</th><th>Aluna</th><th>Forma</th><th>Valor</th><th>Situação</th><th></th></tr></thead><tbody>
+      ${lista.map(p => `<tr class="${p.status !== "aprovado" ? "off" : ""}"><td>${new Date(p.pago_em).toLocaleDateString("pt-BR")}</td><td><b>${esc(p.nome || "-")}</b><small>${esc(p.email || "")}${p.origem === "site" ? " · site" : " · manual"}</small></td><td>${formaTxt(p)}</td><td class="v">${brl(p.valor)}${p.valor_liquido != null ? `<small>líquido ${brl(p.valor_liquido)}</small>` : ""}</td><td><span class="st ${p.status === "aprovado" ? "" : "pausada"}">${p.status}</span></td><td>${p.origem === "manual" ? `<button class="lnk" data-rmp="${p.id}">excluir</button>` : ""}</td></tr>`).join("") || `<tr><td colspan="6"><p class="empty">Nenhum pagamento ${A.mesF === "todos" ? "ainda" : "neste mês"}.</p></td></tr>`}
+      </tbody>${lista.length ? `<tfoot><tr><td colspan="3">Total aprovado</td><td class="v">${brl(lista.filter(p => p.status === "aprovado").reduce((s, p) => s + +p.valor, 0))}</td><td colspan="2"></td></tr></tfoot>` : ""}</table></div>
+    </div>`;
+  $("#mesF").onchange = e => { A.mesF = e.target.value; renderFinanceiro(); };
+  $("#novoPag").onclick = dlgPagamento;
+  $("#testeMail").onclick = async e => { e.target.disabled = true; const r = await adminFn({ acao: "testar_alerta" }); e.target.disabled = false; toast(r.error || "Enviado! Veja seu e-mail (na primeira vez, clique em Activate)."); };
+  $("#csv").onclick = () => {
+    const rows = [["Data", "Aluna", "E-mail", "Forma", "Parcelas", "Valor", "Líquido", "Situação", "Origem"], ...lista.map(p => [new Date(p.pago_em).toLocaleDateString("pt-BR"), p.nome, p.email, formaTxt(p), p.parcelas, String(p.valor).replace(".", ","), p.valor_liquido != null ? String(p.valor_liquido).replace(".", ",") : "", p.status, p.origem])];
+    const csv = "\ufeff" + rows.map(r => r.map(c => `"${String(c ?? "").replace(/"/g, '""')}"`).join(";")).join("\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = `mentoria-pagamentos-${A.mesF}.csv`; a.click();
+  };
+  $$("[data-rmp]").forEach(b => b.onclick = async () => { if (!confirm("Excluir este pagamento registrado à mão?")) return; const { error } = await sb.from("ms_pagamentos").delete().eq("id", b.dataset.rmp); if (error) return toast("Não consegui excluir."); abrirFinanceiro(); });
+}
+function dlgPagamento() {
+  const hoje = new Date().toISOString().slice(0, 10);
+  abrirDlg(`<form id="f-pag" class="dlg" style="padding:0"><h3>Registrar pagamento</h3><p style="font-size:13.5px;color:var(--muted)">Para vendas fora do site (Pix direto, link do Mercado Pago, etc.).</p>
+    <label class="fl">Aluna<select name="aluna"><option value="">Escolha…</option>${A.alunas.filter(a => !a.teste).map(a => `<option value="${a.id}">${esc(a.nome)}</option>`).join("")}<option value="_">Outra pessoa (sem cadastro)</option></select></label>
+    <label class="fl" id="pag-nome" hidden>Nome<input name="nome"></label>
+    <div class="g2"><label class="fl">Valor (R$)<input name="valor" inputmode="decimal" placeholder="1.700,00" required></label><label class="fl">Data<input name="data" type="date" value="${hoje}" required></label></div>
+    <div class="g2"><label class="fl">Forma<select name="forma"><option value="pix">Pix</option><option value="cartao">Cartão</option><option value="transferencia">Transferência</option><option value="boleto">Boleto</option><option value="outro">Outro</option></select></label><label class="fl">Parcelas<input name="parcelas" type="number" min="1" max="24" value="1"></label></div>
+    <p class="err" hidden></p>
+    <div class="acts"><button type="button" class="btn btn-line btn-sm" data-fechar>Cancelar</button><button class="btn btn-sm">Registrar</button></div></form>`);
+  const f = $("#f-pag");
+  f.aluna.onchange = () => $("#pag-nome").hidden = f.aluna.value !== "_";
+  f.onsubmit = async e => {
+    e.preventDefault(); const err = $(".err", f);
+    const valor = parseFloat(f.valor.value.replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}(\D|$))/g, "").replace(",", "."));
+    const al = A.alunas.find(a => a.id === f.aluna.value);
+    if (!(valor > 0)) { err.textContent = "Informe o valor."; err.hidden = false; return; }
+    if (!al && !f.nome.value.trim()) { err.textContent = "Escolha a aluna ou escreva o nome."; err.hidden = false; return; }
+    const { error } = await sb.from("ms_pagamentos").insert({ aluna_id: al?.id || null, nome: al?.nome || f.nome.value.trim(), email: al?.email || null, valor, forma: f.forma.value, parcelas: +f.parcelas.value || 1, pago_em: new Date(f.data.value + "T12:00:00").toISOString(), origem: "manual" });
+    if (error) { err.textContent = "Não consegui registrar."; err.hidden = false; return; }
+    $("#dlg").close(); toast("Pagamento registrado."); abrirFinanceiro();
+  };
+}
+
+function dlgCriarLogin(a) {
+  abrirDlg(`<form id="f-cl" class="dlg" style="padding:0"><h3>Criar login de ${esc(firstName(a.nome))}</h3>
+    <p style="font-size:13.5px;color:var(--muted)">O login é o e-mail que ela usou: <b style="color:var(--ink)">${esc(a.email)}</b></p>
+    <div class="g2"><label class="fl">WhatsApp<input name="whatsapp" value="${esc(a.whatsapp)}" placeholder="(71) 99999-9999"></label><label class="fl">Instagram<input name="instagram" value="${esc(a.instagram)}" placeholder="@perfil"></label></div>
+    <label class="fl">Senha<span class="pwrow"><input name="senha" value="${gerarSenha()}" required><button type="button" class="btn btn-line btn-sm" id="g3">Gerar</button></span></label>
+    <p class="err" hidden></p>
+    <div class="acts"><button type="button" class="btn btn-line btn-sm" data-fechar>Cancelar</button><button class="btn btn-sm">Criar login</button></div></form>`);
+  const f = $("#f-cl"); $("#g3").onclick = () => f.senha.value = gerarSenha();
+  f.onsubmit = async e => {
+    e.preventDefault(); const err = $(".err", f), b = $("button:not([type])", f); b.disabled = true;
+    if (f.whatsapp.value.trim() !== (a.whatsapp || "") || f.instagram.value.trim() !== (a.instagram || "")) await sb.from("ms_alunas").update({ whatsapp: f.whatsapp.value.trim() || null, instagram: f.instagram.value.trim() || null }).eq("id", a.id);
+    const r = await adminFn({ acao: "criar_login", aluna_id: a.id, senha: f.senha.value.trim() }); b.disabled = false;
+    if (r.error) { err.textContent = r.error; err.hidden = false; return; }
+    Object.assign(a, r.aluna); await carregarLista(); A.aluna = A.alunas.find(x => x.id === a.id) || a; renderAluna(); dlgAcesso(A.aluna, f.senha.value.trim());
+  };
 }
 
 /* ---------- diálogos ---------- */

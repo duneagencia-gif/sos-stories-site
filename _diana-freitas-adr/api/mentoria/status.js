@@ -1,3 +1,4 @@
+const registrar = require("./_registrar");
 // Consulta só o status de um pagamento (usado para saber quando o Pix foi pago).
 module.exports = async (req, res) => {
   const id = String(req.query.id || "");
@@ -9,6 +10,7 @@ module.exports = async (req, res) => {
     });
     const d = await r.json();
     if (!r.ok) return res.status(404).json({ error: "nao_encontrado" });
+    if (d.status === "approved") await registrar(d);
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ status: d.status });
   } catch (e) {

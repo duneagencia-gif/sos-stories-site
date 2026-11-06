@@ -2,6 +2,7 @@
 // O valor é decidido aqui no servidor pelo plano, nunca pelo navegador.
 // Precisa da variável de ambiente MP_ACCESS_TOKEN (Access Token de produção da Diana) na Vercel.
 const { randomUUID } = require("crypto");
+const registrar = require("./_registrar");
 
 const PLANOS = {
   parc: { amount: 2000, maxInstallments: 10, description: "Mentoria Sublime · parcelado" },
@@ -29,7 +30,9 @@ module.exports = async (req, res) => {
       identification: formData.payer.identification
     },
     statement_descriptor: "MENTORIA SUBLIME",
-    external_reference: `sublime-${plano}-${Date.now()}`
+    external_reference: `sublime-${plano}-${Date.now()}`,
+    notification_url: "https://dianafreitasadr.com.br/api/mentoria/webhook/",
+    metadata: { email: formData.payer.email, nome: [formData.payer.first_name, formData.payer.last_name].filter(Boolean).join(" ") }
   };
   if (formData.token) {
     body.token = formData.token;
@@ -49,6 +52,7 @@ module.exports = async (req, res) => {
     });
     const d = await r.json();
     if (!r.ok) return res.status(400).json({ status: "rejected", detail: d.cause?.[0]?.code || d.message || "erro" });
+    if (d.status === "approved") await registrar(d);
     const tx = d.point_of_interaction?.transaction_data;
     return res.status(200).json({
       id: d.id,
