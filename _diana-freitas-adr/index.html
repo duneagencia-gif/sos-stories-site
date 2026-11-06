@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2B0A11">
+<meta property="og:title" content="Diana Freitas">
+<meta property="og:description" content="SOS Stories, Fotos com IA, Consultoria de perfil e Mentoria Sublime.">
+<meta property="og:image" content="https://dianafreitasadr.com.br/img/avatar.webp">
+<link rel="icon" href="img/avatar.webp">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>Diana Freitas ADR</title>
+<meta name="description" content="Diana Freitas: SOS Stories, fotos com IA, consultoria de Instagram e Mentoria Sublime.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap">
+<style>
+/* Layout: uma coluna de celular, faixas de cor alternadas (café → vinho → creme → café), cada produto um cartão com foto */
+:root{
+  --cafe:#2B1D1C;        /* fundo do topo e do atendimento individual */
+  --cafe-2:#3A2826;      /* cartões sobre café */
+  --vinho:#6B1F2C;       /* faixa de destaque e botões */
+  --vinho-2:#4A1520;
+  --creme:#F8F0E8;       /* faixa clara e caixa de preço */
+  --dourado:#D9B07C;     /* rótulos e acentos */
+  --rosa:#EBCFCB;        /* selos e ícones */
+  --tinta:#2B1D1C;       /* texto sobre creme */
+  --tinta-suave:#6E5A56;
+  --branco:#FFF9F4;
+  --linha:rgba(255,240,230,.14);
+  --f-titulo:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-texto:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#2B0A11 linear-gradient(180deg,#2B0A11 0%,#3A0E18 18%,#2E0B13 36%,#40101B 54%,#2B0A11 72%,#3A0E18 88%,#1F070C 100%);color:var(--branco);font-family:var(--f-texto);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.faixa{padding-block:36px}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+
+/* topo */
+.topo{padding-block:56px 48px;text-align:center}
+.avatar{position:relative;width:164px;height:164px;margin:18px auto 30px;isolation:isolate}
+.avatar::before{content:"";position:absolute;inset:-10px;border-radius:50%;z-index:-1;background:conic-gradient(from 0deg,#D9B07C,#6B1F2C 25%,#F1D29C 50%,#4A1520 75%,#D9B07C);animation:gira 8s linear infinite}
+.avatar::after{content:"";position:absolute;inset:-34px;border-radius:50%;z-index:-2;background:radial-gradient(circle,rgba(217,176,124,.45),rgba(107,31,44,.35) 45%,transparent 70%);filter:blur(6px);animation:pulsa 4s ease-in-out infinite}
+.avatar .orbita{position:absolute;inset:-26px;border-radius:50%;border:1px dashed rgba(217,176,124,.45);z-index:-1;animation:gira 22s linear infinite reverse}
+.avatar .orbita::before,.avatar .orbita::after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#F1D29C;box-shadow:0 0 12px 3px rgba(241,210,156,.7)}
+.avatar .orbita::before{top:-5px;left:50%;margin-left:-4.5px}
+.avatar .orbita::after{bottom:14%;right:4%;width:6px;height:6px}
+.avatar .orbita i{position:absolute;bottom:22%;left:2%;width:7px;height:7px;border-radius:50%;background:#F1D29C;box-shadow:0 0 10px 3px rgba(241,210,156,.65)}
+@keyframes gira{to{transform:rotate(360deg)}}
+@keyframes pulsa{0%,100%{transform:scale(.92);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+@media (prefers-reduced-motion:reduce){.avatar::before,.avatar::after,.avatar .orbita{animation:none}}
+.avatar img{position:relative;width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:4px solid #2B0A11}
+.nome{font-family:"Playfair Display","Didot","Georgia",serif;font-style:italic;font-weight:500;font-size:clamp(36px,10vw,46px);letter-spacing:-.025em;line-height:1.15;margin:0;color:var(--dourado);white-space:nowrap}
+.bio{color:rgba(255,249,244,.78);font-weight:300;margin:16px auto 0;max-width:34ch;text-wrap:balance}
+.redes{display:flex;justify-content:center;gap:14px;margin-top:24px}
+.redes a{width:50px;height:50px;border-radius:50%;border:1px solid var(--linha);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.redes a:hover,.redes a:focus-visible{background:var(--cafe-2);border-color:var(--dourado)}
+.redes svg{width:22px;height:22px;stroke:var(--branco);fill:none;stroke-width:1.6}
+
+/* cabeçalhos de seção */
+.rotulo{font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--dourado);margin:0 0 8px}
+.titulo{font-family:var(--f-titulo);font-weight:500;font-size:clamp(25px,6.6vw,32px);line-height:1.18;margin:0 0 26px;text-wrap:balance}
+.titulo em{font-style:normal;color:var(--dourado)}
+
+/* cartões */
+.card{border-radius:26px;overflow:hidden;border:1px solid var(--linha);background:rgba(255,240,230,.05)}
+.card + .card{margin-top:20px}
+.foto{position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.card:hover .foto img{transform:scale(1.03)}
+.foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(30,18,18,.55) 62%,rgba(30,18,18,.92))}
+.foto h3{text-shadow:0 2px 14px rgba(0,0,0,.35);position:absolute;left:22px;right:22px;bottom:18px;z-index:1;margin:0;font-family:var(--f-titulo);font-weight:600;font-size:clamp(24px,6.4vw,30px);line-height:1.12;letter-spacing:.02em}
+.foto h3 span{color:var(--dourado)}
+.selo{position:absolute;top:16px;left:16px;z-index:1;background:var(--rosa);color:var(--vinho-2);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px}
+.corpo{padding:22px 22px 24px;display:flex;flex-direction:column;gap:16px}
+.tag{align-self:flex-start;font-size:13.5px;font-weight:500;padding:5px 14px;border-radius:999px;border:1px solid rgba(235,207,203,.45);color:var(--rosa)}
+.corpo p{margin:0;font-weight:300;color:rgba(255,249,244,.86)}
+.itens{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.itens li{display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:center;font-weight:300;font-size:15px}
+.itens li b{font-weight:600}
+.ic{width:42px;height:42px;border-radius:12px;background:var(--rosa);display:grid;place-items:center}
+.ic svg{width:20px;height:20px;stroke:var(--vinho-2);fill:none;stroke-width:1.8}
+.preco{background:var(--creme);color:var(--tinta);border-radius:20px;padding:18px 20px}
+.preco .valor{font-family:var(--f-titulo);font-weight:600;font-size:34px;color:var(--vinho);line-height:1.1;font-variant-numeric:tabular-nums}
+.preco .valor small{font-family:var(--f-texto);font-size:15px;color:var(--tinta);margin-right:6px}
+.preco .sub{font-size:14px;color:var(--tinta-suave);margin-top:4px}
+.preco .garantia{border-top:1px solid rgba(43,29,28,.12);margin-top:12px;padding-top:12px;font-size:14px;color:var(--tinta-suave)}
+.preco .garantia b{color:var(--tinta)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:500;font-size:16px;padding:16px 22px;border-radius:999px;background:var(--vinho);color:var(--branco);border:0;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s;width:100%}
+.btn:hover{background:#7E2636;transform:translateY(-1px)}
+.btn:focus-visible,.redes a:focus-visible,input:focus-visible{outline:2px solid var(--dourado);outline-offset:3px}
+.btn.claro{background:var(--rosa);color:var(--vinho-2)}
+.btn.claro:hover{background:#F2DCD8}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+
+.incluso{border:1px solid var(--linha);border-radius:18px;padding:0 18px}
+.incluso summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-weight:500;color:var(--rosa)}
+.incluso summary::-webkit-details-marker{display:none}
+.incluso summary::after{content:"+";font-size:22px;line-height:1;color:var(--dourado);transition:transform .2s}
+.incluso[open] summary::after{transform:rotate(45deg)}
+.incluso summary:focus-visible{outline:2px solid var(--dourado);outline-offset:3px;border-radius:8px}
+.incluso .aura{padding-bottom:16px}
+.incluso .pilar{margin:10px 0 6px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dourado)}
+.incluso .pilar:first-child{margin-top:0}
+.incluso ul{margin:0;padding:0 0 4px 18px;display:grid;gap:8px;font-weight:300;font-size:15px}
+.incluso li::marker{color:var(--dourado)}
+/* faixa vinho */
+.f-vinho{background:transparent}
+.f-vinho .card{background:rgba(30,10,14,.35);border-color:rgba(255,240,230,.18)}
+
+/* faixa creme */
+.f-creme{background:transparent}
+.lista-espera{display:flex;gap:10px;flex-wrap:wrap}
+.lista-espera input{flex:1 1 200px;min-width:0;font:inherit;font-size:15px;padding:14px 18px;border-radius:999px;border:1px solid rgba(43,29,28,.18);background:var(--creme);color:var(--tinta)}
+.lista-espera .btn{flex:1 1 160px;width:auto}
+.ok{font-size:14.5px;color:var(--vinho);font-weight:500;margin:0}
+
+/* rodapé */
+.rodape{padding-block:40px 48px;text-align:center;font-size:13px;color:rgba(255,249,244,.55)}
+.rodape p{margin:4px 0}
+
+/* entrada suave */
+@media (prefers-reduced-motion:no-preference){
+  .sobe{animation:sobe .7s ease both}
+  .sobe:nth-child(2){animation-delay:.08s}.sobe:nth-child(3){animation-delay:.16s}.sobe:nth-child(4){animation-delay:.24s}
+  @keyframes sobe{from{transform:translateY(14px)}to{transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <div class="avatar sobe"><span class="orbita" aria-hidden="true"><i></i></span><img src="img/avatar.webp" alt="Diana Freitas de vestido vinho"></div>
+    <h1 class="nome sobe">Diana Freitas</h1>
+    <p class="bio sobe">Estratégia, estética e IA para o seu Instagram vender mais. Criadora do SOS Stories e da Mentoria Sublime.</p>
+  </div>
+</header>
+
+<!-- SOS Stories -->
+<section class="faixa f-vinho" id="sos-stories">
+  <div class="wrap">
+    <p class="rotulo">Comece por aqui</p>
+    <h2 class="titulo">Stories que <em>vendem</em>, do jeito simples</h2>
+    <article class="card">
+      <div class="foto">
+        <img src="img/sos.webp" alt="Diana de branco olhando o celular">
+        <span class="selo">curso + app</span>
+        <h3>SOS <span>Stories</span></h3>
+      </div>
+      <div class="corpo">
+        <p>Tudo o que você precisa para planejar, gravar e postar Stories que geram conexão e vendas, com o app de figurinhas exclusivo para deixar cada Story com a sua cara.</p>
+        <ul class="itens">
+          <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z"/></svg></span><span><b>Aulas práticas</b> para você aplicar na hora e já ter Stories bonitos</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 18h4"/></svg></span><span><b>App de figurinhas</b> para usar nos seus Stories</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span><b>Acesso aos prompts</b> para criar narrativas vendedoras</span></li>
+        </ul>
+        <div class="preco">
+          <div class="valor"><small>por</small>R$&#8202;97</div>
+          <div class="sub">no Pix ou no cartão</div>
+        </div>
+        <a class="btn claro" href="https://sosstories.com.br" target="_blank" rel="noopener">Quero o SOS Stories <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- E-book IA -->
+<section class="faixa f-creme" id="ebook-ia">
+  <div class="wrap">
+    <p class="rotulo">E-book</p>
+    <h2 class="titulo">Fotos profissionais com IA, <em>sem complicação</em></h2>
+    <article class="card">
+      <div class="foto">
+        <img src="img/ebook.webp" alt="Diana de branco segurando um tablet">
+        <h3>Fotos <span>com IA</span></h3>
+      </div>
+      <div class="corpo">
+        <span class="tag">e-book · prompts prontos</span>
+        <p>O passo a passo para gerar fotos lindas de você e do seu produto usando inteligência artificial. Com os comandos prontos para copiar e colar.</p>
+        <div class="preco">
+          <div class="valor"><small>por</small>R$&#8202;29,90</div>
+        </div>
+        <a class="btn" href="#" data-link="ebook">Quero o e-book <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Atendimento individual -->
+<section class="faixa" id="atendimento">
+  <div class="wrap">
+    <p class="rotulo">Atendimento individual</p>
+    <h2 class="titulo">Um olhar <em>só para o seu perfil</em></h2>
+
+    <article class="card">
+      <div class="foto">
+        <img src="img/consultoria.webp" alt="Diana de vinho anotando no tablet">
+        <h3>Consultoria <span>de perfil</span></h3>
+      </div>
+      <div class="corpo">
+        <span class="tag">análise do seu Instagram</span>
+        <p>Eu analiso o seu Instagram por inteiro (bio, destaques, feed, Stories e conteúdo) e te entrego os pontos de melhoria, em ordem de prioridade, para você aplicar.</p>
+        <div class="preco">
+          <div class="valor"><small>10x de</small>R$&#8202;44,60</div>
+          <div class="sub">ou R$ 370 à vista</div>
+        </div>
+        <details class="incluso">
+          <summary>O que está incluso</summary>
+          <div class="aura">
+            <p class="pilar">Estética</p>
+            <ul>
+              <li>Foto de perfil profissional criada com IA</li>
+              <li>Capas de destaques personalizadas</li>
+              <li>3 artes únicas e 1 carrossel de até 6 páginas, prontos para usar</li>
+              <li>3 fundos para Stories</li>
+            </ul>
+            <p class="pilar">Intenção</p>
+            <ul>
+              <li>Análise da sua bio, foto e nome de perfil</li>
+              <li>Análise dos destaques e do feed</li>
+            </ul>
+            <p class="pilar">Estratégia</p>
+            <ul>
+              <li>Análise dos seus Stories e do seu conteúdo</li>
+              <li>Manual com orientações e sugestões de trocas e melhorias</li>
+            </ul>
+          </div>
+        </details>
+        <a class="btn" href="#" data-link="consultoria">Quero minha análise <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="foto">
+        <img src="img/mentoria.webp" alt="Diana tomando café e trabalhando no notebook">
+        <span class="selo">apenas 4 vagas por mês</span>
+        <h3>Mentoria <span>Sublime</span></h3>
+      </div>
+      <div class="corpo">
+        <span class="tag">4 encontros individuais online</span>
+        <p>Acompanhamento comigo para alinhar estética, intenção e estratégia do seu perfil pelo Método Aura, com materiais personalizados para o seu perfil.</p>
+        <div class="preco">
+          <div class="valor"><small>10x de</small>R$&#8202;200</div>
+          <div class="sub">ou R$ 1.700 à vista</div>
+          <div class="garantia"><b>Apenas 4 vagas mensais</b>, para eu acompanhar cada perfil de perto.</div>
+        </div>
+        <a class="btn" href="#" data-link="mentoria">Quero a mentoria <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <p>© 2026 Diana Freitas ADR</p>
+    <p>dianafreitasadr.com.br</p>
+  </div>
+</footer>
+
+<script>
+  // Links que ainda faltam: preencher quando a Diana mandar
+  const LINKS = { ebook:"https://wa.me/5571991316292?text=Ol%C3%A1%2C%20Diana%21%20Vim%20pelo%20seu%20site%20e%20quero%20o%20e-book%20Fotos%20com%20IA.", consultoria:"https://wa.me/5571991316292?text=Ol%C3%A1%2C%20Diana%21%20Vim%20pelo%20seu%20site%20e%20quero%20fazer%20a%20Consultoria%20de%20perfil.%20Pode%20me%20explicar%20como%20funciona%3F", mentoria:"https://wa.me/5571991316292?text=Ol%C3%A1%2C%20Diana%21%20Vim%20pelo%20seu%20site%20e%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Sublime." };
+  document.querySelectorAll("[data-link]").forEach(a=>{
+    const url = LINKS[a.dataset.link];
+    if(url){ a.href=url; a.target="_blank"; a.rel="noopener"; }
+  });
+</script>
+
+</body>
+</html>
