@@ -130,6 +130,25 @@ a{color:inherit}
   .sobe:nth-child(2){animation-delay:.08s}.sobe:nth-child(3){animation-delay:.16s}.sobe:nth-child(4){animation-delay:.24s}
   @keyframes sobe{from{transform:translateY(14px)}to{transform:none}}
 }
+/* formulário */
+dialog{border:0;padding:0;background:transparent;max-width:min(440px,calc(100vw - 32px));width:100%;color:var(--tinta)}
+dialog::backdrop{background:rgba(20,5,9,.72);backdrop-filter:blur(3px)}
+.caixa{background:var(--creme);border-radius:26px;padding:28px 24px 24px;position:relative}
+.caixa .fechar{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:transparent;font-size:26px;line-height:1;color:var(--tinta-suave);cursor:pointer}
+.caixa .fechar:focus-visible{outline:2px solid var(--vinho);outline-offset:2px}
+.caixa .rotulo{color:var(--vinho)}
+.caixa h2{margin:0 0 6px;font-size:22px;font-weight:600;line-height:1.25;padding-right:30px}
+.caixa p.sub{margin:0 0 18px;font-size:14.5px;color:var(--tinta-suave);font-weight:300}
+.campo{display:block;margin-bottom:12px}
+.campo span{display:block;font-size:13px;font-weight:500;margin:0 0 5px 4px}
+.campo input{width:100%;font:inherit;font-size:16px;padding:13px 18px;border-radius:999px;border:1px solid rgba(43,29,28,.2);background:#fff;color:var(--tinta)}
+.campo input:focus-visible{outline:2px solid var(--vinho);outline-offset:1px}
+.aceite{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--tinta-suave);margin:6px 2px 16px}
+.aceite input{margin-top:3px;accent-color:var(--vinho)}
+.erro{color:#9B1C2E;font-size:13.5px;margin:-4px 0 12px 4px}
+.pronto{text-align:center}
+.pronto .ok-ic{width:58px;height:58px;border-radius:50%;background:var(--vinho);display:grid;place-items:center;margin:4px auto 14px}
+.pronto .ok-ic svg{width:28px;height:28px;stroke:var(--creme);fill:none;stroke-width:2.2}
 </style>
 </head>
 <body>
@@ -161,10 +180,10 @@ a{color:inherit}
           <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span><b>Acesso aos prompts</b> para criar narrativas vendedoras</span></li>
         </ul>
         <div class="preco">
-          <div class="valor"><small>por</small>R$&#8202;97</div>
-          <div class="sub">no Pix ou no cartão</div>
+          <div class="valor"><small>por</small>R$&#8202;47</div>
+          <div class="sub">em breve · entre na lista e saiba primeiro</div>
         </div>
-        <a class="btn claro" href="https://sosstories.com.br" target="_blank" rel="noopener">Quero o SOS Stories <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <button class="btn claro" type="button" data-lista>Quero o SOS Stories <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </article>
   </div>
@@ -270,6 +289,62 @@ a{color:inherit}
     const url = LINKS[a.dataset.link];
     if(url){ a.href=url; if(!url.startsWith("/")){ a.target="_blank"; a.rel="noopener"; } }
   });
+</script>
+
+<dialog id="dlg" aria-labelledby="dlg-titulo">
+  <div class="caixa">
+    <button class="fechar" type="button" aria-label="Fechar" data-fechar>×</button>
+    <form id="form" novalidate>
+      <p class="rotulo">SOS Stories · em breve</p>
+      <h2 id="dlg-titulo">Está quase chegando!</h2>
+      <p class="sub">O SOS Stories vai estar disponível em breve por R$ 47. Deixe seus dados e você fica sabendo antes de todo mundo.</p>
+      <label class="campo"><span>Seu nome</span><input name="nome" autocomplete="given-name" required maxlength="80"></label>
+      <label class="campo"><span>Seu melhor e-mail</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
+      <label class="campo"><span>WhatsApp com DDD</span><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="(71) 99999-9999"></label>
+      <p class="erro" id="erro" hidden></p>
+      <button class="btn" type="submit" id="enviar">Me avise quando abrir</button>
+    </form>
+    <div class="pronto" id="pronto" hidden>
+      <div class="ok-ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 style="padding:0">Você está na lista!</h2>
+      <p class="sub" style="margin:0">Assim que o SOS Stories abrir, eu te aviso no WhatsApp e no e-mail.</p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Lista de espera do SOS Stories: grava em iscas_leads (material "lista-sos-stories")
+  (function(){
+    const SUPA="https://rppgpmddpuvcrbvljfms.supabase.co", ANON="sb_publishable_wARnoXPMSBWvVkII-bZbtw_GCb4OaE6";
+    const dlg=document.getElementById("dlg"), form=document.getElementById("form"), pronto=document.getElementById("pronto"),
+          erro=document.getElementById("erro"), enviar=document.getElementById("enviar");
+    function abrir(){ form.hidden=false; pronto.hidden=true; erro.hidden=true; form.reset(); dlg.showModal(); form.nome.focus(); }
+    document.querySelectorAll("[data-lista]").forEach(b=>b.addEventListener("click",abrir));
+    dlg.querySelector("[data-fechar]").onclick=()=>dlg.close();
+    dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+    form.addEventListener("submit",async e=>{
+      e.preventDefault();
+      const d={nome:form.nome.value.trim(),email:form.email.value.trim().toLowerCase(),whatsapp:form.whatsapp.value.replace(/\D/g,"")};
+      let msg="";
+      if(d.nome.length<2) msg="Me conta o seu nome.";
+      else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) msg="Confere o seu e-mail?";
+      else if(d.whatsapp.length<10||d.whatsapp.length>13) msg="Coloca o WhatsApp com DDD.";
+      if(msg){ erro.textContent=msg; erro.hidden=false; return; }
+      enviar.disabled=true; enviar.textContent="Enviando…";
+      let ok=false;
+      try{
+        const r=await fetch(SUPA+"/rest/v1/rpc/registrar_lead_isca",{method:"POST",
+          headers:{"Content-Type":"application/json",apikey:ANON,Authorization:"Bearer "+ANON},
+          body:JSON.stringify({p_nome:d.nome,p_email:d.email,p_whatsapp:d.whatsapp,p_material:"lista-sos-stories",p_aceite:true,
+            p_origem:new URLSearchParams(location.search).get("utm_source")||document.referrer||null})});
+        ok=r.ok;
+      }catch(_){}
+      enviar.disabled=false; enviar.textContent="Me avise quando abrir";
+      if(!ok){ erro.textContent="Não consegui enviar agora. Tenta de novo em instantes?"; erro.hidden=false; return; }
+      form.hidden=true; pronto.hidden=false;
+    });
+    if(new URLSearchParams(location.search).get("lista")==="sos") abrir();
+  })();
 </script>
 
 </body>
