@@ -172,7 +172,8 @@ section+section{margin-top:clamp(64px,9vw,100px)}
 .bv-tx h2{font-weight:300;font-size:clamp(26px,6vw,32px);line-height:1.15;letter-spacing:-.02em;margin:8px 0 12px;color:var(--wine)}
 .bv-tx h2 b{display:block;font-weight:500;background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.05em}
 .bv-tx p{color:var(--muted);font-size:15px;line-height:1.45;max-width:34ch;margin:0 auto}
-.bv-tx .ass{display:block;margin-top:12px;color:var(--wine3);font-size:14px;font-weight:400;font-style:italic}
+.bv-tx .ass{display:block;margin-top:14px;color:var(--wine3);font-size:14px;font-weight:400;font-style:italic}
+.bv-tx .ass img{display:block;width:170px;margin:2px auto 0}
 .bv-tx .btn{margin-top:22px;width:100%}
 .petala{position:fixed;top:-30px;z-index:0;width:14px;height:18px;border-radius:70% 0 70% 0;background:linear-gradient(135deg,#C2364F,#7A1428);opacity:.85;pointer-events:none;animation:cai linear forwards}
 @keyframes cai{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--r))}}
@@ -394,7 +395,7 @@ function boasVindas(forcar) {
       <span class="eyebrow">Um presente para você</span>
       <h2 id="bv-t">Seja bem-vinda${nome ? "," : ""}<b>${esc(nome || "à Mentoria Sublime")}.</b></h2>
       <p>Parabéns por dar esse passo. Que alegria começar essa jornada com você. Este espaço foi preparado com muito carinho.</p>
-      <span class="ass">Com carinho, Diana</span>
+      <span class="ass">Com carinho,<img src="../assinatura-dourada.png" alt="Diana Freitas" width="1400" height="365"></span>
       <button class="btn btn-gold" type="button">Entrar na minha área</button>
     </div></div>`;
   document.body.appendChild(el);
