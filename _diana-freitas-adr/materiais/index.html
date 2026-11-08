@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2B0A11">
+<meta property="og:title" content="Materiais gratuitos | Diana Freitas">
+<meta property="og:description" content="Guias gratuitos da Diana Freitas para Stories e vídeos que geram conexão.">
+<meta property="og:image" content="https://dianafreitasadr.com.br/img/ganchos-stories.webp">
+<link rel="icon" type="image/png" href="/favicon.png?v=2">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>Materiais gratuitos</title>
+<meta name="description" content="Materiais gratuitos da Diana Freitas: guias de ganchos para Stories e vídeos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap">
+<style>
+/* Layout: uma coluna de celular, faixas de cor alternadas (café → vinho → creme → café), cada produto um cartão com foto */
+:root{
+  --cafe:#2B1D1C;        /* fundo do topo e do atendimento individual */
+  --cafe-2:#3A2826;      /* cartões sobre café */
+  --vinho:#6B1F2C;       /* faixa de destaque e botões */
+  --vinho-2:#4A1520;
+  --creme:#F8F0E8;       /* faixa clara e caixa de preço */
+  --dourado:#D9B07C;     /* rótulos e acentos */
+  --rosa:#EBCFCB;        /* selos e ícones */
+  --tinta:#2B1D1C;       /* texto sobre creme */
+  --tinta-suave:#6E5A56;
+  --branco:#FFF9F4;
+  --linha:rgba(255,240,230,.14);
+  --f-titulo:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-texto:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#2B0A11 linear-gradient(180deg,#2B0A11 0%,#3A0E18 18%,#2E0B13 36%,#40101B 54%,#2B0A11 72%,#3A0E18 88%,#1F070C 100%);color:var(--branco);font-family:var(--f-texto);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.faixa{padding-block:36px}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+
+/* topo */
+.topo{padding-block:56px 48px;text-align:center}
+.avatar{position:relative;width:164px;height:164px;margin:18px auto 30px;isolation:isolate}
+.avatar::before{content:"";position:absolute;inset:-10px;border-radius:50%;z-index:-1;background:conic-gradient(from 0deg,#D9B07C,#6B1F2C 25%,#F1D29C 50%,#4A1520 75%,#D9B07C);animation:gira 8s linear infinite}
+.avatar::after{content:"";position:absolute;inset:-34px;border-radius:50%;z-index:-2;background:radial-gradient(circle,rgba(217,176,124,.45),rgba(107,31,44,.35) 45%,transparent 70%);filter:blur(6px);animation:pulsa 4s ease-in-out infinite}
+.avatar .orbita{position:absolute;inset:-26px;border-radius:50%;border:1px dashed rgba(217,176,124,.45);z-index:-1;animation:gira 22s linear infinite reverse}
+.avatar .orbita::before,.avatar .orbita::after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#F1D29C;box-shadow:0 0 12px 3px rgba(241,210,156,.7)}
+.avatar .orbita::before{top:-5px;left:50%;margin-left:-4.5px}
+.avatar .orbita::after{bottom:14%;right:4%;width:6px;height:6px}
+.avatar .orbita i{position:absolute;bottom:22%;left:2%;width:7px;height:7px;border-radius:50%;background:#F1D29C;box-shadow:0 0 10px 3px rgba(241,210,156,.65)}
+@keyframes gira{to{transform:rotate(360deg)}}
+@keyframes pulsa{0%,100%{transform:scale(.92);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+@media (prefers-reduced-motion:reduce){.avatar::before,.avatar::after,.avatar .orbita{animation:none}}
+.avatar img{position:relative;width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:4px solid #2B0A11}
+.nome{font-family:"Playfair Display","Didot","Georgia",serif;font-style:italic;font-weight:500;font-size:clamp(36px,10vw,46px);letter-spacing:-.025em;line-height:1.15;margin:0;color:var(--dourado);white-space:nowrap}
+.bio{color:rgba(255,249,244,.78);font-weight:300;margin:16px auto 0;max-width:34ch;text-wrap:balance}
+.redes{display:flex;justify-content:center;gap:14px;margin-top:24px}
+.redes a{width:50px;height:50px;border-radius:50%;border:1px solid var(--linha);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.redes a:hover,.redes a:focus-visible{background:var(--cafe-2);border-color:var(--dourado)}
+.redes svg{width:22px;height:22px;stroke:var(--branco);fill:none;stroke-width:1.6}
+
+/* cabeçalhos de seção */
+.rotulo{font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--dourado);margin:0 0 8px}
+.titulo{font-family:var(--f-titulo);font-weight:500;font-size:clamp(25px,6.6vw,32px);line-height:1.18;margin:0 0 26px;text-wrap:balance}
+.titulo em{font-style:normal;color:var(--dourado)}
+
+/* cartões */
+.card{border-radius:26px;overflow:hidden;border:1px solid var(--linha);background:rgba(255,240,230,.05)}
+.card + .card{margin-top:20px}
+.foto{position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.card:hover .foto img{transform:scale(1.03)}
+.foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(30,18,18,.55) 62%,rgba(30,18,18,.92))}
+.foto h3{text-shadow:0 2px 14px rgba(0,0,0,.35);position:absolute;left:22px;right:22px;bottom:18px;z-index:1;margin:0;font-family:var(--f-titulo);font-weight:600;font-size:clamp(24px,6.4vw,30px);line-height:1.12;letter-spacing:.02em}
+.foto h3 span{color:var(--dourado)}
+.selo{position:absolute;top:16px;left:16px;z-index:1;background:var(--rosa);color:var(--vinho-2);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px}
+.corpo{padding:22px 22px 24px;display:flex;flex-direction:column;gap:16px}
+.tag{align-self:flex-start;font-size:13.5px;font-weight:500;padding:5px 14px;border-radius:999px;border:1px solid rgba(235,207,203,.45);color:var(--rosa)}
+.corpo p{margin:0;font-weight:300;color:rgba(255,249,244,.86)}
+.itens{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.itens li{display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:center;font-weight:300;font-size:15px}
+.itens li b{font-weight:600}
+.ic{width:42px;height:42px;border-radius:12px;background:var(--rosa);display:grid;place-items:center}
+.ic svg{width:20px;height:20px;stroke:var(--vinho-2);fill:none;stroke-width:1.8}
+.preco{background:var(--creme);color:var(--tinta);border-radius:20px;padding:18px 20px}
+.preco .valor{font-family:var(--f-titulo);font-weight:600;font-size:34px;color:var(--vinho);line-height:1.1;font-variant-numeric:tabular-nums}
+.preco .valor small{font-family:var(--f-texto);font-size:15px;color:var(--tinta);margin-right:6px}
+.preco .sub{font-size:14px;color:var(--tinta-suave);margin-top:4px}
+.preco .garantia{border-top:1px solid rgba(43,29,28,.12);margin-top:12px;padding-top:12px;font-size:14px;color:var(--tinta-suave)}
+.preco .garantia b{color:var(--tinta)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:500;font-size:16px;padding:16px 22px;border-radius:999px;background:var(--vinho);color:var(--branco);border:0;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s;width:100%}
+.btn:hover{background:#7E2636;transform:translateY(-1px)}
+.btn:focus-visible,.redes a:focus-visible,input:focus-visible{outline:2px solid var(--dourado);outline-offset:3px}
+.btn.claro{background:var(--rosa);color:var(--vinho-2)}
+.btn.claro:hover{background:#F2DCD8}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+
+.incluso{border:1px solid var(--linha);border-radius:18px;padding:0 18px}
+.incluso summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-weight:500;color:var(--rosa)}
+.incluso summary::-webkit-details-marker{display:none}
+.incluso summary::after{content:"+";font-size:22px;line-height:1;color:var(--dourado);transition:transform .2s}
+.incluso[open] summary::after{transform:rotate(45deg)}
+.incluso summary:focus-visible{outline:2px solid var(--dourado);outline-offset:3px;border-radius:8px}
+.incluso .aura{padding-bottom:16px}
+.incluso .pilar{margin:10px 0 6px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dourado)}
+.incluso .pilar:first-child{margin-top:0}
+.incluso ul{margin:0;padding:0 0 4px 18px;display:grid;gap:8px;font-weight:300;font-size:15px}
+.incluso li::marker{color:var(--dourado)}
+/* faixa vinho */
+.f-vinho{background:transparent}
+.f-vinho .card{background:rgba(30,10,14,.35);border-color:rgba(255,240,230,.18)}
+
+/* faixa creme */
+.f-creme{background:transparent}
+.lista-espera{display:flex;gap:10px;flex-wrap:wrap}
+.lista-espera input{flex:1 1 200px;min-width:0;font:inherit;font-size:15px;padding:14px 18px;border-radius:999px;border:1px solid rgba(43,29,28,.18);background:var(--creme);color:var(--tinta)}
+.lista-espera .btn{flex:1 1 160px;width:auto}
+.ok{font-size:14.5px;color:var(--vinho);font-weight:500;margin:0}
+
+/* rodapé */
+.rodape{padding-block:40px 48px;text-align:center;font-size:13px;color:rgba(255,249,244,.55)}
+.rodape p{margin:4px 0}
+
+/* entrada suave */
+@media (prefers-reduced-motion:no-preference){
+  .sobe{animation:sobe .7s ease both}
+  .sobe:nth-child(2){animation-delay:.08s}.sobe:nth-child(3){animation-delay:.16s}.sobe:nth-child(4){animation-delay:.24s}
+  @keyframes sobe{from{transform:translateY(14px)}to{transform:none}}
+}
+
+/* ---- página de materiais ---- */
+.capa{position:relative;aspect-ratio:4/5;overflow:hidden;background:#3A0E18}
+.capa img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .6s ease}
+.card:hover .capa img{transform:scale(1.02)}
+.capa .selo{background:var(--dourado);color:#2B0A11}
+.corpo h3{margin:0;font-weight:600;font-size:22px;line-height:1.2}
+.corpo h3 span{color:var(--dourado)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid rgba(217,176,124,.45);color:var(--rosa)}
+.servicos{display:grid;gap:14px}
+.serv{display:grid;grid-template-columns:84px 1fr 22px;gap:16px;align-items:center;text-decoration:none;padding:12px 16px 12px 12px;border-radius:22px;border:1px solid var(--linha);background:rgba(30,10,14,.35);transition:border-color .2s,transform .15s}
+.serv:hover{border-color:var(--dourado);transform:translateY(-1px)}
+.serv:focus-visible{outline:2px solid var(--dourado);outline-offset:3px}
+.serv img{width:84px;height:84px;border-radius:16px;object-fit:cover;display:block}
+.serv b{display:block;font-weight:600;font-size:17px;line-height:1.25}
+.serv small{display:block;font-size:13.5px;font-weight:300;color:rgba(255,249,244,.72);margin-top:3px}
+.serv .v{display:block;font-size:14px;font-weight:500;color:var(--dourado);margin-top:5px}
+.serv svg{width:20px;height:20px;stroke:var(--dourado);fill:none;stroke-width:2}
+.chamada{text-align:center;margin-top:26px}
+.chamada p{font-weight:300;color:rgba(255,249,244,.8);margin:0 0 14px}
+/* formulário */
+dialog{border:0;padding:0;background:transparent;max-width:min(440px,calc(100vw - 32px));width:100%;color:var(--tinta)}
+dialog::backdrop{background:rgba(20,5,9,.72);backdrop-filter:blur(3px)}
+.caixa{background:var(--creme);border-radius:26px;padding:28px 24px 24px;position:relative}
+.caixa .fechar{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:transparent;font-size:26px;line-height:1;color:var(--tinta-suave);cursor:pointer}
+.caixa .fechar:focus-visible{outline:2px solid var(--vinho);outline-offset:2px}
+.caixa .rotulo{color:var(--vinho)}
+.caixa h2{margin:0 0 6px;font-size:22px;font-weight:600;line-height:1.25;padding-right:30px}
+.caixa p.sub{margin:0 0 18px;font-size:14.5px;color:var(--tinta-suave);font-weight:300}
+.campo{display:block;margin-bottom:12px}
+.campo span{display:block;font-size:13px;font-weight:500;margin:0 0 5px 4px}
+.campo input{width:100%;font:inherit;font-size:16px;padding:13px 18px;border-radius:999px;border:1px solid rgba(43,29,28,.2);background:#fff;color:var(--tinta)}
+.campo input:focus-visible{outline:2px solid var(--vinho);outline-offset:1px}
+.aceite{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--tinta-suave);margin:6px 2px 16px}
+.aceite input{margin-top:3px;accent-color:var(--vinho)}
+.erro{color:#9B1C2E;font-size:13.5px;margin:-4px 0 12px 4px}
+.pronto{text-align:center}
+.pronto .ok-ic{width:58px;height:58px;border-radius:50%;background:var(--vinho);display:grid;place-items:center;margin:4px auto 14px}
+.pronto .ok-ic svg{width:28px;height:28px;stroke:var(--creme);fill:none;stroke-width:2.2}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <div class="avatar sobe"><span class="orbita" aria-hidden="true"><i></i></span><img src="/img/avatar.webp" alt="Diana Freitas de vestido vinho"></div>
+    <h1 class="nome sobe">Diana Freitas</h1>
+    <p class="bio sobe">Materiais gratuitos para você criar conteúdo com mais intenção e menos travas. Escolha o seu e baixe na hora.</p>
+  </div>
+</header>
+
+<section class="faixa f-vinho" id="materiais">
+  <div class="wrap">
+    <p class="rotulo">Materiais gratuitos</p>
+    <h2 class="titulo">Baixe, aplique e <em>comece hoje</em></h2>
+    <div id="lista"></div>
+  </div>
+</section>
+
+<section class="faixa" id="servicos">
+  <div class="wrap">
+    <p class="rotulo">Quer ir além?</p>
+    <h2 class="titulo">Conheça os meus <em>serviços</em></h2>
+    <div class="servicos">
+      <a class="serv" href="https://sosstories.com.br" target="_blank" rel="noopener">
+        <img src="/img/sos.webp" alt=""><span><b>SOS Stories</b><small>Curso + app de figurinhas para Stories que vendem</small><span class="v">R$ 97</span></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="serv" href="#" data-link="ebook">
+        <img src="/img/ebook.webp" alt=""><span><b>E-book Fotos com IA</b><small>Prompts prontos para fotos profissionais</small><span class="v">R$ 29,90</span></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="serv" href="#" data-link="consultoria">
+        <img src="/img/consultoria.webp" alt=""><span><b>Consultoria de perfil</b><small>Análise completa do seu Instagram</small><span class="v">10x de R$ 44,60</span></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="serv" href="#" data-link="mentoria">
+        <img src="/img/mentoria.webp" alt=""><span><b>Mentoria Sublime</b><small>4 encontros individuais comigo</small><span class="v">10x de R$ 200</span></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="chamada">
+      <p>Ficou com dúvida sobre qual é o seu momento?</p>
+      <a class="btn claro" href="#" data-link="duvida">Falar comigo no WhatsApp <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <p>© 2026 Diana Freitas ADR</p>
+    <p>dianafreitasadr.com.br</p>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-titulo">
+  <div class="caixa">
+    <button class="fechar" type="button" aria-label="Fechar" data-fechar>×</button>
+    <form id="form" novalidate>
+      <p class="rotulo">Material gratuito</p>
+      <h2 id="dlg-titulo">Libere o seu guia gratuito</h2>
+      <p class="sub">Preencha e o download libera na hora.</p>
+      <label class="campo"><span>Seu nome</span><input name="nome" autocomplete="given-name" required maxlength="80"></label>
+      <label class="campo"><span>Seu melhor e-mail</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
+      <label class="campo"><span>WhatsApp com DDD</span><input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="(71) 99999-9999"></label>
+      <label class="aceite"><input type="checkbox" name="aceite" checked> <span>Aceito receber conteúdos e novidades da Diana Freitas. Dá para sair quando quiser.</span></label>
+      <p class="erro" id="erro" hidden></p>
+      <button class="btn" type="submit" id="enviar">Liberar meu download</button>
+    </form>
+    <div class="pronto" id="pronto" hidden>
+      <div class="ok-ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 style="padding:0">Prontinho!</h2>
+      <p class="sub">O seu material está liberado. Bom proveito!</p>
+      <a class="btn" id="baixar" href="#" download>Baixar o PDF <svg viewBox="0 0 24 24"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+// Para adicionar um material novo: coloque o PDF em /materiais/arquivos/, a capa em /img/ e um item aqui (o mais novo primeiro).
+const MATERIAIS = [
+  { id:"ganchos-stories", titulo:"30 ganchos para iniciar seus <span>Stories</span>", capa:"/img/ganchos-stories.webp",
+    texto:"Aberturas curtas para transformar um Story isolado em uma conversa que vale acompanhar.",
+    chips:["30 frases prontas","4 sequências","Para adaptar ao seu negócio"], arquivo:"/materiais/arquivos/30-ganchos-stories.pdf" },
+  { id:"ganchos-videos", titulo:"30 ganchos para iniciar seus <span>vídeos</span>", capa:"/img/ganchos-videos.webp",
+    texto:"Para Reels e vídeos curtos que despertam interesse sem perder a naturalidade.",
+    chips:["30 aberturas prontas","Exemplos de adaptação","Estrutura para gravar"], arquivo:"/materiais/arquivos/30-ganchos-videos.pdf" }
+];
+const LINKS = {
+  ebook:"https://wa.me/5571991316292?text=Ol%C3%A1%2C%20Diana%21%20Vim%20pelos%20materiais%20gratuitos%20e%20quero%20o%20e-book%20Fotos%20com%20IA.",
+  consultoria:"https://wa.me/5571991316292?text=Ol%C3%A1%2C%20Diana%21%20Vim%20pelos%20materiais%20gratuitos%20e%20quero%20saber%20da%20Consultoria%20de%20perfil.",
+  mentoria:"/mentoria/",
+  duvida:"https://wa.me/5571991316292?text=Ol%C3%A1%2C%20Diana%21%20Baixei%20um%20material%20gratuito%20e%20queria%20saber%20qual%20servi%C3%A7o%20combina%20comigo."
+};
+const SUPA = "https://rppgpmddpuvcrbvljfms.supabase.co";
+const ANON = "sb_publishable_wARnoXPMSBWvVkII-bZbtw_GCb4OaE6";
+
+document.querySelectorAll("[data-link]").forEach(a=>{
+  const url = LINKS[a.dataset.link];
+  if(url){ a.href=url; if(!url.startsWith("/")){ a.target="_blank"; a.rel="noopener"; } }
+});
+
+const seta='<svg viewBox="0 0 24 24"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>';
+document.getElementById("lista").innerHTML = MATERIAIS.map(m=>`
+  <article class="card">
+    <div class="capa"><img src="${m.capa}" alt="" loading="lazy"><span class="selo">gratuito</span></div>
+    <div class="corpo">
+      <h3>${m.titulo}</h3>
+      <p>${m.texto}</p>
+      <div class="chips">${m.chips.map(c=>`<span>${c}</span>`).join("")}</div>
+      <button class="btn claro" type="button" data-material="${m.id}">Quero o meu guia ${seta}</button>
+    </div>
+  </article>`).join("");
+
+const dlg=document.getElementById("dlg"), form=document.getElementById("form"), pronto=document.getElementById("pronto"),
+      erro=document.getElementById("erro"), baixar=document.getElementById("baixar"), enviar=document.getElementById("enviar");
+let atual=null;
+const ler=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const gravar=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+
+function salvar(dados, material){
+  // guarda o contato no banco; se falhar, o download não fica preso
+  return fetch(SUPA+"/rest/v1/rpc/registrar_lead_isca",{method:"POST",
+    headers:{"Content-Type":"application/json",apikey:ANON,Authorization:"Bearer "+ANON},
+    body:JSON.stringify({p_nome:dados.nome,p_email:dados.email,p_whatsapp:dados.whatsapp,p_material:material,p_aceite:dados.aceite,
+      p_origem:new URLSearchParams(location.search).get("utm_source")||document.referrer||null})
+  }).catch(()=>{});
+}
+function liberar(m){
+  form.hidden=true; pronto.hidden=false; erro.hidden=true;
+  baixar.href=m.arquivo; baixar.setAttribute("download", m.arquivo.split("/").pop());
+  baixar.focus();
+}
+document.getElementById("lista").addEventListener("click",e=>{
+  const b=e.target.closest("[data-material]"); if(!b) return;
+  atual=MATERIAIS.find(m=>m.id===b.dataset.material);
+  const ja=ler("df_lead");
+  form.hidden=false; pronto.hidden=true; erro.hidden=true;
+  if(ja){ salvar(ja, atual.id); liberar(atual); }
+  else { form.reset(); form.aceite.checked=true; }
+  dlg.showModal();
+  if(!ja) form.nome.focus();
+});
+dlg.querySelector("[data-fechar]").onclick=()=>dlg.close();
+dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const d={nome:form.nome.value.trim(),email:form.email.value.trim().toLowerCase(),whatsapp:form.whatsapp.value.replace(/\D/g,""),aceite:form.aceite.checked};
+  let msg="";
+  if(d.nome.length<2) msg="Me conta o seu nome.";
+  else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) msg="Confere o seu e-mail?";
+  else if(d.whatsapp.length<10||d.whatsapp.length>13) msg="Coloca o WhatsApp com DDD.";
+  if(msg){ erro.textContent=msg; erro.hidden=false; return; }
+  enviar.disabled=true; enviar.textContent="Liberando…";
+  await Promise.race([salvar(d, atual.id), new Promise(r=>setTimeout(r,4000))]);
+  gravar("df_lead", d);
+  enviar.disabled=false; enviar.textContent="Liberar meu download";
+  liberar(atual);
+});
+</script>
+
+</body>
+</html>
