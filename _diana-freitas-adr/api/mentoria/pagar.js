@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "dados" });
   }
 
+  const acesso = randomUUID(); // só o navegador de quem paga recebe; abre os dados de acesso na página de obrigada
   const body = {
     transaction_amount: p.amount,
     description: p.description,
@@ -32,7 +33,7 @@ module.exports = async (req, res) => {
     statement_descriptor: "MENTORIA SUBLIME",
     external_reference: `sublime-${plano}-${Date.now()}`,
     notification_url: "https://dianafreitasadr.com.br/api/mentoria/webhook/",
-    metadata: { email: formData.payer.email, nome: [formData.payer.first_name, formData.payer.last_name].filter(Boolean).join(" ") }
+    metadata: { acesso, email: formData.payer.email, nome: [formData.payer.first_name, formData.payer.last_name].filter(Boolean).join(" ") }
   };
   if (formData.token) {
     body.token = formData.token;
@@ -56,6 +57,7 @@ module.exports = async (req, res) => {
     const tx = d.point_of_interaction?.transaction_data;
     return res.status(200).json({
       id: d.id,
+      acesso,
       status: d.status,
       detail: d.status_detail,
       pix: tx ? { code: tx.qr_code, img: tx.qr_code_base64 } : null

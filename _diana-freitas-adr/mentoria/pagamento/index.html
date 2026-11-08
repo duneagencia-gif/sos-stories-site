@@ -117,6 +117,8 @@ footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:34px 0;text-ali
 const MP_PUBLIC_KEY = "APP_USR-f4780f8a-8eeb-4d68-ab29-77d06226ab78";
 const API = "/api/mentoria";
 const OBRIGADA = "../obrigada/";
+// Leva para a página de obrigada com o código de acesso (só quem pagou tem). Guarda também no aparelho, caso ela volte depois.
+function irObrigada(t) { try { if (t) localStorage.setItem("ms-acesso", t); } catch (e) {} location.href = OBRIGADA + (t ? "?t=" + encodeURIComponent(t) : ""); }
 const WHATSAPP = "5571991316292";
 const PLANOS = {
   parc: { amount: 2000, label: "Parcelado em até 10x de R$ 200 no cartão" },
@@ -175,7 +177,7 @@ async function pay(formData) {
   try {
     const r = await fetch(`${API}/pagar/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plano, formData }) });
     const d = await r.json();
-    if (d.status === "approved") { location.href = OBRIGADA; return; }
+    if (d.status === "approved") { irObrigada(d.acesso); return; }
     if (d.pix && d.pix.code) { showPix(d); return; }
     if (d.status === "in_process" || d.status === "pending") {
       $("brick").innerHTML = '<p class="msg info">Seu pagamento está em análise pelo Mercado Pago. Você recebe a confirmação por e-mail, e eu te chamo no WhatsApp assim que ele for aprovado.</p>';
@@ -197,7 +199,7 @@ function showPix(d) {
   $("pix-copy").onclick = async e => { try { await navigator.clipboard.writeText(d.pix.code); e.target.textContent = "Código copiado"; } catch { $("pix-code").select(); } };
   clearInterval(poll);
   poll = setInterval(async () => {
-    try { const s = await (await fetch(`${API}/status/?id=${d.id}`)).json(); if (s.status === "approved") { clearInterval(poll); location.href = OBRIGADA; } } catch (e) {}
+    try { const s = await (await fetch(`${API}/status/?id=${d.id}`)).json(); if (s.status === "approved") { clearInterval(poll); irObrigada(d.acesso); } } catch (e) {}
   }, 5000);
 }
 

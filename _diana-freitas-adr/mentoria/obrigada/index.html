@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8">
+<html lang="pt-BR" class="chk"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Bem-vinda à Mentoria Sublime</title>
 <meta name="robots" content="noindex">
@@ -44,6 +44,29 @@ h1 em{font-style:normal;color:var(--goldl);font-weight:500}
 footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:40px 0 30px;text-align:center}
 @media (max-width:600px){.btn{width:100%}}
 @media (prefers-reduced-motion:reduce){.seal{animation:none}}
+
+/* acesso: a página só aparece para quem pagou (código no endereço) ou para a Diana logada */
+html.chk .hero main,html.chk footer{visibility:hidden}
+html.chk .hero::after{content:"";position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;border:2px solid rgba(226,192,142,.25);border-top-color:var(--goldl);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.prev{background:#FFF4D8;color:#5B4310;font-size:13.5px;text-align:center;padding:10px 16px}
+.acc-card{margin-top:34px;width:100%;text-align:left;background:var(--paper);color:var(--wine);border-radius:24px;padding:24px 22px 22px;box-shadow:0 30px 60px rgba(0,0,0,.3);position:relative}
+.acc-card .eyebrow{color:#9C6A36}
+.acc-card h2{font-weight:500;font-size:19px;line-height:1.35;margin:6px 0 4px}
+.acc-card>p{font-size:14px;color:var(--muted);line-height:1.55}
+.acc-rows{margin-top:16px;display:grid;gap:10px}
+.acc-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;background:var(--ivory);border:1px solid rgba(43,10,17,.08);border-radius:14px;padding:10px 10px 10px 14px}
+.acc-row small{display:block;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#9A8781;font-weight:500;line-height:1.4}
+.acc-row b{display:block;font-weight:500;font-size:15.5px;line-height:1.4;overflow-wrap:anywhere}
+.acc-row .pw{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16px;letter-spacing:.04em}
+.cp{border:0;cursor:pointer;font:inherit;font-size:12.5px;font-weight:500;color:var(--wine3);background:transparent;box-shadow:inset 0 0 0 1px rgba(106,29,46,.25);border-radius:999px;padding:8px 14px;white-space:nowrap}
+.cp.ok{background:var(--wine3);color:#FFF6EC;box-shadow:none}
+.acc-go{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:16px;border:0;cursor:pointer;font:inherit;font-size:14px;font-weight:500;letter-spacing:.03em;padding:15px 22px;border-radius:999px;background:var(--wine3);color:#FFF6EC;text-decoration:none;box-shadow:0 8px 22px rgba(106,29,46,.22)}
+.acc-go:disabled{opacity:.6}
+.acc-go svg{width:16px;height:16px}
+.acc-note{margin-top:12px;font-size:12.5px;color:#9A8781;text-align:center;line-height:1.5}
+.acc-note a{color:var(--wine3);font-weight:500}
+.btn-sec{margin-top:36px}
 </style>
 </head>
 <body>
@@ -54,6 +77,7 @@ footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:40px 0 30px;tex
     <span class="eyebrow">Inscrição recebida</span>
     <h1><span>Seja bem-vinda à</span> <span><em>Mentoria Sublime.</em></span></h1>
     <p class="lead">Que alegria ter você aqui. Agora começa a construção de uma presença que mostra o valor do seu trabalho.</p>
+    <section class="acc-card" id="acesso" hidden aria-labelledby="acc-t"></section>
     <ol class="next">
       <li><b>1</b><div><h3>Preencha o seu briefing</h3><p>Leva cerca de 10 minutos. Com ele eu preparo o seu Diagnóstico Aura antes do primeiro encontro.</p></div></li>
       <li><b>2</b><div><h3>Eu te chamo no WhatsApp</h3><p>Para combinarmos a data e o horário do nosso primeiro encontro.</p></div></li>
@@ -64,4 +88,67 @@ footer{background:#1F070C;color:#A88D7E;font-size:12.5px;padding:40px 0 30px;tex
   </main>
 </div>
 <footer>Diana Freitas · DUNE · © 2026</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="../area/comum.js"></script>
+<script>
+// A página de obrigada só abre para quem acabou de pagar (código "t" no endereço, criado no pagamento)
+// ou para a Diana logada como administradora. Qualquer outra pessoa volta para a página da mentoria.
+const AREA_LINK = "dianafreitasadr.com.br/mentoria/area";
+const ICO_SETA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const abrir = () => document.documentElement.classList.remove("chk");
+
+function cartaoAcesso(a, exemplo) {
+  const el = document.getElementById("acesso");
+  const senha = a.senha
+    ? `<div class="acc-row"><div><small>Senha</small><b class="pw">${esc(a.senha)}</b></div><button class="cp" data-cp="${esc(a.senha)}">Copiar</button></div>`
+    : `<div class="acc-row"><div><small>Senha</small><b>A mesma que você já usa neste e-mail</b></div></div>`;
+  el.innerHTML = `
+    <span class="eyebrow">Sua área da aluna${exemplo ? " · exemplo" : ""}</span>
+    <h2 id="acc-t">Seus dados de acesso</h2>
+    <p>É por aqui que você vai acompanhar os encontros, baixar os materiais e falar comigo.</p>
+    <div class="acc-rows">
+      <div class="acc-row"><div><small>Link</small><b>${AREA_LINK}</b></div><button class="cp" data-cp="https://${AREA_LINK}/">Copiar</button></div>
+      <div class="acc-row"><div><small>E-mail</small><b>${esc(a.email)}</b></div><button class="cp" data-cp="${esc(a.email)}">Copiar</button></div>
+      ${senha}
+    </div>
+    <button class="acc-go" type="button">Entrar na minha área${ICO_SETA}</button>
+    <p class="acc-note">Guarde esses dados ou tire um print desta tela. ${a.senha ? "" : `Não lembra a senha? <a href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">Fale comigo</a>.`}</p>`;
+  el.hidden = false;
+  el.querySelectorAll(".cp").forEach(b => b.onclick = async () => {
+    try { await navigator.clipboard.writeText(b.dataset.cp); b.textContent = "Copiado"; b.classList.add("ok"); setTimeout(() => { b.textContent = "Copiar"; b.classList.remove("ok"); }, 2000); } catch (e) {}
+  });
+  const go = el.querySelector(".acc-go");
+  go.onclick = async () => {
+    if (exemplo || !a.senha) { location.href = "../area/"; return; }
+    go.disabled = true;
+    try { await sb.auth.signInWithPassword({ email: a.email, password: a.senha }); } catch (e) {}
+    location.href = "../area/";
+  };
+}
+
+(async () => {
+  const q = new URLSearchParams(location.search);
+  let t = q.get("t");
+  try { if (!t) t = localStorage.getItem("ms-acesso"); } catch (e) {}
+  if (t) {
+    try {
+      const r = await fetch(`/api/mentoria/acesso/?t=${encodeURIComponent(t)}`, { cache: "no-store" });
+      const d = await r.json().catch(() => ({}));
+      if (r.ok && d.ok) { cartaoAcesso(d, false); abrir(); return; }
+      if (r.status >= 500) { abrir(); return; } // pagou, mas não deu para buscar agora: mostra a página mesmo assim
+    } catch (e) { abrir(); return; }
+  }
+  // sem código válido: só a Diana (logada na área) pode ver
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session && await souAdmin()) {
+      document.body.insertAdjacentHTML("afterbegin", '<div class="prev">Você está vendo a página de obrigada como administradora. As alunas veem os dados de acesso delas no lugar deste exemplo.</div>');
+      cartaoAcesso({ nome: "Aluna Teste", email: "teste@dianafreitasadr.com.br", senha: "Sublime-Ab3xY9" }, true);
+      abrir(); return;
+    }
+  } catch (e) {}
+  location.replace("../");
+})();
+</script>
 </body></html>

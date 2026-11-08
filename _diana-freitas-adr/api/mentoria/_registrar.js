@@ -1,5 +1,5 @@
 // Envia um pagamento da Mentoria Sublime para a área de membros (Supabase, função ms-pagamento):
-// registra no financeiro, cria a aluna e manda o alerta por e-mail. Nunca derruba o pagamento.
+// registra no financeiro e cria a aluna já com login (os dados de acesso aparecem na página de obrigada). Nunca derruba o pagamento.
 // Precisa da variável MS_HOOK_SECRET na Vercel (mesmo valor guardado no Supabase).
 const HOOK = "https://rppgpmddpuvcrbvljfms.supabase.co/functions/v1/ms-pagamento";
 
@@ -23,7 +23,8 @@ module.exports = async function registrar(d) {
         forma: d.payment_type_id === "bank_transfer" || d.payment_method_id === "pix" ? "pix" : d.payment_type_id === "ticket" ? "boleto" : "cartao",
         parcelas: d.installments || 1,
         plano: ref.includes("-vista-") ? "vista" : "parc",
-        pago_em: d.date_approved || d.date_created
+        pago_em: d.date_approved || d.date_created,
+        acesso: d.metadata?.acesso || ""
       })
     });
   } catch (e) { /* segue: o pagamento já foi feito no Mercado Pago */ }
