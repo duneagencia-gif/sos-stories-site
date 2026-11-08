@@ -155,6 +155,27 @@ section+section{margin-top:clamp(64px,9vw,100px)}
   .top img{width:84px}
   .top-r .t{display:none}
 }
+
+/* boas-vindas (primeiro acesso) */
+.bv{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(31,7,12,.62);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);opacity:0;transition:opacity .5s}
+.bv.on{opacity:1}
+.bv-card{position:relative;z-index:1;outline:none;width:min(420px,100%);max-height:calc(100svh - 40px);overflow:auto;background:var(--paper);border-radius:28px;box-shadow:0 40px 90px rgba(0,0,0,.45);text-align:center;transform:translateY(24px) scale(.97);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.bv.on .bv-card{transform:none}
+.bv-img{position:relative;aspect-ratio:736/760;overflow:hidden;border-radius:28px 28px 0 0;background:var(--wine)}
+.bv-img img{width:100%;height:100%;object-fit:cover;object-position:center 42%;transform:scale(1.06);transition:transform 6s ease-out}
+.bv.on .bv-img img{transform:none}
+.bv-img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(to top,var(--paper),transparent)}
+.bv-x{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;cursor:pointer;background:rgba(255,253,249,.9);color:var(--wine);display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.bv-x svg{width:18px;height:18px}
+.bv-tx{padding:0 28px 28px;margin-top:-30px;position:relative;z-index:1}
+.bv-tx .eyebrow{color:var(--goldd)}
+.bv-tx h2{font-weight:300;font-size:clamp(26px,6vw,32px);line-height:1.15;letter-spacing:-.02em;margin:8px 0 12px;color:var(--wine)}
+.bv-tx h2 b{display:block;font-weight:500;background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.05em}
+.bv-tx p{color:var(--muted);font-size:15px;line-height:1.45;max-width:34ch;margin:0 auto}
+.bv-tx .ass{display:block;margin-top:12px;color:var(--wine3);font-size:14px;font-weight:400;font-style:italic}
+.bv-tx .btn{margin-top:22px;width:100%}
+.petala{position:fixed;top:-30px;z-index:0;width:14px;height:18px;border-radius:70% 0 70% 0;background:linear-gradient(135deg,#C2364F,#7A1428);opacity:.85;pointer-events:none;animation:cai linear forwards}
+@keyframes cai{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--r))}}
 </style>
 </head>
 <body>
@@ -216,6 +237,7 @@ async function iniciar() {
   S.notas = n.data || [];
   if (S.admin) { const b = $("#banner"); b.innerHTML = `Você está vendo a área de <b>${esc(aluna.nome)}</b> como ela vê. <a href="admin/?aluna=${aluna.id}">Voltar ao painel</a>`; b.hidden = false; }
   render(); mostrar("app");
+  boasVindas(S.admin && new URLSearchParams(location.search).has("boasvindas"));
 }
 
 function proximo() {
@@ -355,6 +377,52 @@ async function apagarNota(id) {
   const { error } = await sb.from("ms_notas").delete().eq("id", id);
   if (error) { toast("Não consegui apagar."); return; }
   S.notas = S.notas.filter(n => n.id !== id); $("#feed").innerHTML = feedHTML();
+}
+
+// Boas-vindas: aparece só no primeiro acesso da aluna (fica salvo na conta dela, vale para qualquer aparelho).
+// A Diana pode rever pelo painel abrindo a área da aluna com ?boasvindas no endereço.
+function boasVindas(forcar) {
+  const meta = (S.user && S.user.user_metadata) || {};
+  if (!forcar && (S.admin || meta.ms_boas_vindas)) return;
+  const nome = firstName(S.aluna.nome);
+  const el = document.createElement("div");
+  el.className = "bv"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-labelledby", "bv-t");
+  el.innerHTML = `<div class="bv-card" tabindex="-1">
+    <button class="bv-x" aria-label="Fechar">${svg('<path d="M6 6l12 12M18 6L6 18"/>')}</button>
+    <div class="bv-img"><img src="../buque-rosas.webp" alt="Buquê de rosas vermelhas para você" width="736" height="981"></div>
+    <div class="bv-tx">
+      <span class="eyebrow">Um presente para você</span>
+      <h2 id="bv-t">Seja bem-vinda${nome ? "," : ""}<b>${esc(nome || "à Mentoria Sublime")}.</b></h2>
+      <p>Parabéns por dar esse passo. Que alegria começar essa jornada com você. Este espaço foi preparado com muito carinho.</p>
+      <span class="ass">Com carinho, Diana</span>
+      <button class="btn btn-gold" type="button">Entrar na minha área</button>
+    </div></div>`;
+  document.body.appendChild(el);
+  document.body.style.overflow = "hidden";
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("on")));
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement("i"); p.className = "petala";
+      p.style.left = Math.random() * 100 + "vw";
+      p.style.setProperty("--dx", (Math.random() * 160 - 80) + "px");
+      p.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+      p.style.animationDuration = (5 + Math.random() * 4) + "s";
+      p.style.animationDelay = (Math.random() * 2.5) + "s";
+      p.style.width = (9 + Math.random() * 8) + "px"; p.style.height = (12 + Math.random() * 9) + "px";
+      el.appendChild(p); p.addEventListener("animationend", () => p.remove());
+    }
+  }
+  const tecla = e => { if (e.key === "Escape") fechar(); };
+  const fechar = () => {
+    el.classList.remove("on"); document.body.style.overflow = "";
+    $$(".petala").forEach(p => p.remove());
+    setTimeout(() => el.remove(), 450); document.removeEventListener("keydown", tecla);
+  };
+  document.addEventListener("keydown", tecla);
+  el.addEventListener("click", e => { if (e.target === el) fechar(); });
+  $(".bv-x", el).onclick = fechar; $(".bv-tx .btn", el).onclick = fechar;
+  $(".bv-card", el).focus({ preventScroll: true });
+  if (!S.admin) sb.auth.updateUser({ data: { ms_boas_vindas: new Date().toISOString() } }).catch(() => {});
 }
 
 iniciar();
