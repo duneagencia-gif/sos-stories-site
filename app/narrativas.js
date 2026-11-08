@@ -78,6 +78,8 @@
     $("viewFig").hidden = name !== "fig";
     $("viewNarr").hidden = name !== "narr";
     if($("viewTxt")) $("viewTxt").hidden = name !== "txt";
+    if($("viewMine")) $("viewMine").hidden = name !== "mine";
+    if(name === "mine" && window.SOSMinhas) window.SOSMinhas.abrir();
     document.querySelectorAll(".tabbar button").forEach(function(b){
       var on = b.dataset.tab === name;
       b.setAttribute("aria-selected", String(on));
@@ -91,7 +93,7 @@
     b.addEventListener("click", function(){ showTab(b.dataset.tab); });
     b.addEventListener("keydown", function(e){
       if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
-        var all = Array.prototype.slice.call(document.querySelectorAll(".tabbar button"));
+        var all = Array.prototype.slice.call(document.querySelectorAll(".tabbar button")).filter(function(x){ return !x.hidden; });
         var i = all.indexOf(b) + (e.key === "ArrowRight" ? 1 : -1);
         var other = all[(i + all.length) % all.length];
         other.focus(); other.click(); e.preventDefault();
