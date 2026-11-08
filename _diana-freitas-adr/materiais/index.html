@@ -55,6 +55,7 @@ a{color:inherit}
 @media (prefers-reduced-motion:reduce){.avatar::before,.avatar::after,.avatar .orbita{animation:none}}
 .avatar img{position:relative;width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:4px solid #2B0A11}
 .nome{font-family:"Playfair Display","Didot","Georgia",serif;font-style:italic;font-weight:500;font-size:clamp(36px,10vw,46px);letter-spacing:-.025em;line-height:1.15;margin:0;color:var(--dourado);white-space:nowrap}
+.nome img{display:block;width:min(300px,80vw);height:auto;margin:0 auto}
 .bio{color:rgba(255,249,244,.78);font-weight:300;margin:16px auto 0;max-width:34ch;text-wrap:balance}
 .redes{display:flex;justify-content:center;gap:14px;margin-top:24px}
 .redes a{width:50px;height:50px;border-radius:50%;border:1px solid var(--linha);display:grid;place-items:center;transition:background .2s,border-color .2s}
@@ -176,7 +177,7 @@ dialog::backdrop{background:rgba(20,5,9,.72);backdrop-filter:blur(3px)}
 <header class="topo">
   <div class="wrap">
     <div class="avatar sobe"><span class="orbita" aria-hidden="true"><i></i></span><img src="/img/avatar.webp" alt="Diana Freitas de vestido vinho"></div>
-    <h1 class="nome sobe">Diana Freitas</h1>
+    <h1 class="nome sobe"><img src="/img/assinatura.webp" alt="Diana Freitas" width="900" height="230"></h1>
     <p class="bio sobe">Materiais gratuitos para você criar conteúdo com mais intenção e menos travas. Escolha o seu e baixe na hora.</p>
   </div>
 </header>
