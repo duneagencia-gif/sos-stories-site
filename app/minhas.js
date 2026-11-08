@@ -28,22 +28,28 @@
     return prontas[p.id];
   }
 
-  /* desenho: cada linha vira trechos normais e **negrito** */
-  function trechos(linha){ var out = [], re = /\*\*(.+?)\*\*/g, i = 0, m; while((m = re.exec(linha))){ if(m.index > i) out.push([linha.slice(i, m.index), false]); out.push([m[1], true]); i = re.lastIndex; } if(i < linha.length) out.push([linha.slice(i), false]); return out.length ? out : [["", false]]; }
+  /* desenho: **negrito** e __sublinhado__ podem ser só um trecho da frase (e podem se combinar) */
+  function trechos(linha){ var out = [], b = false, u = false, buf = "", i = 0;
+    while(i < linha.length){ var two = linha.substr(i, 2);
+      if(two === "**" || two === "__"){ if(buf) out.push({t:buf, b:b, u:u}); buf = ""; if(two === "**") b = !b; else u = !u; i += 2; }
+      else { buf += linha[i]; i++; } }
+    if(buf || !out.length) out.push({t:buf, b:b, u:u}); return out; }
   function fonte(p, b){ return (b ? p.negrito : p.peso) + " " + S + "px '" + p.fam + "'"; }
   function largura(ctx, p, t, b, ls){ ctx.font = fonte(p, b); var ch = Array.from(t); var w = 0; ch.forEach(function(c){ w += ctx.measureText(c).width; }); return w + ls * ch.length; }
   function render(p, c){
     var ls = c.ls * S, LH = S * c.lh;
     var linhas = (c.texto || p.exemplo).replace(/\r/g, "").split("\n").map(trechos);
     var m = document.createElement("canvas").getContext("2d");
-    var larg = linhas.map(function(l){ return l.reduce(function(a, t){ return a + largura(m, p, t[0], t[1], ls); }, 0) - ls; });
+    var larg = linhas.map(function(l){ return l.reduce(function(a, t){ return a + largura(m, p, t.t, t.b, ls); }, 0) - ls; });
     var maxW = Math.max.apply(null, larg.concat([S * .3])), pad = S * .6;
     var cv = document.createElement("canvas"); cv.width = Math.ceil(maxW + pad * 2); cv.height = Math.ceil(LH * linhas.length + pad * 2 + S * .4);
     var ctx = cv.getContext("2d"); ctx.fillStyle = corDe(c); ctx.textBaseline = "alphabetic";
+    var th = Math.max(2, S * .055);
     linhas.forEach(function(l, i){
       var x = pad + (c.align === "left" ? 0 : c.align === "right" ? maxW - larg[i] : (maxW - larg[i]) / 2);
       var y = pad + i * LH + S * .82;
-      l.forEach(function(t){ ctx.font = fonte(p, t[1]); Array.from(t[0]).forEach(function(ch){ ctx.fillText(ch, x, y); x += ctx.measureText(ch).width + ls; }); });
+      l.forEach(function(t, k){ var x0 = x; ctx.font = fonte(p, t.b); Array.from(t.t).forEach(function(ch){ ctx.fillText(ch, x, y); x += ctx.measureText(ch).width + ls; });
+        if(t.u && t.t){ var fim = x - ((k === l.length - 1 || !l[k + 1].u) ? ls : 0); ctx.fillRect(x0, y + S * .1, Math.max(0, fim - x0), th); } });
     });
     return recorta(cv, Math.round(S * .06));
   }
@@ -63,8 +69,9 @@
     return '<section class="panel mf" data-id="' + p.id + '">' +
       '<div class="mf-h"><h2 class="label" style="font-size:13px;margin:0">' + esc(p.nome) + '</h2><span class="mf-tag" style="font-family:\'' + p.fam + '\';font-weight:' + p.peso + '">Aa</span></div>' +
       '<div class="preview mf-pv"><img alt="Prévia em ' + esc(p.nome) + '"></div>' +
-      '<textarea class="nin mf-txt" rows="3" placeholder="' + esc(p.exemplo.replace(/\*\*/g, "")) + '">' + esc(c.texto) + '</textarea>' +
-      '<p class="muted" style="font-size:12px">Enter quebra a linha.' + (p.negrito !== p.peso ? ' Use <b>**palavra**</b> para deixar em negrito.' : '') + '</p>' +
+      '<textarea class="nin mf-txt" rows="3" placeholder="' + esc(p.exemplo.replace(/\*\*|__/g, "")) + '">' + esc(c.texto) + '</textarea>' +
+      '<div class="seg mf-fmt">' + (p.negrito !== p.peso ? '<button type="button" data-m="**" title="Negrito no trecho selecionado"><b>N</b> Negrito</button>' : '') + '<button type="button" data-m="__" title="Sublinhar o trecho selecionado"><span style="text-decoration:underline;text-underline-offset:3px">S</span> Sublinhado</button></div>' +
+      '<p class="muted" style="font-size:12px">Selecione um trecho e toque em ' + (p.negrito !== p.peso ? 'Negrito ou ' : '') + 'Sublinhado. Toque de novo para tirar. Enter quebra a linha.</p>' +
       '<div class="sheet-actions"><button class="btn mf-copy" type="button">Copiar</button><button class="btn ghost mf-save" type="button">Salvar PNG</button></div>' +
       '<p class="status mf-st" role="status"></p>' +
       '<details class="mf-aj"><summary>Ajustes</summary>' +
@@ -87,7 +94,17 @@
   function set(p, k, v){ st[p.id] = st[p.id] || {}; st[p.id][k] = v; save(); }
   function ligar(p, el){
     var msg = function(t, ok){ var s = el.querySelector(".mf-st"); s.textContent = t; s.className = "status mf-st" + (ok ? " ok" : ""); };
-    el.querySelector(".mf-txt").addEventListener("input", function(e){ set(p, "texto", e.target.value); desenhar(p, el); });
+    var ta = el.querySelector(".mf-txt");
+    ta.addEventListener("input", function(e){ set(p, "texto", e.target.value); desenhar(p, el); });
+    el.querySelectorAll(".mf-fmt button").forEach(function(b){
+      b.addEventListener("mousedown", function(e){ e.preventDefault(); }); // não perde a seleção
+      b.onclick = function(){ var mk = b.dataset.m, v = ta.value, a = ta.selectionStart, z = ta.selectionEnd, n = mk.length;
+        if(a === z){ ta.setRangeText(mk + mk, a, z, "end"); ta.setSelectionRange(a + n, a + n); }
+        else if(v.slice(a - n, a) === mk && v.slice(z, z + n) === mk){ ta.value = v.slice(0, a - n) + v.slice(a, z) + v.slice(z + n); ta.setSelectionRange(a - n, z - n); }
+        else if(v.slice(a, a + n) === mk && v.slice(z - n, z) === mk && z - a >= 2 * n){ ta.value = v.slice(0, a) + v.slice(a + n, z - n) + v.slice(z); ta.setSelectionRange(a, z - 2 * n); }
+        else { ta.value = v.slice(0, a) + mk + v.slice(a, z) + mk + v.slice(z); ta.setSelectionRange(a + n, z + n); }
+        ta.focus(); ta.dispatchEvent(new Event("input")); };
+    });
     el.querySelectorAll(".mf-cor button").forEach(function(b){ b.onclick = function(){ set(p, "cor", b.dataset.v); refazer(); }; });
     var ci = el.querySelector(".mf-cor input"); ci.oninput = function(){ set(p, "custom", ci.value); set(p, "cor", "custom"); desenhar(p, el); el.querySelectorAll(".mf-cor button").forEach(function(b){ b.setAttribute("aria-pressed", "false"); }); ci.parentNode.classList.add("on"); ci.parentNode.querySelector("i").style.background = ci.value; };
     el.querySelectorAll(".mf-al button").forEach(function(b){ b.onclick = function(){ set(p, "align", b.dataset.v); el.querySelectorAll(".mf-al button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); }); desenhar(p, el); }; });
