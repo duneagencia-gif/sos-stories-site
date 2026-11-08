@@ -4,7 +4,7 @@
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
   var PRESETS = [
-    {id:"poppins", nome:"Poppins", fam:"Poppins", peso:400, negrito:700, ls:-0.042, lh:0.96, cor:"branco", align:"center", exemplo:"para **ajudar mulheres**\n**empreendedoras** a\nconstruírem essa presença"},
+    {id:"poppins", nome:"Poppins", fam:"Poppins", peso:400, negrito:700, ls:-0.060, lh:0.69, cor:"branco", align:"center", exemplo:"para **ajudar mulheres**\n**empreendedoras** a\nconstruírem essa presença"},
     {id:"parslay", nome:"Parslay", fam:"Parslay", url:"/app/fonts/parslay.otf", peso:400, negrito:400, ls:0, lh:1.1, cor:"branco", align:"center", exemplo:"Criei o Método Aura"}
   ];
   var S = 120; // tamanho de desenho (px); a figurinha sai em alta
