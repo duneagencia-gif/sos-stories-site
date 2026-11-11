@@ -68,7 +68,7 @@ h2{font-weight:400;font-size:clamp(26px,7vw,34px);line-height:1.18;letter-spacin
 .from{margin-top:22px;font-size:15px;color:#BFA392}
 .from s{color:#D9C5B7}
 .amount{font-size:clamp(54px,17vw,76px);font-weight:500;line-height:1;letter-spacing:-.04em;color:#FFF3E6;margin-top:6px}
-.amount small{font-size:.32em;font-weight:400;letter-spacing:0;color:var(--goldl);vertical-align:.95em;margin-right:4px}
+.amount small{font-size:.26em;font-weight:400;letter-spacing:0;color:var(--goldl);vertical-align:.95em;margin-right:4px}
 .ways{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;text-align:left}
 .ways div{padding:14px;border-radius:18px;border:1px solid rgba(226,192,142,.28);background:rgba(255,246,236,.05)}
 .ways b{display:block;color:#FFF3E6;font-size:15px}
@@ -178,10 +178,11 @@ footer{background:#1F070C;color:#A88D7E;font-size:12px;padding:26px 0 110px;text
     <p class="kicker">Investimento</p>
     <h2>Comece 2027<br>com tudo organizado</h2>
     <p class="from">Tudo isso de <s>R$ 3.000</s> por</p>
-    <p class="amount"><small>R$</small>1.000</p>
+    <p class="amount"><small>10x de R$</small><span class="p10">00,00</span></p>
+    <p class="from" style="margin-top:12px">ou <b style="color:#FFF3E6">R$&nbsp;1.000 à vista no Pix</b></p>
     <div class="ways">
       <div><b>Pix</b><span>Valor integral de R$&nbsp;1.000 à vista</span></div>
-      <div><b>Cartão</b><span>Em até 12x, com as taxas do Mercado Pago</span></div>
+      <div><b>Cartão</b><span>10x de R$&nbsp;<span class="p10">00,00</span> (ou até 12x), já com as taxas do Mercado Pago</span></div>
     </div>
 
     <div id="open">
@@ -260,7 +261,7 @@ footer{background:#1F070C;color:#A88D7E;font-size:12px;padding:26px 0 110px;text
 </section>
 <footer>Diana Freitas · Visual Estratégico · © 2026</footer>
 
-<div class="bar" id="bar"><div class="t"><b>R$ 1.000 no Pix</b>ou até 12x no cartão</div><a class="btn" href="#garantir">Garantir vaga</a></div>
+<div class="bar" id="bar"><div class="t"><b>10x de R$ <span class="p10">00,00</span></b>ou R$ 1.000 no Pix</div><a class="btn" href="#garantir">Garantir vaga</a></div>
 
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
@@ -271,6 +272,9 @@ const WHATSAPP = "5571991316292";
 // Fim da oferta: 11/11/2026 às 23h59 (horário da Bahia). O servidor confere de novo.
 let PRAZO = Date.parse("2026-11-12T02:59:59Z");
 const VALOR = 1000;
+// parcela de 10x com os juros do Mercado Pago (atualiza sozinha pelo servidor)
+const fmt = v => v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+fetch(`${API}/parcelas/`).then(r => r.json()).then(d => { if (d.p10) document.querySelectorAll(".p10").forEach(e => e.textContent = fmt(d.p10)); }).catch(() => {});
 const ERROS = {
   cc_rejected_insufficient_amount: "O cartão não tem limite suficiente. Tente outro cartão ou o Pix.",
   cc_rejected_bad_filled_security_code: "O código de segurança do cartão está incorreto.",
