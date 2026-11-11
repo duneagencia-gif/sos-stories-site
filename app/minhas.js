@@ -13,7 +13,7 @@
   function save(){ try{ localStorage.setItem("fig_minhas", JSON.stringify(st)); }catch(e){} }
   var pal0 = {c1:"#C9A27E", c2:"#3B2F2A", c3:"#FFF8F0"};
   function paleta(){ try{ return (typeof pal !== "undefined" && pal && pal.c1) ? pal : (JSON.parse(localStorage.getItem("fig_pal")) || pal0); }catch(e){ return pal0; } }
-  function cfg(p){ var o = st[p.id] || {}; return {texto: o.texto != null ? o.texto : "", cor: o.cor || p.cor, custom: o.custom || "#FFFFFF", align: o.align || p.align, ls: o.ls != null ? o.ls : p.ls, lh: o.lh != null ? o.lh : p.lh}; }
+  function cfg(p){ var o = st[p.id] || {}; return {texto: o.texto != null ? o.texto : "", cor: o.cor || p.cor, custom: o.custom || "#FFFFFF", align: o.align || p.align, ls: o.ls != null ? o.ls : p.ls, lh: o.lh != null ? o.lh : p.lh, w: o.w != null ? o.w : 0}; }
   function corDe(c){ var P = paleta(); return c.cor === "custom" ? c.custom : c.cor === "branco" ? "#FFFFFF" : c.cor === "preto" ? "#000000" : (P[c.cor] || "#000"); }
   function esc(t){ return String(t).replace(/[&<>"']/g, function(ch){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]; }); }
 
@@ -36,10 +36,28 @@
     if(buf || !out.length) out.push({t:buf, b:b, u:u}); return out; }
   function fonte(p, b){ return (b ? p.negrito : p.peso) + " " + S + "px '" + p.fam + "'"; }
   function largura(ctx, p, t, b, ls){ ctx.font = fonte(p, b); var ch = Array.from(t); var w = 0; ch.forEach(function(c){ w += ctx.measureText(c).width; }); return w + ls * ch.length; }
+  /* quebra automática: divide cada linha em palavras e monta linhas que caibam na largura */
+  function quebrar(linhas, m, p, ls, maxPx){
+    var out = [];
+    linhas.forEach(function(l){
+      var tok = []; l.forEach(function(t){ (t.t.match(/\s+|[^\s]+/g) || [""]).forEach(function(x){ tok.push({t:x, b:t.b, u:t.u, sp:/^\s+$/.test(x)}); }); });
+      var cur = [], w = 0;
+      var fecha = function(){ while(cur.length && cur[cur.length - 1].sp) cur.pop(); out.push(cur.length ? cur : [{t:"", b:false, u:false}]); cur = []; w = 0; };
+      tok.forEach(function(k){
+        var kw = largura(m, p, k.t, k.b, ls);
+        if(k.sp && !cur.length) return;
+        if(!k.sp && cur.length && w + kw - ls > maxPx) fecha();
+        cur.push(k); w += kw;
+      });
+      fecha();
+    });
+    return out;
+  }
   function render(p, c){
     var ls = c.ls * S, LH = S * c.lh;
     var linhas = (c.texto || p.exemplo).replace(/\r/g, "").split("\n").map(trechos);
     var m = document.createElement("canvas").getContext("2d");
+    if(c.w > 0) linhas = quebrar(linhas, m, p, ls, c.w * S);
     var larg = linhas.map(function(l){ return l.reduce(function(a, t){ return a + largura(m, p, t.t, t.b, ls); }, 0) - ls; });
     var maxW = Math.max.apply(null, larg.concat([S * .3])), pad = S * .6;
     var cv = document.createElement("canvas"); cv.width = Math.ceil(maxW + pad * 2); cv.height = Math.ceil(LH * linhas.length + pad * 2 + S * .4);
@@ -69,6 +87,7 @@
     return '<section class="panel mf" data-id="' + p.id + '">' +
       '<div class="mf-h"><h2 class="label" style="font-size:13px;margin:0">' + esc(p.nome) + '</h2><span class="mf-tag" style="font-family:\'' + p.fam + '\';font-weight:' + p.peso + '">Aa</span></div>' +
       '<div class="preview mf-pv"><img alt="Prévia em ' + esc(p.nome) + '"></div>' +
+      '<div class="field"><div class="op-head"><span class="label">Largura da linha</span><span class="mf-wv">' + (c.w > 0 ? c.w.toFixed(1) : "Livre") + '</span></div><input type="range" class="mf-w" min="2" max="30.5" step="0.5" value="' + (c.w > 0 ? c.w : 30.5) + '" aria-label="Largura da linha: arraste para quebrar o texto em mais linhas"></div>' +
       '<textarea class="nin mf-txt" rows="3" placeholder="' + esc(p.exemplo.replace(/\*\*|__/g, "")) + '">' + esc(c.texto) + '</textarea>' +
       '<div class="seg mf-fmt">' + (p.negrito !== p.peso ? '<button type="button" data-m="**" title="Negrito no trecho selecionado"><b>N</b> Negrito</button>' : '') + '<button type="button" data-m="__" title="Sublinhar o trecho selecionado"><span style="text-decoration:underline;text-underline-offset:3px">S</span> Sublinhado</button></div>' +
       '<p class="muted" style="font-size:12px">Selecione um trecho e toque em ' + (p.negrito !== p.peso ? 'Negrito ou ' : '') + 'Sublinhado. Toque de novo para tirar. Enter quebra a linha.</p>' +
@@ -110,6 +129,7 @@
     el.querySelectorAll(".mf-al button").forEach(function(b){ b.onclick = function(){ set(p, "align", b.dataset.v); el.querySelectorAll(".mf-al button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); }); desenhar(p, el); }; });
     el.querySelector(".mf-ls").oninput = function(e){ set(p, "ls", +e.target.value / 1000); el.querySelector(".mf-lsv").textContent = e.target.value; desenhar(p, el); };
     el.querySelector(".mf-lh").oninput = function(e){ set(p, "lh", +e.target.value); el.querySelector(".mf-lhv").textContent = (+e.target.value).toFixed(2); desenhar(p, el); };
+    el.querySelector(".mf-w").oninput = function(e){ var v = +e.target.value; v = v >= 30.5 ? 0 : v; set(p, "w", v); el.querySelector(".mf-wv").textContent = v > 0 ? v.toFixed(1) : "Livre"; desenhar(p, el); };
     el.querySelector(".mf-reset").onclick = function(){ var t = (st[p.id] || {}).texto; st[p.id] = {texto: t}; save(); refazer(); };
     el.querySelector(".mf-copy").onclick = function(){
       if(!(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)){ msg("Seu celular não deixa copiar direto. Toque e segure a prévia e escolha Copiar."); return; }
