@@ -1,8 +1,8 @@
 // Regras da Oferta Black Sublime (vale para o site e para o servidor).
-// Prazo: 11/11/2026 até 23:59 no horário da Bahia (UTC-3) = 12/11 02:59:59 UTC.
+// Prazo: 30/11/2026 até 23:59 no horário da Bahia (UTC-3) = 01/12 02:59:59 UTC (reaberta a pedido da Diana em 19/11).
 // O site mostra "5 vagas", mas aceita até LIMITE pagamentos aprovados e depois encerra.
 const REF = "black-sublime-2026";
-const PRAZO = Date.parse("2026-11-12T02:59:59Z");
+const PRAZO = Date.parse("2026-12-01T02:59:59Z");
 const LIMITE = 10;
 const VALOR = 1000;
 const PARCELAS = 12;

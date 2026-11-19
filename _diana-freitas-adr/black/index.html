@@ -2,10 +2,10 @@
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Oferta Black Sublime · Diana Freitas</title>
-<meta name="description" content="Condição especial só hoje: identidade visual, site, Instagram organizado e mais. Apenas 5 vagas.">
+<meta name="description" content="Condição especial até 30/11: identidade visual, site, Instagram organizado e mais. Apenas 5 vagas.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#2B0A11">
-<meta property="og:title" content="Oferta Black Sublime · só hoje">
+<meta property="og:title" content="Oferta Black Sublime · até 30/11">
 <meta property="og:description" content="Identidade visual, site, Instagram organizado, Google Meu Negócio e mais. De R$ 3.000 por R$ 1.000. Apenas 5 vagas.">
 <meta property="og:image" content="https://dianafreitasadr.com.br/mentoria/mentoria.jpg">
 <link rel="icon" href="../favicon.png?v=2">
@@ -134,15 +134,16 @@ footer{background:#1F070C;color:#A88D7E;font-size:12px;padding:26px 0 110px;text
 <header class="wine hero">
   <div class="wrap">
     <div class="top"><span>DIANAFREITASADR</span><img src="../mentoria/logo-sublime.png" alt="Mentoria Sublime" width="754" height="247"></div>
-    <div class="tag"><i></i><span id="tag-t">Só hoje</span></div>
+    <div class="tag"><i></i><span id="tag-t">Até 30 de novembro</span></div>
     <h1>Oferta Black<span>Sublime.</span></h1>
     <p class="lead">Uma oportunidade única para transformar sua presença digital e valorizar ainda mais a sua imagem profissional.</p>
     <div class="timer" id="timer" aria-live="off">
+      <div><b id="dd">00</b><small>dias</small></div>
       <div><b id="hh">00</b><small>horas</small></div>
       <div><b id="mm">00</b><small>min</small></div>
       <div><b id="ss">00</b><small>seg</small></div>
     </div>
-    <p class="timer-t" id="timer-t">Condição válida até hoje, 23h59</p>
+    <p class="timer-t" id="timer-t">Condição válida até 30/11, às 23h59</p>
     <div class="vagas"><span class="dots"><i></i><i></i><i></i><i></i><i></i></span>Apenas 5 vagas</div><br>
     <a class="btn" href="#garantir">Garantir minha vaga</a>
   </div>
@@ -237,7 +238,7 @@ footer{background:#1F070C;color:#A88D7E;font-size:12px;padding:26px 0 110px;text
     <ul class="obs">
       <li><b>Pagamento integral via Pix</b> ou em até 12 vezes no cartão, com acréscimo das taxas da plataforma.</li>
       <li>O <b>domínio do site não está incluso</b> e será contratado pela cliente, com custo estimado de R$ 40 por ano.</li>
-      <li><b>Apenas 05 vagas.</b> Condição válida somente hoje, ou até as vagas serem preenchidas.</li>
+      <li><b>Apenas 05 vagas.</b> Condição válida até 30/11, ou até as vagas serem preenchidas.</li>
       <li>O investimento já é promocional e <b>não possui descontos adicionais</b>.</li>
     </ul>
   </div>
@@ -270,8 +271,8 @@ footer{background:#1F070C;color:#A88D7E;font-size:12px;padding:26px 0 110px;text
 const MP_PUBLIC_KEY = "APP_USR-f4780f8a-8eeb-4d68-ab29-77d06226ab78";
 const API = "/api/black";
 const WHATSAPP = "5571991316292";
-// Fim da oferta: 11/11/2026 às 23h59 (horário da Bahia). O servidor confere de novo.
-let PRAZO = Date.parse("2026-11-12T02:59:59Z");
+// Fim da oferta: 30/11/2026 às 23h59 (horário da Bahia). O servidor confere de novo.
+let PRAZO = Date.parse("2026-12-01T02:59:59Z");
 const VALOR = 1000;
 // parcela de 10x com os juros do Mercado Pago (atualiza sozinha pelo servidor)
 const fmt = v => v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -299,7 +300,8 @@ function fechar(motivo) {
 // contagem regressiva
 function tick() {
   const s = Math.max(0, Math.floor((PRAZO - Date.now()) / 1000));
-  $("hh").textContent = String(Math.floor(s / 3600)).padStart(2, "0");
+  $("dd").textContent = String(Math.floor(s / 86400)).padStart(2, "0");
+  $("hh").textContent = String(Math.floor(s / 3600) % 24).padStart(2, "0");
   $("mm").textContent = String(Math.floor(s / 60) % 60).padStart(2, "0");
   $("ss").textContent = String(s % 60).padStart(2, "0");
   if (!s && $("open") && !$("open").hidden && $("done").hidden && $("pix").hidden) fechar("prazo");
