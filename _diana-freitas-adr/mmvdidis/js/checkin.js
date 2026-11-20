@@ -12,7 +12,7 @@ function goalsDue(date){date=date||D.today();return S.goals.filter(g=>{const [a,
 function debtPlan(g){
   const T=D.today(),tot=S.debts.reduce((a,d)=>a+d.balance,0),monthsLeft=Math.max(.5,D.diff(T,g.due)/30.4),need=tot/monthsLeft;
   const pays=S.debts.flatMap(d=>d.pays),paid90=pays.filter(p=>D.diff(p.date,T)<=90).reduce((a,p)=>a+p.value,0);
-  const planned=S.debts.filter(d=>d.balance>0).reduce((a,d)=>a+d.monthly,0)+(+S.fin.reserveDebt||0);
+  const planned=S.debts.filter(d=>d.balance>0).reduce((a,d)=>a+(+d.monthly||+d.mPlan||0),0)+(+S.fin.reserveDebt||0);
   const extras30=S.fin.inc.filter(i=>i.area==='extra'&&i.status==='recebido'&&D.diff(i.date,T)<=30).reduce((a,i)=>a+i.value,0);
   const cap=planned+extras30,thisMonth=pays.filter(p=>p.date.slice(0,7)===T.slice(0,7)).reduce((a,p)=>a+p.value,0);
   const proj=cap>0?D.add(T,Math.ceil(tot/cap*30.4)):null;

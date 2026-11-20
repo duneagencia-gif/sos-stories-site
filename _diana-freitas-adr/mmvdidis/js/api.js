@@ -34,7 +34,7 @@ A.setNum=(ds,el)=>{_setNum(ds,el);if(API.on&&ds.k==='maxTries')api('/code',{meth
 /* banco central: o estado completo do MMV + fotos */
 const _cloudInit=cloudInit,_cloudPush=cloudPush;
 cloudInit=async function(){if(!API.on)return _cloudInit();if(!AUTH.ok||!API.token){CLOUD.state='aguardando login';return}apiAfterLogin()};
-cloudPush=async function(){if(!API.on)return _cloudPush();if(!API.token)return;
+cloudPush=async function(){if(!API.on)return _cloudPush();if(!API.token||!API.ready)return;
   if(API.busy){API.again=true;return}API.busy=true;
   try{const r=await api('/state',{method:'PUT',body:{data:S,photos:PH,updated:S.updated||Date.now()},ok409:true});
     if(r._status===409&&r.data){S=r.data;PH=Object.assign({},PH,r.photos||{});runMigrations();ls(KEY,JSON.stringify(S));savePhotos();render();toast('Atualizado com o que você fez em outro aparelho')}
@@ -46,10 +46,12 @@ let afterLoginDone=false;
 async function apiAfterLogin(){
   if(afterLoginDone)return;afterLoginDone=true;
   try{const r=await api('/state');
-    if(r.data&&(S.fresh||(+r.updated||0)>(S.updated||0))){S=r.data;PH=Object.assign({},PH,r.photos||{});runMigrations();ls(KEY,JSON.stringify(S));savePhotos();render()}
+    const takeRemote=r.data&&(S.fresh||(+r.updated||0)>(S.updated||0)||(r.data.examplesRemoved&&!S.examplesRemoved));
+    API.ready=true;
+    if(takeRemote){S=r.data;PH=Object.assign({},PH,r.photos||{});runMigrations();ls(KEY,JSON.stringify(S));savePhotos();render()}
     else if(!S.fresh)cloudPush();
     CLOUD.state='sincronizado';}
-  catch(e){CLOUD.state='sem conexão (salvo neste aparelho)'}
+  catch(e){CLOUD.state='sem conexão (salvo neste aparelho)';setTimeout(()=>{afterLoginDone=false;apiAfterLogin()},30000)}
   duneLoad();gStatus();
 }
 const _persistLine=persistLine;
@@ -58,7 +60,7 @@ persistLine=function(){return API.on?`Banco do MMV: ${CLOUD.state} · cópia nes
 /* ---------- GESTÃO DUNE ---------- */
 const DUNE={data:null,at:0,err:''};
 const FASE={a_fazer:'a fazer',alteracao:'em alteração',enviado:'enviado ao cliente',finais:'arquivos finais'};
-async function duneLoad(){if(!API.on||!API.token)return;try{DUNE.data=await api('/dune');DUNE.at=Date.now();DUNE.err='';U.keepScroll=true;if(!SH)render()}catch(e){DUNE.err=e.message}}
+async function duneLoad(){if(!API.on||!API.token)return;try{DUNE.data=await api('/dune');DUNE.at=Date.now();DUNE.err='';if(API.ready)applyGestaoFin();U.keepScroll=true;if(!SH)render()}catch(e){DUNE.err=e.message}}
 setInterval(()=>{if(API.on&&AUTH.ok&&Date.now()-DUNE.at>10*60000&&document.visibilityState==='visible')duneLoad()},60000);
 function tarefaOcorre(t,date){
   if(t.ate&&date>t.ate)return false;const r=norm(t.recorrencia||'nenhuma');
@@ -188,3 +190,53 @@ const _config=SCREENS.config;
 SCREENS.config=()=>{let h=_config();const mark='<div id="rsc"></div>';return h.replace(mark,`<button class="btn sm line" style="margin-top:8px" data-a="exClean">Apagar os dados de exemplo</button>`+mark)};
 A.exClean=()=>{$('#rsc').innerHTML=`<div class="warn" style="margin-top:10px">Isso apaga as tarefas, contas, dívidas, receitas, clientes, projetos e históricos de exemplo. O que você criou continua.<div class="row" style="gap:8px;margin-top:8px"><button class="btn sm" style="background:var(--red)" data-a="exCleanOk">Apagar exemplos</button><button class="btn sm sec2" data-a="go" data-v="config">Cancelar</button></div></div>`};
 A.exCleanOk=()=>{removeExamples();save({quiet:true});U.page=null;U.tab='hoje';render();toast('Dados de exemplo apagados. Agora é só o seu MMV ✓')};
+
+/* ---------- FINANÇAS DA GESTÃO (levantamento financeiro) ----------
+   Contas, faturas, compromissos e dívidas vêm do sistema de gestão e entram no MMV só para leitura. */
+const ymAdd=(ym,n)=>{const d=new Date(ym+'-15T12:00:00Z');d.setUTCMonth(d.getUTCMonth()+n);return d.toISOString().slice(0,7)};
+const lastDayOf=ym=>new Date(Date.UTC(+ym.slice(0,4),+ym.slice(5,7),0)).toISOString().slice(0,10);
+const dueOf=(ym,dia)=>dia?`${ym}-${String(Math.min(+dia,+lastDayOf(ym).slice(8))).padStart(2,'0')}`:lastDayOf(ym);
+const escA=e=>e==='D'?'dune':'pessoal';
+const DEBT_CATS=['Dívidas','Cartão de terceiro'];
+function gestaoFin(){
+  const F=DUNE.data&&DUNE.data.fin;if(!F||!F.base)return null;const B=F.base,T=D.today(),ym=T.slice(0,7),months=[ymAdd(ym,-1),ym,ymAdd(ym,1)];
+  const pagos=(B.pagos&&B.pagos.porChave)||{},bills=[],debts=[];
+  (B.recorrentes&&B.recorrentes.lista||[]).forEach(r=>{
+    months.forEach(m=>{const v=r.meses&&r.meses[m];if(!v)return;const p=pagos[r.id+'|'+m];const due=dueOf(m,r.dia);if(m<ym&&p)return;
+      bills.push({id:'g_'+r.id+'_'+m,src:'gestao',area:escA(r.esc),desc:r.desc+(r.dia?'':' (sem data)'),value:(p&&p.valor||v)/100,due,status:p?'pago':'aberto',paidAt:p?p.pagoEm:null,cat:r.cat,rec:'mensal',conta:r.conta})});
+    if(DEBT_CATS.includes(r.cat)){let rem=0;const pays=[];Object.entries(r.meses||{}).forEach(([m,v])=>{const p=pagos[r.id+'|'+m];if(p)pays.push({date:p.pagoEm,value:(p.valor||v)/100,kind:'parcela'});else if(m>=ym)rem+=v});
+      if(rem>0||pays.length)debts.push({id:'gd_'+r.id,src:'gestao',area:escA(r.esc),name:r.desc,balance:rem/100,monthly:0,mPlan:((r.meses||{})[ym]||(r.meses||{})[ymAdd(ym,1)]||0)/100,pays,fim:r.fim})}
+  });
+  (F.compromissos||[]).forEach(c=>{months.forEach(m=>{if(c.inicio&&m<c.inicio)return;if(c.fim&&!c.semFim&&m>c.fim)return;if(!c.valor)return;const p=pagos[c.id+'|'+m]||(m===c.inicio&&c.primeiraPaga);if(m<ym&&p)return;
+    bills.push({id:'g_c'+c.id+'_'+m,src:'gestao',area:escA(c.esc),desc:c.desc,value:c.valor/100,due:dueOf(m,(c.dias||[])[0]),status:p?'pago':'aberto',paidAt:p&&p.pagoEm||null,cat:c.cat,rec:'mensal'})})});
+  const fat=(B.faturas&&B.faturas.porFatura)||{},comp=(B.compras&&B.compras.porFatura)||{};
+  (B.cartoes&&B.cartoes.lista||[]).filter(k=>!k.terceiro&&k.vence).forEach(k=>{months.forEach(m=>{const key=k.id+'|'+m,f=fat[key],cs=comp[key];if(!f&&!cs)return;
+    let total=f&&f.total?f.total:(cs||[]).reduce((a,x)=>a+(+x[2]||0),0);if(f&&f.creditos>1&&!f.total)total-=f.creditos;const pago=f&&f.status==='pago';if(m<ym&&pago)return;
+    bills.push({id:'g_f'+key.replace('|','_'),src:'gestao',area:'pessoal',desc:'Fatura '+k.nome,value:Math.max(0,total)/100,due:dueOf(m,k.vence),status:pago?'pago':'aberto',paidAt:pago?f.pagoEm:null,cat:'Cartão',rec:'mensal',nota:f&&f.nota||''})})});
+  // parcelamentos de fatura (ex.: Mercado Pago em 5×)
+  Object.entries(comp).forEach(([key,list])=>{const gr={};(list||[]).forEach(x=>{if(/^(Parcelamento da fatura|Juros do parcelamento)/.test(x[1]||'')&&/^\d+\/\d+$/.test(x[5]||'')){const g=gr[x[0]]=gr[x[0]]||{v:0,k:0,n:0};g.v+=+x[2];const [kk,nn]=x[5].split('/').map(Number);g.k=kk;g.n=nn}});
+    Object.entries(gr).forEach(([d,g])=>{const left=g.n-g.k+(fat[key]&&fat[key].status==='pago'?0:1);if(left>0)debts.push({id:'gd_parc_'+key+d,src:'gestao',area:'pessoal',name:'Parcelamento de fatura ('+key.split('|')[0].toUpperCase()+')',balance:g.v*left/100,monthly:0,mPlan:g.v/100,pays:[]})})});
+  const cfg=F.config||{},contas=(B.contas&&B.contas.lista)||[];
+  const saldos=Object.entries(cfg.saldos||{}).map(([id,s])=>{const c=contas.find(x=>x.id===id)||{};return {id,nome:c.nome||id,area:escA(c.esc),valor:s.valor/100,em:s.em}});
+  const gastos=((B.gastos&&B.gastos.lista)||[]).map(g=>({date:g[1],value:g[4]/100,area:g[5]==='D'?'dune':g[5]==='P'?'pessoal':'',desc:g[3],cat:g[6]})).concat((F.lancamentos||[]).filter(l=>l.tipo==='gasto').map(l=>({date:l.data,value:l.valor/100,area:escA(l.esc),desc:l.desc,cat:l.cat})));
+  return {bills,debts,saldos,gastos,rel:(cfg.relatorios||{})[ym]||null,reserva:cfg.metaReserva};
+}
+function applyGestaoFin(){const G2=gestaoFin();if(!G2)return;
+  S.bills=S.bills.filter(b=>b.src!=='gestao').concat(G2.bills);
+  S.debts=S.debts.filter(d=>d.src!=='gestao').concat(G2.debts);
+  const g=S.goals.find(x=>x.auto==='dividas');const tot=S.debts.reduce((a,d)=>a+d.balance,0);if(g&&!(+g.base)&&tot>0){g.base=tot;g.created=D.today()}
+  DUNE.fin=G2;_save({quiet:true});
+}
+const _finCalc2=finCalc;
+finCalc=function(area){const c=_finCalc2(area);const G2=DUNE.fin;if(!G2)return c;const ym=D.today().slice(0,7);
+  const sp=G2.gastos.filter(g=>inMonth(g.date,ym)&&(area==='tudo'||g.area===area)).reduce((a,g)=>a+g.value,0);c.spent+=sp;c.sobra-=sp;return c};
+const _finScreen2=SCREENS.fin;
+SCREENS.fin=()=>{let h=_finScreen2();const G2=DUNE.fin;if(!API.on||!G2||U.finArea==='extra')return h;
+  const ar=U.finArea,sal=G2.saldos.filter(s=>ar==='tudo'||s.area===ar),tot=sal.reduce((a,s)=>a+s.valor,0);
+  let blk=`<div class="card" style="margin-top:10px"><div class="row"><small class="mut grow">Saldo nas contas (gestão)</small><b class="num" style="color:${tot<0?'var(--red)':'var(--ok)'}">${brl(tot)}</b></div>${sal.map(s=>`<div class="kv"><span>${esc(s.nome)}</span><b class="num" style="color:${s.valor<0?'var(--red)':'inherit'}">${brl(s.valor)}</b></div>`).join('')}<small class="mut tiny">Atualizado no levantamento de ${sal[0]?D.short(sal[0].em.slice(0,10)):'—'}</small></div>`;
+  if(G2.rel&&G2.rel.resumo)blk+=`<details class="card" style="margin-top:10px"><summary class="link" style="padding:4px 0">Leitura do mês na gestão</summary><p style="margin:8px 0">${esc(G2.rel.resumo)}</p>${(G2.rel.cortes||[]).map(x=>`<div class="kv"><span>✂️ ${esc(x.t)}</span><b class="num">${brl((x.v||0)/100)}</b></div>`).join('')}</details>`;
+  const mark='<div class="grid2" style="margin-top:10px">';return h.includes(mark)?h.replace(mark,blk+mark):h};
+/* contas e dívidas da gestão são só leitura no MMV */
+const _billPay=A.billPay;A.billPay=(ds)=>{const b=S.bills.find(x=>x.id===ds.id);if(b&&b.src==='gestao'){toast('Esta conta vem da gestão: registre o pagamento lá');return}_billPay(ds)};
+const _billSave=A.billSave;A.billSave=(ds)=>{const b=ds.id&&S.bills.find(x=>x.id===ds.id);if(b&&b.src==='gestao'){toast('Edite esta conta na gestão DUNE');closeSheet();return}_billSave(ds)};
+const _debtPay=A.debtPay;A.debtPay=(ds)=>{const d=S.debts.find(x=>x.id===ds.id);if(d&&d.src==='gestao'){toast('Registre pagamentos desta dívida na gestão DUNE');return}_debtPay(ds)};

@@ -205,7 +205,7 @@ function notifDiff(){
 /* ---------- UI: render, folhas, toast ---------- */
 function render(){
   if(!AUTH.ok){renderLogin();return}
-  {const T=D.today();S.opens=S.opens||{};if(!S.opens[T]){S.opens[T]=1;for(const k in S.opens)if(D.diff(k,T)>60)delete S.opens[k];save({quiet:true})}}
+  {const T=D.today();S.opens=S.opens||{};if(!S.opens[T]){S.opens[T]=1;for(const k in S.opens)if(D.diff(k,T)>60)delete S.opens[k];ls(KEY,JSON.stringify(S))}}
   const scr=SCREENS[U.page||U.tab]||SCREENS.hoje;
   const y=window.scrollY;
   $('#app').innerHTML=scr();
