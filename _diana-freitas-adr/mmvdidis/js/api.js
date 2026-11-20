@@ -170,9 +170,10 @@ SCREENS.conexoes=()=>{if(!API.on)return _conexoes();const g=G.status||{};
    <li>Me mande uma mensagem dizendo que criou: eu abro o pedido no Supabase para você colar o <b>ID do cliente</b> e a <b>chave secreta</b>. Elas ficam só no servidor.</li></ol></div>`:''}
   <p class="note">Credenciais e acessos ficam no servidor, nunca neste aparelho.</p>`};
 A.duneRefresh=async()=>{toast('Atualizando a gestão…');DUNE.at=0;await duneLoad();toast(DUNE.data?'Gestão atualizada ✓':'Não consegui ler a gestão')};
-A.gConn=async()=>{try{const r=await api('/google/start');location.href=r.url}catch(e){toast(e.message)}};
+A.gConn=async()=>{const w=window.open('','_blank');try{const r=await api('/google/start');if(w){w.location.href=r.url;toast('Termine no Safari e volte ao MMV')}else location.href=r.url}catch(e){if(w)w.close();toast(e.message)}};
+window.addEventListener('focus',()=>{if(API.on&&AUTH.ok&&G.status&&!G.status.connected)gStatus()});
 A.gDisc=async()=>{try{await api('/google/disconnect',{method:'POST'});G.status=null;G.ev={};G.loaded={};await gStatus();toast('Google Agenda desconectado')}catch(e){toast(e.message)}};
-if(API.on&&/google-(ok|erro)/.test(location.hash)){const ok=location.hash.includes('ok');history.replaceState(null,'',location.pathname);setTimeout(()=>{U.page='conexoes';render();toast(ok?'Google Agenda conectado ✓':'Não deu para conectar o Google. Tente de novo.')},600)}
+if(API.on&&/google-(ok|erro)/.test(location.hash)){const ok=location.hash.includes('ok');history.replaceState(null,'',location.pathname);setTimeout(()=>{U.page='conexoes';render();toast(ok?'Google Agenda conectado ✓ Pode voltar ao app pelo ícone.':'Não deu para conectar o Google. Tente de novo.')},600)}
 
 /* ---------- limpar dados de exemplo ---------- */
 function removeExamples(){

@@ -14,7 +14,7 @@ SCREENS.hoje=()=>{
   const lim=5,shown=U.showAll?items:items.slice(0,lim);
   const unread=notifList().filter(x=>x.when.slice(0,10)===D.today()&&!x.past).length;
   let h=`<div class="top"><button class="ib" data-a="day" data-v="-1" aria-label="Dia anterior">${IC.l}</button>
-  <div class="grow"><h1>${isT?'Hoje':esc(D.lbl(d))}</h1><small class="mut">${isT?`${D.nowMin()<720?'Bom dia':D.nowMin()<1080?'Boa tarde':'Boa noite'}, Di · `+esc(D.long(d)):`<button class="link" style="padding:0" data-a="day" data-v="0">Voltar para hoje</button>`}</small></div>
+  <div class="grow"><h1>${isT?`Hoje <span style="font-weight:500;color:var(--ink2);font-size:17px;white-space:nowrap">${DOWL[D.dow(d)]}, ${D.short(d)}</span>`:esc(D.lbl(d))}</h1><small class="mut">${isT?`${D.nowMin()<720?'Bom dia':D.nowMin()<1080?'Boa tarde':'Boa noite'}, Di`:`<button class="link" style="padding:0" data-a="day" data-v="0">Voltar para hoje</button>`}</small></div>
   <button class="ib" data-a="day" data-v="1" aria-label="Próximo dia">${IC.r}</button><button class="ib" data-a="go" data-v="notif" aria-label="Avisos" style="position:relative">${IC.bell}${unread?`<span style="position:absolute;top:9px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--sos)"></span>`:''}</button></div>
   ${quoteTop()}${isT?goalStrip()+checkStrip():''}
   <div class="card" style="padding:0 4px 0 0">
