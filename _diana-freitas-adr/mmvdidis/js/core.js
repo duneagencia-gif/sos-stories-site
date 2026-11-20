@@ -76,7 +76,7 @@ function save(opts){
   clearTimeout(saveT);saveT=setTimeout(cloudPush,1500);
   if(!(opts&&opts.quiet))render();
 }
-function runMigrations(){let c=migrate();c=migrateCk()||c;return c}
+function runMigrations(){let c=migrate();c=migrateCk()||c;c=migrateQuotes()||c;return c}
 function savePhotos(){ls(PKEY,JSON.stringify(PH))}
 
 /* nuvem: banco por pessoa na conta Claude (capability db) */

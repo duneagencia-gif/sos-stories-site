@@ -44,7 +44,7 @@ SCREENS.hoje=()=>{
 };
 function persistLine(){return `${STORE_OK?'Salvo neste aparelho':'Sem armazenamento local'}${window.claude?' · conta Claude: '+CLOUD.state:''}`}
 function quoteTop(){const q=quoteOfDay();if(!q||S.set.quoteHidden)return '';return `<div class="qtop"><span class="qmark">“</span><p>${esc(q.text)}</p><button class="ib" style="width:40px;height:40px" data-a="qfav" data-id="${q.id}" aria-label="Favoritar frase">${q.fav?'★':'☆'}</button><button class="ib" style="width:40px;height:40px" data-a="qhide" aria-label="Ocultar frase">${IC.x}</button></div>`}
-function quoteOfDay(){const qs=S.quotes.filter(q=>!q.hidden);if(!qs.length)return null;const favs=qs.filter(q=>q.fav);const pool=qs;return pool[D.diff('2026-01-01',D.today())%pool.length]}
+function quoteOfDay(){const qs=S.quotes.filter(q=>!q.hidden);if(!qs.length)return null;const n=D.diff('2026-01-01',D.today());const favs=qs.filter(q=>q.fav);if(favs.length&&n%3===0)return favs[Math.floor(n/3)%favs.length];return qs[n%qs.length]}
 function billRow(b){const dd=D.diff(D.today(),b.due);return `<button class="li" data-a="openBill" data-id="${b.id}"><span class="t"><b>${esc(b.desc)}</b><small class="mut">${areaPill(b.area)} ${b.status==='pago'?'paga em '+D.short(b.paidAt):dd<0?`<span style="color:var(--red)">venceu ${D.short(b.due)}</span>`:dd===0?'<b style="color:var(--sos)">vence hoje</b>':'vence '+D.rel(b.due)+' · '+D.short(b.due)}</small></span><b class="num">${brl(b.value)}</b></button>`}
 
 /* blocos de trabalho: compromissos fixos + tarefas encaixadas nos intervalos */

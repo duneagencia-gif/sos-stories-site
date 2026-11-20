@@ -1,3 +1,4 @@
+const MY_QUOTES=["Ninguém é você e esse é o seu superpoder.", "A vida que não sai da sua cabeça está esperando sua fé virar atitude.", "Cumpra o que você se prometeu.", "Seja sua escolha favorita todos os dias.", "Se você vencer a si mesma, você não perde para mais ninguém.", "Nada funciona se você se dedicar só às vezes. A excelência precisa de constância.", "Não é sobre estar pronto. Ninguém está. É sobre estar disposto.", "Sinta que é, até ser. A fé vem antes da realidade.", "Seja grato. É na gratidão que a vida floresce.", "Faça acontecer, ninguém fará por você.", "Pequenos passos parecem lentos. Até você perceber onde eles te levam.", "Construa hábitos, e eles construirão a sua vida.", "Todos os dias faça algo que te aproxime do seu objetivo.", "Foque no que você quer e faça até dar certo.", "Por seus sonhos, ore. Por suas metas, trabalhe.", "Mentaliza, acredita e corre atrás. As conquistas acontecem primeiro na nossa mente.", "Cultive pensamentos bons.", "Persista! Se tudo fosse fácil, qualquer um conseguiria.", "Você é totalmente capaz de criar a vida que não sai da sua cabeça.", "Progresso em vez de perfeição.", "Você tem o poder de se reinventar e conquistar tudo o que deseja!", "Seus pés irão pisar onde seus sonhos te conduziram em silêncio."];
 'use strict';
 /* Dados fictícios e editáveis. As datas acompanham o dia em que o app é aberto pela primeira vez. */
 function seed(){
@@ -124,11 +125,7 @@ function seed(){
     fin:{inc,spend,reserveDebt:500},bills,debts,wishes,books,readS,
     train:{schedule:S_trainSched(),override:{},sessions:trainS,active:null},
     faith:{bible,grat},closings,checkins:{},captures:[],
-    quotes:[
-      {id:uid(),text:'Feito com calma também é feito.',by:'Coleção MMV',fav:false,hidden:false},
-      {id:uid(),text:'Um passo pequeno, todo dia, constrói o que você pediu em oração.',by:'Coleção MMV',fav:true,hidden:false},
-      {id:uid(),text:'Organizar a vida é escolher, com carinho, o que fica para amanhã.',by:'Coleção MMV',fav:false,hidden:false}
-    ],
+    quotes:MY_QUOTES.map(t=>({id:uid(),text:t,by:'Minhas frases',fav:false,hidden:false})),
     notif:{bills:true,billDay:true,bill7:true,billTime:'09:00',rec:true,recLead:60,del:true,tasks:false,taskTime:'08:30',summary:true,sumTime:'20:00',hideVal:false},
     nsnap:{},nlog:[],
     review:{adj:{}},
