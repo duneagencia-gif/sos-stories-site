@@ -200,16 +200,24 @@ const escA=e=>e==='D'?'dune':'pessoal';
 const DEBT_CATS=['Dívidas','Cartão de terceiro'];
 function gestaoFin(){
   const F=DUNE.data&&DUNE.data.fin;if(!F||!F.base)return null;const B=F.base,T=D.today(),ym=T.slice(0,7),months=[ymAdd(ym,-1),ym,ymAdd(ym,1)];
-  const pagos=(B.pagos&&B.pagos.porChave)||{},bills=[],debts=[];
+  const pagos=Object.assign({},(B.pagos&&B.pagos.porChave)||{}),notas={},bills=[],debts=[],AJ=F.ajustes||{};
+  const fat=JSON.parse(JSON.stringify((B.faturas&&B.faturas.porFatura)||{})),comp=(B.compras&&B.compras.porFatura)||{};
+  /* ajustes da gestão: pagamentos e observações registrados depois do levantamento base */
+  Object.values(AJ).forEach(a=>{const k=String(a._k||'').split(':');if(k[0]==='b'&&k.length===3){const key=k[1]+'|'+k[2];
+      if(a.obs)notas[key]=a.obs;
+      if(a.status==='pago')pagos[key]={valor:a.valor||a.debitado||(pagos[key]&&pagos[key].valor),pagoEm:a.pagoEm,obs:a.obs,conta:a.conta};
+      else if(a.status==='aberto'||a.status==='pendente')delete pagos[key]}
+    else if(k[0]==='f'&&k.length===3){const key=k[1]+'|'+k[2],f=fat[key]=fat[key]||{};
+      if(a.status)f.status=a.status;if(a.pagoEm)f.pagoEm=a.pagoEm;if(a.total)f.total=a.total;if(a.creditos!=null)f.creditos=a.creditos;if(a.obs)f.nota=a.obs;
+      if(a.status==='pago'&&!f.total&&a.debitado)f.total=a.debitado}});
   (B.recorrentes&&B.recorrentes.lista||[]).forEach(r=>{
     months.forEach(m=>{const v=r.meses&&r.meses[m];if(!v)return;const p=pagos[r.id+'|'+m];const due=dueOf(m,r.dia);if(m<ym&&p)return;
-      bills.push({id:'g_'+r.id+'_'+m,src:'gestao',area:escA(r.esc),desc:r.desc+(r.dia?'':' (sem data)'),value:(p&&p.valor||v)/100,due,status:p?'pago':'aberto',paidAt:p?p.pagoEm:null,cat:r.cat,rec:'mensal',conta:r.conta})});
+      bills.push({id:'g_'+r.id+'_'+m,src:'gestao',area:escA(r.esc),desc:r.desc+(r.dia?'':' (sem data)'),value:(p&&p.valor||v)/100,due,status:p?'pago':'aberto',paidAt:p?p.pagoEm:null,cat:r.cat,rec:'mensal',conta:r.conta,nota:(p&&p.obs)||notas[r.id+'|'+m]||''})});
     if(DEBT_CATS.includes(r.cat)){let rem=0;const pays=[];Object.entries(r.meses||{}).forEach(([m,v])=>{const p=pagos[r.id+'|'+m];if(p)pays.push({date:p.pagoEm,value:(p.valor||v)/100,kind:'parcela'});else if(m>=ym)rem+=v});
       if(rem>0||pays.length)debts.push({id:'gd_'+r.id,src:'gestao',area:escA(r.esc),name:r.desc,balance:rem/100,monthly:0,mPlan:((r.meses||{})[ym]||(r.meses||{})[ymAdd(ym,1)]||0)/100,pays,fim:r.fim})}
   });
-  (F.compromissos||[]).forEach(c=>{months.forEach(m=>{if(c.inicio&&m<c.inicio)return;if(c.fim&&!c.semFim&&m>c.fim)return;if(!c.valor)return;const p=pagos[c.id+'|'+m]||(m===c.inicio&&c.primeiraPaga);if(m<ym&&p)return;
-    bills.push({id:'g_c'+c.id+'_'+m,src:'gestao',area:escA(c.esc),desc:c.desc,value:c.valor/100,due:dueOf(m,(c.dias||[])[0]),status:p?'pago':'aberto',paidAt:p&&p.pagoEm||null,cat:c.cat,rec:'mensal'})})});
-  const fat=(B.faturas&&B.faturas.porFatura)||{},comp=(B.compras&&B.compras.porFatura)||{};
+  (F.compromissos||[]).forEach(c=>{months.forEach(m=>{if(c.inicio&&m<c.inicio)return;if(c.fim&&!c.semFim&&m>c.fim)return;if(!c.valor)return;const p=pagos['u-'+c.id+'|'+m]||pagos[c.id+'|'+m]||(m===c.inicio&&c.primeiraPaga);if(m<ym&&p)return;
+    bills.push({id:'g_c'+c.id+'_'+m,src:'gestao',area:escA(c.esc),desc:c.desc,value:((p&&p.valor)||c.valor)/100,due:dueOf(m,(c.dias||[])[0]),status:p?'pago':'aberto',paidAt:p&&p.pagoEm||null,cat:c.cat,rec:'mensal',nota:notas['u-'+c.id+'|'+m]||''})})});
   (B.cartoes&&B.cartoes.lista||[]).filter(k=>!k.terceiro&&k.vence).forEach(k=>{months.forEach(m=>{const key=k.id+'|'+m,f=fat[key],cs=comp[key];if(!f&&!cs)return;
     let total=f&&f.total?f.total:(cs||[]).reduce((a,x)=>a+(+x[2]||0),0);if(f&&f.creditos>1&&!f.total)total-=f.creditos;const pago=f&&f.status==='pago';if(m<ym&&pago)return;
     bills.push({id:'g_f'+key.replace('|','_'),src:'gestao',area:'pessoal',desc:'Fatura '+k.nome,value:Math.max(0,total)/100,due:dueOf(m,k.vence),status:pago?'pago':'aberto',paidAt:pago?f.pagoEm:null,cat:'Cartão',rec:'mensal',nota:f&&f.nota||''})})});
@@ -240,3 +248,9 @@ SCREENS.fin=()=>{let h=_finScreen2();const G2=DUNE.fin;if(!API.on||!G2||U.finAre
 const _billPay=A.billPay;A.billPay=(ds)=>{const b=S.bills.find(x=>x.id===ds.id);if(b&&b.src==='gestao'){toast('Esta conta vem da gestão: registre o pagamento lá');return}_billPay(ds)};
 const _billSave=A.billSave;A.billSave=(ds)=>{const b=ds.id&&S.bills.find(x=>x.id===ds.id);if(b&&b.src==='gestao'){toast('Edite esta conta na gestão DUNE');closeSheet();return}_billSave(ds)};
 const _debtPay=A.debtPay;A.debtPay=(ds)=>{const d=S.debts.find(x=>x.id===ds.id);if(d&&d.src==='gestao'){toast('Registre pagamentos desta dívida na gestão DUNE');return}_debtPay(ds)};
+/* folha só de leitura para contas da gestão, com a observação registrada lá */
+const _billSheet=SHEETS.bill;SHEETS.bill=(a)=>{const b=a&&a.id&&S.bills.find(x=>x.id===a.id);if(!b||b.src!=='gestao')return _billSheet(a);
+  return {title:esc(b.desc),body:`<div class="card"><div class="row"><div class="grow">${areaPill(b.area)} <span class="pill ${b.status==='pago'?'ok':''}">${b.status==='pago'?'paga em '+D.short(b.paidAt):'em aberto'}</span></div><div class="big num">${brl(b.value)}</div></div><small class="mut">Vencimento: ${D.long(b.due)}${b.cat?' · '+esc(b.cat):''}</small></div>
+  ${b.nota?`<div class="card" style="margin-top:10px"><small class="mut">Anotação na gestão</small><p style="margin:6px 0 0">${esc(b.nota)}</p></div>`:''}
+  <p class="tiny mut" style="margin-top:12px">Esta conta vem do seu financeiro na gestão DUNE. Para pagar, mudar valor ou data, registre lá: o MMV atualiza sozinho.</p>`,
+  foot:`<button class="btn line" data-a="closeSheet">Fechar</button>`}};
