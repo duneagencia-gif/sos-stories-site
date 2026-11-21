@@ -208,9 +208,9 @@ body.kb .sh-f{padding-bottom:10px}
 .tabs button svg{width:23px;height:23px}
 .tabs .cap{color:var(--dune);font-weight:600}
 .tabs .cap span{width:50px;height:50px;border-radius:17px;margin-top:-20px;margin-bottom:1px;color:#fff}
-.qtop{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#F6E9DA,#F3E4E6);border-radius:var(--r);padding:8px 4px 8px 14px;margin-bottom:10px}
-.qtop p{margin:0;flex:1;font-size:14.5px;line-height:1.35;font-weight:500;color:#5A3F2C}
-.qmark{font-size:34px;line-height:.6;color:var(--dune);font-weight:600;align-self:flex-start;margin-top:8px}
+.qtop{display:flex;align-items:flex-start;gap:8px;background:linear-gradient(135deg,#F6E9DA,#F3E4E6);border-radius:var(--r);padding:14px 18px 14px 14px;margin-bottom:10px}
+.qtop p{margin:0;flex:1;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:21px;line-height:1.25;font-weight:600;color:#5A3F2C;letter-spacing:.1px}
+.qmark{font-family:'Cormorant Garamond',Georgia,serif;font-size:48px;line-height:.7;color:var(--dune);font-weight:600;align-self:flex-start;margin-top:6px}
 .gp{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--ink);color:#fff;border-radius:var(--r);padding:10px 8px 10px 12px;margin-bottom:10px}
 .gp b{display:block;font-weight:500;font-size:14px;line-height:1.3}.gp small{color:#D9CBBE;font-size:12px}
 .gp-ic{width:32px;height:32px;border-radius:10px;background:var(--dune);display:grid;place-items:center;flex:none}
