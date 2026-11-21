@@ -46,10 +46,13 @@ let afterLoginDone=false;
 async function apiAfterLogin(){
   if(afterLoginDone)return;afterLoginDone=true;
   try{const r=await api('/state');
-    const takeRemote=r.data&&(S.fresh||(+r.updated||0)>(S.updated||0)||(r.data.examplesRemoved&&!S.examplesRemoved));
+    /* aparelho que nunca sincronizou (ex.: app recém-instalado na Tela de Início) sempre adota o servidor */
+    const firstSync=ls('mmv.synced')!=='1';
+    const takeRemote=r.data&&(firstSync||S.fresh||(+r.updated||0)>(S.updated||0)||(r.data.examplesRemoved&&!S.examplesRemoved));
     API.ready=true;
     if(takeRemote){S=r.data;PH=Object.assign({},PH,r.photos||{});runMigrations();ls(KEY,JSON.stringify(S));savePhotos();render()}
     else if(!S.fresh)cloudPush();
+    ls('mmv.synced','1');
     CLOUD.state='sincronizado';}
   catch(e){CLOUD.state='sem conexão (salvo neste aparelho)';setTimeout(()=>{afterLoginDone=false;apiAfterLogin()},30000)}
   duneLoad();gStatus();
@@ -254,3 +257,22 @@ const _billSheet=SHEETS.bill;SHEETS.bill=(a)=>{const b=a&&a.id&&S.bills.find(x=>
   ${b.nota?`<div class="card" style="margin-top:10px"><small class="mut">Anotação na gestão</small><p style="margin:6px 0 0">${esc(b.nota)}</p></div>`:''}
   <p class="tiny mut" style="margin-top:12px">Esta conta vem do seu financeiro na gestão DUNE. Para pagar, mudar valor ou data, registre lá: o MMV atualiza sozinho.</p>`,
   foot:`<button class="btn line" data-a="closeSheet">Fechar</button>`}};
+
+/* ---------- nada de dados de exemplo no site ----------
+   Remove automaticamente qualquer item idêntico aos exemplos do app (mesma descrição e valor),
+   sem tocar no que vem da gestão nem no que a Di criou. */
+function cleanSeed(){
+  if(!S||!S.tasks)return false;const ex=seed(),before=JSON.stringify([S.tasks.length,S.bills.length,S.debts.length,S.fin.inc.length,S.fin.spend.length,S.projects.length,S.clients.length,S.contents.length,S.events.length,(S.wishes||[]).length,(S.books||[]).length]);
+  const fp=(a,f)=>new Set(a.map(f)),bl=fp(ex.bills,b=>b.desc+'|'+b.value),db=fp(ex.debts,d=>d.name+'|'+d.monthly),inc=fp(ex.fin.inc,i=>i.desc+'|'+i.value),sp=fp(ex.fin.spend,i=>i.desc+'|'+i.value),
+    tt=fp(ex.tasks,t=>t.title),ev=fp(ex.events,e=>e.title),pj=fp(ex.projects,p=>p.name),cl=fp(ex.clients,c=>c.name),ct=fp(ex.contents,c=>c.original),wi=fp(ex.wishes,w=>w.name),bk=fp(ex.books,b=>b.title);
+  S.bills=S.bills.filter(b=>b.src==='gestao'||!bl.has(b.desc+'|'+b.value));S.debts=S.debts.filter(d=>d.src==='gestao'||!db.has(d.name+'|'+d.monthly));
+  S.fin.inc=S.fin.inc.filter(i=>!inc.has(i.desc+'|'+i.value));S.fin.spend=S.fin.spend.filter(i=>!sp.has(i.desc+'|'+i.value));
+  S.tasks=S.tasks.filter(t=>!tt.has(t.title));S.events=S.events.filter(e=>!ev.has(e.title));S.projects=S.projects.filter(p=>!pj.has(p.name));S.clients=S.clients.filter(c=>!cl.has(c.name));
+  S.contents=S.contents.filter(c=>!ct.has(c.original));if(S.wishes)S.wishes=S.wishes.filter(w=>!wi.has(w.name));if(S.books)S.books=S.books.filter(b=>!bk.has(b.title));
+  const since=S.since||'2026-11-20';
+  Object.keys(S.checks||{}).forEach(d=>{if(d<since)delete S.checks[d]});S.closings=(S.closings||[]).filter(c=>c.date>=since);S.readS=(S.readS||[]).filter(r=>r.date>=since);
+  if(S.train)S.train.sessions=(S.train.sessions||[]).filter(x=>x.date>=since);if(S.faith){S.faith.bible=(S.faith.bible||[]).filter(b=>b.date>=since);Object.keys(S.faith.grat||{}).forEach(d=>{if(d<since)delete S.faith.grat[d]})}
+  const after=JSON.stringify([S.tasks.length,S.bills.length,S.debts.length,S.fin.inc.length,S.fin.spend.length,S.projects.length,S.clients.length,S.contents.length,S.events.length,(S.wishes||[]).length,(S.books||[]).length]);
+  if(before!==after){S.examplesRemoved=S.examplesRemoved||D.today();S.fin.reserveDebt=0;return true}return false;
+}
+const _runMig=runMigrations;runMigrations=function(){let c=_runMig();if(API.on)c=cleanSeed()||c;return c};
