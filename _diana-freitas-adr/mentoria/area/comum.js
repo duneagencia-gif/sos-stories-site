@@ -12,6 +12,8 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": 
 const nl = s => esc(s).replace(/\n/g, "<br>");
 const firstName = n => String(n || "").trim().split(/\s+/)[0] || "";
 
+const STATUS_ENTREGA = { a_fazer: "A fazer", andamento: "Em andamento", aprovacao: "Para sua aprovação", concluido: "Concluída" };
+const CLIENTE_URL = "https://dianafreitasadr.com.br/cliente/";
 const SECOES = { m1: "Encontro 1", m2: "Encontro 2", m3: "Encontro 3", m4: "Encontro 4", bonus: "Presentes", briefing: "Briefing", contrato: "Contrato" };
 
 function parseDate(d) { if (!d) return null; const [y, m, dd] = d.split("-").map(Number); return new Date(y, m - 1, dd); }
@@ -72,7 +74,7 @@ function toast(msg) {
 }
 
 // Tela de login (compartilhada entre aluna e Diana)
-function montarLogin({ titulo, sub, aoEntrar }) {
+function montarLogin({ titulo, sub, aoEntrar, ajuda }) {
   const box = $("#login");
   box.innerHTML = `
   <div class="lg-card">
@@ -84,7 +86,7 @@ function montarLogin({ titulo, sub, aoEntrar }) {
       <label class="fl"><span>Senha</span><span class="pw"><input name="senha" type="password" autocomplete="current-password" required><button type="button" class="eye" aria-label="Mostrar senha">${svg('<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>')}</button></span></label>
       <p class="err" hidden></p>
       <button class="btn btn-gold" type="submit">Entrar</button>
-      <p class="lg-help">Esqueceu a senha? <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Oi, Diana! Esqueci a senha da minha área da Mentoria Sublime.")}" target="_blank" rel="noopener">Fale comigo no WhatsApp</a></p>
+      <p class="lg-help">Esqueceu a senha? <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(ajuda || "Oi, Diana! Esqueci a senha da minha área da Mentoria Sublime.")}" target="_blank" rel="noopener">Fale comigo no WhatsApp</a></p>
     </form>
   </div>`;
   const f = $("form", box), err = $(".err", box);

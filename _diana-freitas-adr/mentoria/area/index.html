@@ -227,6 +227,7 @@ async function iniciar() {
     $("#estado").innerHTML = `<div><img src="../selo-sublime.webp" alt="" width="96" style="width:96px;margin:0 auto;filter:drop-shadow(0 12px 20px rgba(0,0,0,.4))"><h1>Seu acesso ainda não está liberado</h1><p>Se você acabou de entrar na mentoria, a Diana libera a sua área em breve. Qualquer dúvida, fale com ela.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-gold" href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">Falar com a Diana</a><button class="btn btn-ghost" onclick="sair()">Sair</button></div></div>`;
     mostrar("estado"); return;
   }
+  if (aluna.tipo === "projeto") { location.replace("/cliente/" + (S.admin ? "?c=" + aluna.id : "")); return; }
   S.aluna = aluna;
   const [m, mt, n] = await Promise.all([
     sb.from("ms_modulos").select("*").eq("aluna_id", aluna.id).order("ordem"),
