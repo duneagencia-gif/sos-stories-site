@@ -3,7 +3,7 @@
 function range(kind){const T=D.today(),W=D.weekStart(T);if(kind==='passada')return [D.add(W,-7),D.add(W,-1)];if(kind==='mes')return [D.add(T,-27),T];return [W,D.add(W,6)]}
 const inR=(d,[a,b])=>d&&d>=a&&d<=b;
 function reviewData(kind){
-  const R=range(kind),T=D.today(),days=[];for(let d=R[0];d<=R[1]&&d<=T;d=D.add(d,1))days.push(d);
+  const R=range(kind),T=D.today(),days=[];for(let d=R[0];d<=R[1]&&d<=T;d=D.add(d,1))if(!S.since||d>=S.since)days.push(d);
   const pr=S.tasks.filter(t=>t.prio&&inR(t.date,R)),prDone=pr.filter(t=>t.done);
   const unpl=S.tasks.filter(t=>t.unplanned&&inR(t.doneAt||t.date,R));
   const extraRep=S.closings.filter(c=>inR(c.date,R)).flatMap(c=>c.extra||[]);
@@ -27,8 +27,8 @@ function feedback(r){
   if(over.length){const d=over[0];fb.push(`A próxima semana já passa do expediente na ${DOWL[D.dow(d)]} (${dur(loadOf(d))} planejados para ${dur(cap)} úteis).`);adj.push({id:'over',text:`Aliviar a ${DOWL[D.dow(d)]}: mover uma tarefa sem horário fixo para o dia com mais folga`,act:'relieve',d})}
   const low=r.per.filter(p=>p.energy&&p.energy<=2);if(low.length>=2)fb.push(`Energia baixa em ${low.length} dias (${low.map(p=>DOW[D.dow(p.d)]).join(', ')}), pelo que você contou.`);
   const readDays=r.per.filter(p=>p.readMeas+p.readRep>0).length;
-  if(readDays<Math.min(5,r.days.length))adj.push({id:'read',text:'Ler 5 minutos depois do almoço (critério do check: 5 min)',act:'readRule'});
-  if(r.noClose.length)adj.push({id:'close',text:`Fechar o dia às 20h com o resumo de pendências (faltaram ${r.noClose.length} registros)`,act:'summary'});
+  if(r.days.length>=3&&readDays<Math.min(5,r.days.length))adj.push({id:'read',text:'Ler 5 minutos depois do almoço (critério do check: 5 min)',act:'readRule'});
+  if(r.days.length>=3&&r.noClose.length)adj.push({id:'close',text:`Fechar o dia às 20h com o resumo de pendências (faltaram ${r.noClose.length} registros)`,act:'summary'});
   if(r.prDone.length<r.pr.length)fb.push(`Prioridades: ${r.prDone.length} de ${r.pr.length} concluídas. ${r.pr.filter(t=>!t.done).slice(0,2).map(t=>`“${t.title}”`).join(' e ')} ficaram abertas.`);
   if(r.unpl.length||r.extraRep.length)fb.push(`Entregas fora do plano: ${[...r.unpl.map(t=>t.title),...r.extraRep].slice(0,3).join('; ')}.`);
   return {fb,adj:adj.slice(0,3)};

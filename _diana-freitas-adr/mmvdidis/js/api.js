@@ -276,3 +276,12 @@ function cleanSeed(){
   if(before!==after){S.examplesRemoved=S.examplesRemoved||D.today();S.fin.reserveDebt=0;return true}return false;
 }
 const _runMig=runMigrations;runMigrations=function(){let c=_runMig();if(API.on)c=cleanSeed()||c;return c};
+
+/* no site: sem botões e avisos de demonstração, e "apagar tudo" volta ao MMV em branco (nunca aos exemplos) */
+if(API.on){document.documentElement.classList.add('site');
+  const st=document.createElement('style');st.textContent='.site [data-a=demoAudio],.site [data-a=exClean],.site .pill.demo:empty,.site .note.demo{display:none!important}';document.head.appendChild(st);
+  syncPills=()=>'<span class="pill ok">Salvo ✓</span>';
+  A.resetOk=()=>{const code=S.set.code,quotes=S.quotes,goals=S.goals.filter(g=>g.auto==='dividas');S=seed();S.set.code=code;S.quotes=quotes;S.goals=goals;cleanSeed();S.since=D.today();S.examplesRemoved=D.today();
+    if(S.train)S.train.schedule={};delete S.fresh;save({quiet:true});U.page=null;U.tab='hoje';U.date=null;render();toast('Tudo apagado. MMV em branco ✓')};
+  const _reset=A.reset;A.reset=()=>{_reset();const w=$('#rsc .warn');if(w&&w.firstChild&&w.firstChild.nodeType===3)w.firstChild.textContent='Isso apaga todos os seus registros do MMV e deixa o app em branco. As contas e entregas da gestão continuam. ';};
+}
