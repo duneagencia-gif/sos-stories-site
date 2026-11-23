@@ -139,7 +139,7 @@ function dayItems(date){
     if(h.id==='treino'){const w=trainFor(date);if(!w)return;out.push({key:'treino',label:'Treino · '+w.act,sub:dur(w.dur),area:'pessoal',order:h.order,open:'treino'});return}
     let sub=h.sub||'';
     if(h.id==='revisao')sub='às '+S.set.reviewTime;
-    if(h.id==='leitura'){const b=curBook();sub=b?`${b.title} · meta: ${S.set.readRule.type==='pages'?S.set.readRule.val+' pág.':S.set.readRule.val+' min'}`:'Escolha um livro'}
+    if(h.id==='leitura'){const b=curBook();sub=S.readT?'📖 leitura em andamento':b?`${b.title} · meta: ${S.set.readRule.type==='pages'?S.set.readRule.val+' pág.':S.set.readRule.val+' min'}`:'Toque para iniciar o cronômetro'}
     if(h.id==='biblia'){const r=S.faith.bible.find(x=>x.date===date);if(r)sub=[r.book,r.chap].filter(Boolean).join(' ')}
     out.push({key:h.id,label:h.label,sub,area:h.area,order:h.order,open:h.open});
   });

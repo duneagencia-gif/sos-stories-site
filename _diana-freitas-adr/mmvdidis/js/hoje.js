@@ -160,20 +160,38 @@ A.audioFile=(ds,el)=>{const f=el.files&&el.files[0];if(!f)return;const info=docu
 
 /* ---------- LEITURA ---------- */
 SHEETS.leitura=({date})=>{
-  const b=curBook();
-  if(!b)return {title:'Ler hoje',body:`<p class="empty">Escolha um livro em Mais › Leitura.</p>`,foot:`<button class="btn" data-a="goSheet" data-v="leitura">Abrir Caderno de Leitura</button>`};
-  const today=readStats(date);
-  return {title:'Ler hoje',body:`<div class="card"><b>${esc(b.title)}</b><br><small class="mut">${esc(b.author)}</small>
-   <div class="row" style="margin-top:10px"><div class="bar grow"><i style="width:${Math.round(b.current/b.pages*100)}%"></i></div><span class="num tiny">pág. ${b.current} de ${b.pages}</span></div></div>
-   <div class="grid2" style="margin-top:10px"><div class="card"><small class="mut">Hoje</small><div class="big">${today.min} min</div><small class="mut">${today.pages} pág. · ${today.n} sessões</small></div><div class="card"><small class="mut">Critério do check</small><div class="big" style="font-size:20px">${S.set.readRule.type==='pages'?`avançar ${S.set.readRule.val} pág.`:`ler ${S.set.readRule.val} min`}</div><small class="mut">${isDone(date,'leitura')?'✓ cumprido':'ainda não'}</small></div></div>
-   ${b.demo||b.pdf?'':`<p class="note">Escolha o PDF do livro em Leitura para ler dentro do MMV e o app acompanhar sozinho. Ou lance a leitura manual abaixo.</p>`}
-   <div class="sec"><h3>Leitura feita fora do app</h3></div><div class="grid2"><label class="fld" style="margin:0"><span>Minutos</span><input id="rm" inputmode="numeric" placeholder="15"></label><label class="fld" style="margin:0"><span>Até a página</span><input id="rp" inputmode="numeric" placeholder="${b.current+5}"></label></div>
-   <button class="btn sm sec2" style="margin-top:10px" data-a="readManual" data-d="${date}">Lançar leitura manual</button>`,
-   foot:`${b.demo||b.pdf?`<button class="btn pes" data-a="openReader">Abrir livro · pág. ${Math.min(b.current+1,b.pages)}</button>`:`<button class="btn" data-a="goSheet" data-v="leitura">Escolher o PDF</button>`}`};
+  const b=curBook(),today=readStats(date),a=S.readT;
+  let body='';
+  if(b)body+=`<div class="card"><b>${esc(b.title)}</b><br><small class="mut">${esc(b.author)}</small>
+   <div class="row" style="margin-top:10px"><div class="bar grow"><i style="width:${Math.round(b.current/b.pages*100)}%"></i></div><span class="num tiny">pág. ${b.current} de ${b.pages}</span></div></div>`;
+  body+=readTimerCard(date);
+  body+=`<div class="grid2" style="margin-top:10px"><div class="card"><small class="mut">Hoje</small><div class="big">${today.min} min</div><small class="mut">${today.pages} pág. · ${today.n} ${today.n===1?'sessão':'sessões'}</small></div><div class="card"><small class="mut">Critério do check</small><div class="big" style="font-size:20px">${S.set.readRule.type==='pages'?`avançar ${S.set.readRule.val} pág.`:`ler ${S.set.readRule.val} min`}</div><small class="mut">${isDone(date,'leitura')?'✓ cumprido':'ainda não'}</small></div></div>`;
+  if(!a){
+    body+=`<div class="sec"><h3>Já leu e esqueceu de cronometrar?</h3></div><div class="grid2"><label class="fld" style="margin:0"><span>Minutos</span><input id="rm" inputmode="numeric" placeholder="15"></label>${b?`<label class="fld" style="margin:0"><span>Até a página</span><input id="rp" inputmode="numeric" placeholder="${b.current+5}"></label>`:'<span></span>'}</div>
+     <button class="btn sm sec2" style="margin-top:10px" data-a="readManual" data-d="${date}">Lançar leitura</button>`;
+  }
+  const foot=a?(a.running?`<button class="btn line" data-a="rtPause">${IC.pause} Pausar</button>`:`<button class="btn line" data-a="rtResume">${IC.play} Retomar</button>`)+`<button class="btn pes" data-a="rtFinish">Finalizar leitura</button>`
+    :`<button class="btn pes" data-a="rtStart" data-d="${date}">${IC.play} Iniciar leitura</button>${b&&(b.demo||b.pdf)?`<button class="btn line" data-a="openReader">Abrir PDF</button>`:''}`;
+  return {title:'Ler hoje',body,foot};
 };
+/* cronômetro de leitura: livro físico, Kindle, outro app ou qualquer leitura fora do PDF */
+function readTElapsed(){const a=S.readT;if(!a)return 0;return a.acc+(a.running?Date.now()-a.start:0)}
+function readTimerCard(date){const a=S.readT,b=curBook();
+  if(!a)return `<div class="card" style="margin-top:10px;text-align:center"><small class="mut">Cronômetro de leitura</small><div class="timer" style="opacity:.35">00:00</div><small class="mut">Para livro físico, Kindle ou qualquer leitura fora do PDF. Toque em “Iniciar leitura”.</small></div>`;
+  return `<div class="card" style="margin-top:10px;text-align:center"><small class="mut">${a.book&&b?esc(b.title):'Leitura'}</small><div class="timer" id="rtmr">${fmtSec(readTElapsed()/1000)}</div><small class="mut">${a.running?'lendo':'pausado'} · continua contando se você mudar de tela</small>
+   ${b?`<label class="fld" style="margin:12px 0 0;text-align:left"><span>Parei na página (opcional)</span><input id="rtp" inputmode="numeric" placeholder="${b.current+1}"></label>`:''}</div>`}
+A.rtStart=(ds)=>{const b=curBook();S.readT={date:ds.d,start:Date.now(),acc:0,running:true,book:b?b.id:null};save({quiet:true});renderSheet();renderMini()};
+A.rtPause=()=>{const a=S.readT;a.acc+=Date.now()-a.start;a.running=false;save({quiet:true});renderSheet();renderMini()};
+A.rtResume=()=>{const a=S.readT;a.start=Date.now();a.running=true;save({quiet:true});renderSheet();renderMini()};
+A.rtFinish=()=>{const a=S.readT,sec=Math.round(readTElapsed()/1000),min=Math.max(1,Math.round(sec/60)),b=a.book?S.books.find(x=>x.id===a.book):null;
+  let pages=0;const p=num(val('rtp'));if(b&&p){pages=Math.max(0,p-b.current);b.current=Math.min(b.pages,p)}
+  S.readS.push({id:uid(),date:a.date,min,sec,pages,manual:false,timer:true,book:b?b.id:null});S.readT=null;
+  if(!checkReadRule(a.date)&&!isDone(a.date,'leitura'))setDone(a.date,'leitura',true,'cronômetro');
+  save({quiet:true});closeSheet();renderMini();toast(`Leitura salva: ${min} min${pages?` · ${pages} pág.`:''} ✓`);
+  if(b&&b.current>=b.pages&&!b.demo)openSheet('bookDone',{id:b.id})};
 function readStats(date){const r=S.readS.filter(x=>x.date===date);return {min:Math.round(r.reduce((a,x)=>a+x.min,0)),pages:r.reduce((a,x)=>a+x.pages,0),n:r.length}}
 function checkReadRule(date){const st=readStats(date),R=S.set.readRule;const ok=R.type==='pages'?st.pages>=R.val:st.min>=R.val;if(ok&&!isDone(date,'leitura')){setDone(date,'leitura',true,'leitor');toast('“Ler hoje” concluído ✓');return true}return false}
-A.readManual=(ds)=>{const b=curBook(),m=num(val('rm')),p=num(val('rp'));if(!m&&!p){toast('Informe minutos ou página');return}const pages=p?Math.max(0,p-b.current):0;if(p)b.current=Math.min(b.pages,p);S.readS.push({date:ds.d,min:m,pages,manual:true,book:b.id});checkReadRule(ds.d);save({quiet:true});renderSheet();toast('Leitura lançada')};
+A.readManual=(ds)=>{const b=curBook(),m=num(val('rm')),p=b?num(val('rp')):0;if(!m&&!p){toast('Informe os minutos'+(b?' ou a página':''));return}const pages=p?Math.max(0,p-b.current):0;if(p)b.current=Math.min(b.pages,p);S.readS.push({date:ds.d,min:m,pages,manual:true,book:b?b.id:null});if(m&&!isDone(ds.d,'leitura')&&S.set.readRule.type==='pages'&&!p)setDone(ds.d,'leitura',true,'manual');checkReadRule(ds.d);save({quiet:true});renderSheet();toast('Leitura lançada')};
 /* leitor de exemplo: conta só o tempo ativo */
 const RD={on:false,sid:null,active:0,last:0,pages:0};
 A.openReader=()=>{const b=curBook();RD.on=true;RD.sid=uid();RD.active=0;RD.last=Date.now();RD.pages=0;RD.date=D.today();RD.startPage=b.current;if(b.current>=b.pages)b.current=0;openSheet('reader',{})};
@@ -214,8 +232,11 @@ A.trainResume=()=>{const a=S.train.active;a.start=Date.now();a.running=true;save
 A.trainFinish=()=>{const a=S.train.active,min=Math.max(1,Math.round(trainElapsed()/60000));S.train.sessions.push({id:uid(),date:a.date,act:a.act,min,manual:false,sec:Math.round(trainElapsed()/1000)});setDone(a.date,'treino',true,'cronômetro');S.train.active=null;save({quiet:true});closeSheet();toast(`Treino salvo: ${a.act} · ${min} min ✓`)};
 A.trainSwap=(ds)=>{S.train.override[ds.d]={act:val('ta')||'Treino',dur:num(val('td'))||30};save({quiet:true});renderSheet();toast('Atividade de hoje trocada')};
 A.trainManual=(ds)=>{const m=num(val('mm'));if(!m){toast('Informe os minutos');return}S.train.sessions.push({id:uid(),date:ds.d,act:val('ma')||'Treino',min:m,manual:true});setDone(ds.d,'treino',true,'manual');save({quiet:true});renderSheet();toast('Sessão registrada ✓')};
-function renderMini(){const a=S.train.active,el=$('#mini');if(!a||(SH&&SH.type==='treino')){el.hidden=true;return}el.hidden=false;el.innerHTML=`<span class="grow">${esc(a.act)} · ${a.running?'em andamento':'pausado'}</span><span class="num" id="mtm">${fmtSec(trainElapsed()/1000)}</span><button class="btn sm" style="background:rgba(255,255,255,.22)" data-a="sheet" data-v="treino" data-d="${a.date}">Abrir</button>`}
-function trainTick(){if(!S||!S.train.active)return;const s=fmtSec(trainElapsed()/1000);const t=$('#tmr');if(t)t.textContent=s;const m=$('#mtm');if(m)m.textContent=s}
+function renderMini(){const el=$('#mini');if(!el)return;const a=S.train.active,r=S.readT;
+  if(a&&!(SH&&SH.type==='treino')){el.hidden=false;el.innerHTML=`<span class="grow">${esc(a.act)} · ${a.running?'em andamento':'pausado'}</span><span class="num" id="mtm">${fmtSec(trainElapsed()/1000)}</span><button class="btn sm" style="background:rgba(255,255,255,.22)" data-a="sheet" data-v="treino" data-d="${a.date}">Abrir</button>`;return}
+  if(r&&!(SH&&SH.type==='leitura')){el.hidden=false;el.innerHTML=`<span class="grow">📖 Leitura · ${r.running?'lendo':'pausado'}</span><span class="num" id="mrt">${fmtSec(readTElapsed()/1000)}</span><button class="btn sm" style="background:rgba(255,255,255,.22)" data-a="sheet" data-v="leitura" data-d="${r.date}">Abrir</button>`;return}
+  el.hidden=true}
+function trainTick(){if(!S)return;if(S.train.active){const s=fmtSec(trainElapsed()/1000);const t=$('#tmr');if(t)t.textContent=s;const m=$('#mtm');if(m)m.textContent=s}if(S.readT){const s=fmtSec(readTElapsed()/1000);const t=$('#rtmr');if(t)t.textContent=s;const m=$('#mrt');if(m)m.textContent=s}}
 
 /* ---------- CHECK-IN ---------- */
 SHEETS.checkin=({date})=>{const d=date||U.date||D.today(),c=S.checkins[d]||{};
