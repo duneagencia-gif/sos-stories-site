@@ -133,12 +133,12 @@ SCREENS.fin=()=>{let h=_finScreen();if(!API.on||!(U.finArea==='dune'||U.finArea=
 /* ---------- GOOGLE AGENDA ---------- */
 const G={status:null,ev:{},loaded:{}};
 async function gStatus(){if(!API.on||!API.token)return;try{G.status=await api('/google/status');if(G.status.connected)gWeek(D.weekStart(D.today()));render()}catch(e){}}
-async function gWeek(ws){if(!G.status||!G.status.connected||G.loaded[ws])return;G.loaded[ws]=1;
+async function gWeek(ws){if(!G.status||!G.status.connected||G.loaded[ws])return;G.loaded[ws]=1;G.at=G.at||Date.now();
   try{const r=await api(`/google/events?from=${ws}&to=${D.add(ws,6)}`);for(let i=0;i<7;i++)G.ev[D.add(ws,i)]=[];r.events.forEach(e=>{(G.ev[e.date]=G.ev[e.date]||[]).push(e)});U.keepScroll=true;if(!SH)render()}catch(e){G.loaded[ws]=0}}
 const _agenda=SCREENS.agenda;
 SCREENS.agenda=()=>{let h=_agenda();if(!API.on)return h;const ws=U.agWeek||D.weekStart(D.today()),sel=U.agDay||D.today();gWeek(ws);
   const gev=G.ev[sel]||[],dd=duneItems(sel);
-  const blk=`<div class="card"><b>Também neste dia</b>${gev.map(e=>`<div class="li"><span class="tm">${e.allDay?'dia':e.time}</span><span class="t"><b>${esc(e.title)}</b><small class="mut">Google Agenda${e.dur?' · '+dur(e.dur):''}</small></span><span class="dot" style="background:#4285F4"></span></div>`).join('')}${dd.map(i=>`<button class="li" data-a="openItem" data-k="${esc(i.key)}"><span class="tm">—</span><span class="t"><b>${esc(i.label)}</b><small class="mut">${esc(i.sub)}</small></span><span class="dot" style="background:var(--dune)"></span></button>`).join('')}${!gev.length&&!dd.length?'<p class="empty">Nada da gestão nem do Google neste dia.</p>':''}
+  const blk=`<div class="card"><b>Também neste dia</b>${gev.map(e=>{const k='ge:'+e.id,dn=isDone(sel,k);return `<button class="li" data-a="openItem" data-k="${k}"><span class="tm">${e.allDay?'dia':e.time}</span><span class="t"><b style="${dn?'text-decoration:line-through;color:var(--ink3)':''}">${esc(gLabel(e))}</b><small class="mut">Google Agenda${e.dur?' · '+dur(e.dur):''}${dn?' · ✓ concluído':''}</small></span><span class="dot" style="background:#4285F4"></span></button>`}).join('')}${dd.map(i=>`<button class="li" data-a="openItem" data-k="${esc(i.key)}"><span class="tm">—</span><span class="t"><b>${esc(i.label)}</b><small class="mut">${esc(i.sub)}</small></span><span class="dot" style="background:var(--dune)"></span></button>`).join('')}${!gev.length&&!dd.length?'<p class="empty">Nada da gestão nem do Google neste dia.</p>':''}
    <p class="tiny mut" style="margin:6px 0 0">${G.status&&G.status.connected?'Google Agenda conectado':'Google Agenda não conectado'} · gestão DUNE ${DUNE.data?'conectada':'carregando'}. Esses compromissos entram no cálculo de tempo livre.</p></div>`;
   const mark='<div class="sec"><h2>Semana</h2>';h=h.includes(mark)?h.replace(mark,blk+mark):h+blk;
   return h.replace(/<div class="card"><div class="row"><b class="grow">Google Agenda<\/b>[\s\S]*?Agora tudo roda no calendário interno\.<\/p><\/div>/,'');
@@ -285,3 +285,43 @@ if(API.on){document.documentElement.classList.add('site');
     if(S.train)S.train.schedule={};delete S.fresh;save({quiet:true});U.page=null;U.tab='hoje';U.date=null;render();toast('Tudo apagado. MMV em branco ✓')};
   const _reset=A.reset;A.reset=()=>{_reset();const w=$('#rsc .warn');if(w&&w.firstChild&&w.firstChild.nodeType===3)w.firstChild.textContent='Isso apaga todos os seus registros do MMV e deixa o app em branco. As contas e entregas da gestão continuam. ';};
 }
+
+/* ---------- GOOGLE AGENDA → itens do dia (com check) ----------
+   Tudo o que você coloca no Google (dia inteiro ou com horário) aparece em Hoje.
+   Concluir no MMV marca ✅ no título lá no Google, do jeito que você já faz. */
+function gArea(e){const t=e.title.replace(/^\s*(✅|✔️|✔|☑️)\s*/,''),p=(t.split('|')[0]||'').toLowerCase(),c=(e.calName||'').toLowerCase();
+  if(t.includes('|')){if(/sos/.test(p))return 'sos';if(/diana|adr/.test(p)&&!/dune/.test(p))return 'df';if(/dune/.test(p))return 'dune';if(/rotina|pessoal|casa|sa[uú]de/.test(p))return 'pessoal';if(/extra|cavalgada|foto/.test(p))return 'extra';if(/f[ée]|igreja/.test(p))return 'fe'}
+  if(/sos/.test(c))return 'sos';return 'pessoal'}
+function gLabel(e){return e.title.replace(/^\s*(✅|✔️|✔|☑️)\s*/,'').replace(/^[^|]{1,40}\|\s*/,'').trim()||e.title}
+function gItems(date){const out=[];if(G.status&&G.status.connected)gWeek(D.weekStart(date));
+  (G.ev[date]||[]).forEach(e=>{const k='ge:'+e.id;const pre=(e.title.replace(/^\s*(✅|✔️|✔|☑️)\s*/,'').match(/^([^|]{1,40})\|/)||[])[1];
+    out.push({key:k,label:gLabel(e),sub:`Google Agenda${e.time?' · '+e.time+(e.dur?' · '+dur(e.dur):''):' · dia todo'}${pre?' · '+pre.trim():''}`,area:gArea(e),order:e.time?40+D.toMin(e.time)/1440:46,open:'gev',gev:e})});
+  return out}
+const _dayItemsG=dayItems;
+dayItems=function(date){const all=_dayItemsG(date).concat(gItems(date).map(it=>Object.assign(it,{done:isDone(date,it.key)})));all.sort((a,b)=>a.order-b.order);return all};
+const _isDoneG=isDone;
+isDone=function(date,key){if(!key.startsWith('ge:'))return _isDoneG(date,key);const ov=(S.gDone||{})[key];if(ov&&typeof ov.v==='boolean')return ov.v;
+  const id=key.slice(3);for(const d in G.ev){const e=(G.ev[d]||[]).find(x=>x.id===id);if(e)return !!e.done}return false};
+const _setDoneG=setDone;
+setDone=function(date,key,valx,via){if(!key.startsWith('ge:'))return _setDoneG(date,key,valx,via);
+  const id=key.slice(3);let ev=null;for(const d in G.ev){const e=(G.ev[d]||[]).find(x=>x.id===id);if(e){ev=e;break}}
+  S.gDone=S.gDone||{};S.gDone[key]={v:!!valx,date};
+  if(!ev)return;
+  api('/google/done',{method:'POST',body:{id:ev.id,cal:ev.cal||'primary',done:!!valx}})
+    .then(r=>{ev.done=!!valx;ev.title=r.title||ev.title;delete S.gDone[key];save({quiet:true});toast(valx?'Concluído também no Google Agenda ✓':'Reaberto no Google Agenda')})
+    .catch(e=>{toast('Google Agenda: '+e.message)});
+};
+const _openItemG=A.openItem;
+A.openItem=(ds)=>{if(ds.k&&ds.k.startsWith('ge:')){openSheet('gev',{k:ds.k,date:U.agDay&&U.tab==='agenda'?U.agDay:(U.date||D.today())});return}_openItemG(ds)};
+SHEETS.gev=({k,date})=>{const it=dayItems(date).find(i=>i.key===k)||{},e=it.gev||{};
+  return {title:'Google Agenda',body:`<div class="card">${areaPill(it.area||'pessoal')}<h3 style="margin:8px 0 2px">${esc(it.label||'')}</h3><small class="mut">${esc(D.long(date))}${e.time?' · '+e.time+(e.dur?' · '+dur(e.dur):''):' · dia todo'}${e.calName?' · agenda '+esc(e.calName):''}</small>${e.desc?`<p style="margin:10px 0 0">${esc(e.desc)}</p>`:''}</div>
+  <p class="tiny mut" style="margin-top:12px">Ao concluir aqui, o MMV coloca ✅ no título do evento no Google Agenda. Para mudar data ou horário, edite no Google: o MMV atualiza sozinho.</p>`,
+  foot:`<button class="btn line" data-a="closeSheet">Fechar</button><button class="btn pes" data-a="gevTog" data-k="${esc(k)}" data-d="${date}">${it.done?'Reabrir':'Concluir'}</button>`}};
+A.gevTog=(ds)=>{const was=isDone(ds.d,ds.k);setDone(ds.d,ds.k,!was);save({quiet:true});closeSheet();render()};
+/* compromissos de dia inteiro contam 30 min no tempo livre; eventos marcados como "livre" não contam */
+const _loadOfG=loadOf;
+loadOf=function(date,ex){let m=_loadOfG(date,ex);(G.ev[date]||[]).forEach(e=>{if(e.free&&!e.allDay)m-=e.dur;if(e.allDay&&!e.done&&!e.free)m+=30});return Math.max(0,m)};
+/* recarrega o Google a cada 10 min e sempre que o app volta para a tela */
+function gRefresh(){if(!API.on||!AUTH.ok||!G.status||!G.status.connected)return;G.loaded={};G.at=Date.now();gWeek(D.weekStart(D.today()));if(U.date&&D.weekStart(U.date)!==D.weekStart(D.today()))gWeek(D.weekStart(U.date))}
+setInterval(()=>{if(document.visibilityState==='visible'&&Date.now()-(G.at||0)>10*60000)gRefresh()},60000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&Date.now()-(G.at||0)>60000)gRefresh()});
