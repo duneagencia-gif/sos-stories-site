@@ -162,8 +162,9 @@ A.audioFile=(ds,el)=>{const f=el.files&&el.files[0];if(!f)return;const info=docu
 SHEETS.leitura=({date})=>{
   const b=curBook(),today=readStats(date),a=S.readT;
   let body='';
+  const cb=curBooks();if(cb.length>1&&!a)body+=`<small class="mut">Qual livro você vai ler agora?</small><div class="chips" style="margin:6px 0 10px">${cb.map(x=>`<button class="chip ${x.id===b.id?'on':''}" data-a="bookFocus" data-id="${x.id}">${esc(x.title.split(/[:—]/)[0].trim())}</button>`).join('')}</div>`;
   if(b)body+=`<div class="card"><b>${esc(b.title)}</b><br><small class="mut">${esc(b.author)}</small>
-   <div class="row" style="margin-top:10px"><div class="bar grow"><i style="width:${Math.round(b.current/b.pages*100)}%"></i></div><span class="num tiny">pág. ${b.current} de ${b.pages}</span></div></div>`;
+   <div class="row" style="margin-top:10px"><div class="bar grow"><i style="width:${bookPct(b)}%"></i></div><span class="num tiny">${bookPg(b)}</span></div></div>`;
   body+=readTimerCard(date);
   body+=`<div class="grid2" style="margin-top:10px"><div class="card"><small class="mut">Hoje</small><div class="big">${today.min} min</div><small class="mut">${today.pages} pág. · ${today.n} ${today.n===1?'sessão':'sessões'}</small></div><div class="card"><small class="mut">Critério do check</small><div class="big" style="font-size:20px">${S.set.readRule.type==='pages'?`avançar ${S.set.readRule.val} pág.`:`ler ${S.set.readRule.val} min`}</div><small class="mut">${isDone(date,'leitura')?'✓ cumprido':'ainda não'}</small></div></div>`;
   if(!a){
@@ -184,14 +185,14 @@ A.rtStart=(ds)=>{const b=curBook();S.readT={date:ds.d,start:Date.now(),acc:0,run
 A.rtPause=()=>{const a=S.readT;a.acc+=Date.now()-a.start;a.running=false;save({quiet:true});renderSheet();renderMini()};
 A.rtResume=()=>{const a=S.readT;a.start=Date.now();a.running=true;save({quiet:true});renderSheet();renderMini()};
 A.rtFinish=()=>{const a=S.readT,sec=Math.round(readTElapsed()/1000),min=Math.max(1,Math.round(sec/60)),b=a.book?S.books.find(x=>x.id===a.book):null;
-  let pages=0;const p=num(val('rtp'));if(b&&p){pages=Math.max(0,p-b.current);b.current=Math.min(b.pages,p)}
+  let pages=0;const p=num(val('rtp'));if(b&&p){pages=Math.max(0,p-b.current);b.current=b.pages?Math.min(b.pages,p):p}
   S.readS.push({id:uid(),date:a.date,min,sec,pages,manual:false,timer:true,book:b?b.id:null});S.readT=null;
   if(!checkReadRule(a.date)&&!isDone(a.date,'leitura'))setDone(a.date,'leitura',true,'cronômetro');
   save({quiet:true});closeSheet();renderMini();toast(`Leitura salva: ${min} min${pages?` · ${pages} pág.`:''} ✓`);
-  if(b&&b.current>=b.pages&&!b.demo)openSheet('bookDone',{id:b.id})};
+  if(b&&b.pages&&b.current>=b.pages&&!b.demo)openSheet('bookDone',{id:b.id})};
 function readStats(date){const r=S.readS.filter(x=>x.date===date);return {min:Math.round(r.reduce((a,x)=>a+x.min,0)),pages:r.reduce((a,x)=>a+x.pages,0),n:r.length}}
 function checkReadRule(date){const st=readStats(date),R=S.set.readRule;const ok=R.type==='pages'?st.pages>=R.val:st.min>=R.val;if(ok&&!isDone(date,'leitura')){setDone(date,'leitura',true,'leitor');toast('“Ler hoje” concluído ✓');return true}return false}
-A.readManual=(ds)=>{const b=curBook(),m=num(val('rm')),p=b?num(val('rp')):0;if(!m&&!p){toast('Informe os minutos'+(b?' ou a página':''));return}const pages=p?Math.max(0,p-b.current):0;if(p)b.current=Math.min(b.pages,p);S.readS.push({date:ds.d,min:m,pages,manual:true,book:b?b.id:null});if(m&&!isDone(ds.d,'leitura')&&S.set.readRule.type==='pages'&&!p)setDone(ds.d,'leitura',true,'manual');checkReadRule(ds.d);save({quiet:true});renderSheet();toast('Leitura lançada')};
+A.readManual=(ds)=>{const b=curBook(),m=num(val('rm')),p=b?num(val('rp')):0;if(!m&&!p){toast('Informe os minutos'+(b?' ou a página':''));return}const pages=p?Math.max(0,p-b.current):0;if(p)b.current=b.pages?Math.min(b.pages,p):p;S.readS.push({date:ds.d,min:m,pages,manual:true,book:b?b.id:null});if(m&&!isDone(ds.d,'leitura')&&S.set.readRule.type==='pages'&&!p)setDone(ds.d,'leitura',true,'manual');checkReadRule(ds.d);save({quiet:true});renderSheet();toast('Leitura lançada')};
 /* leitor de exemplo: conta só o tempo ativo */
 const RD={on:false,sid:null,active:0,last:0,pages:0};
 A.openReader=()=>{const b=curBook();RD.on=true;RD.sid=uid();RD.active=0;RD.last=Date.now();RD.pages=0;RD.date=D.today();RD.startPage=b.current;if(b.current>=b.pages)b.current=0;openSheet('reader',{})};
@@ -276,3 +277,5 @@ A.taskDone=(ds)=>{const t=task(ds.id);t.done=!t.done;t.doneAt=t.done?D.today():n
 A.resch=(ds)=>{const t=task(ds.id);moveTask(t,D.nextWk(D.add(t.date||D.today(),+ds.v)));save({quiet:true});renderSheet();toast('Remarcada para '+D.lbl(t.date))};
 A.newTask=(ds)=>openSheet('task',{date:ds.v||D.today()});
 A.openTask=(ds)=>openSheet('task',{id:ds.id});
+
+A.bookFocus=(ds)=>{S.focusBook=ds.id;save({quiet:true});if(SH)renderSheet();else render()};
