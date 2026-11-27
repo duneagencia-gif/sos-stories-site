@@ -156,7 +156,10 @@ function setDone(date,key,val,via){
   S.checks[date]=S.checks[date]||{};
   if(val)S.checks[date][key]={at:Date.now(),via:via||'toque'};else delete S.checks[date][key];
 }
-function curBook(){return S.books.find(b=>b.status==='atual')}
+function curBooks(){return S.books.filter(b=>b.status==='atual')}
+function curBook(){const f=S.books.find(b=>b.id===S.focusBook&&b.status==='atual');return f||S.books.find(b=>b.status==='atual')}
+function bookPct(b){return b.pages?Math.min(100,Math.round(b.current/b.pages*100)):0}
+function bookPg(b){return b.pages?`pág. ${b.current} de ${b.pages}`:`pág. ${b.current}`}
 
 /* ---------- notificações (agendadas no fuso America/Bahia) ---------- */
 function notifList(){
