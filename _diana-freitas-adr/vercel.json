@@ -25,6 +25,14 @@
   ],
   "rewrites": [
     {
+      "source": "/mmvdidis/",
+      "destination": "https://mmv-didis.vercel.app/index.html"
+    },
+    {
+      "source": "/mmvdidis/privacidade/",
+      "destination": "https://mmv-didis.vercel.app/privacidade/index.html"
+    },
+    {
       "source": "/mmvdidis/:path*",
       "destination": "https://mmv-didis.vercel.app/:path*"
     }
