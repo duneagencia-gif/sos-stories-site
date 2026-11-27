@@ -22,5 +22,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/mmvdidis/:path*",
+      "destination": "https://mmv-didis.vercel.app/:path*"
+    }
   ]
 }
